@@ -1,17 +1,20 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.kotlinPluginSerialization)
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
     namespace = "com.appsdeviser.timetrackerpro.android"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         applicationId = "com.appsdeviser.timetrackerpro.android"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
+        versionCode = libs.versions.versionCode.get().toInt()
+        versionName = libs.versions.versionName.get()
     }
     buildFeatures {
         compose = true
@@ -41,8 +44,23 @@ android {
 dependencies {
     implementation(projects.shared)
     implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
+    implementation(libs.compose.foundation)
     implementation(libs.androidx.activity.compose)
-    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.icons.extended)
+    implementation(libs.compose.navigation)
+    implementation(libs.coil.compose)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    kapt(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.ktor.android)
+    androidTestImplementation(libs.test.runner)
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.compose.test)
+    debugImplementation(libs.compose.test.manifest)
+    kaptAndroidTest(libs.hilt.android.compiler)
+    androidTestImplementation(libs.hilt.testing)
 }
