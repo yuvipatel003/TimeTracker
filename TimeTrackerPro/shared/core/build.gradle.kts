@@ -21,31 +21,30 @@ kotlin {
         homepage = "Link to the Shared Module homepage"
         version = "1.0"
         ios.deploymentTarget = "16.0"
-        podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "shared"
+            baseName = "core"
             isStatic = true
         }
     }
-    
+
     sourceSets {
         val commonMain by getting {
-        dependencies {
-            api(projects.shared.core)
+            dependencies {
+                api(projects.shared.core.coreCommon)
+                api(projects.shared.core.coreApi)
+            }
         }
-    }
         val commonTest by getting {
             dependencies {
-                implementation(libs.kotlin.test)
             }
         }
     }
 }
 
 android {
-    namespace = "com.appsdeviser.timetrackerpro"
+    namespace = "com.appsdeviser.core"
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
+        minSdk = 24
     }
 }
