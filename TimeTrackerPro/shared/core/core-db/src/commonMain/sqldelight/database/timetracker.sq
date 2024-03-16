@@ -1,0 +1,57 @@
+-------------  Settings Entity Started -----------------
+CREATE TABLE settingsEntity(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL,
+    showOnboarding INTEGER NOT NULL
+);
+
+getSettings:
+SELECT *
+FROM settingsEntity
+ORDER BY id;
+
+insertSettingsEntity:
+INSERT OR REPLACE
+INTO settingsEntity(
+    id,
+    username,
+    email,
+    showOnboarding
+)
+VALUES(0,?,?,?);
+
+clearSettingsEntity:
+DELETE
+FROM settingsEntity;
+-------------  Settings Entity Ended -----------------
+
+-------------  Feature Entity Started -----------------
+CREATE TABLE featureEntity(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    feature TEXT NOT NULL,
+    enabled TEXT NOT NULL,
+    androidVersion TEXT NOT NULL,
+    iOSVersion TEXT NOT NULL
+);
+
+getFeatures:
+SELECT *
+FROM featureEntity
+ORDER BY id;
+
+insertFeatureEntity:
+INSERT OR REPLACE
+INTO featureEntity(
+    id,
+    feature,
+    enabled,
+    androidVersion,
+    iOSVersion
+)
+VALUES(?,?,?,?,?);
+
+deleteFeature:
+DELETE
+FROM featureEntity;
+-------------  Feature Entity Ended -----------------
