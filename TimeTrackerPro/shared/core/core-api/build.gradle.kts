@@ -18,24 +18,20 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
+        summary = "Some description for the Shared Core-api Module"
+        homepage = "Link to the Shared Core-api Module homepage"
         version = "1.0"
         ios.deploymentTarget = "16.0"
-        podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "shared"
+            baseName = "core-api"
             isStatic = true
         }
     }
-    
+
     sourceSets {
         val commonMain by getting {
             dependencies {
-                // By adding following you can add modules
-                implementation(projects.shared.core.coreCommon)
-                implementation(projects.shared.core.coreApi)
-                implementation(projects.shared.core.coreDb)
+                //put your multiplatform dependencies here
             }
         }
         val commonTest by getting {
@@ -76,7 +72,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.appsdeviser.timetrackerpro"
+    namespace = "com.appsdeviser.core_api"
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
