@@ -1,4 +1,4 @@
-package com.appsdeviser.core_common
+package com.appsdeviser.core_common.utils
 
 sealed class Result<T>(val data: T?, val throwable: Throwable? = null) {
     class Success<T>(data: T): Result<T>(data)
