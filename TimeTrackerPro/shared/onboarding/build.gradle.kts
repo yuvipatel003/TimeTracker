@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinPluginSerialization)
 }
 
 kotlin {
@@ -14,17 +13,18 @@ kotlin {
             }
         }
     }
+    androidTarget()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
     cocoapods {
-        summary = "Some description for the Shared Core-api Module"
-        homepage = "Link to the Shared Core-api Module homepage"
+        summary = "Some description for the Shared Module"
+        homepage = "Link to the Shared Module homepage"
         version = "1.0"
         ios.deploymentTarget = "16.0"
         framework {
-            baseName = "core-api"
+            baseName = "onboarding"
             isStatic = true
         }
     }
@@ -32,12 +32,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                //put your multiplatform dependencies here
-                implementation(projects.shared.core.coreCommon)
-                // Ktor
-                implementation(libs.ktor.core)
-                implementation(libs.ktor.serialization)
-                implementation(libs.ktor.serialization.json)
+                // By adding following you can add modules
+                implementation(projects.shared.core.coreDb)
             }
         }
         val commonTest by getting {
@@ -47,7 +43,6 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation(libs.ktor.android)
             }
         }
         val androidUnitTest by getting
@@ -61,7 +56,6 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
 
             dependencies {
-                implementation(libs.ktor.ios)
             }
         }
         val iosX64Test by getting
@@ -80,7 +74,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.appsdeviser.core_api"
+    namespace = "com.appsdeviser.onboarding"
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
