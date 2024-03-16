@@ -17,3 +17,7 @@ dependencyResolutionManagement {
 rootProject.name = "TimeTracker_Pro"
 include(":androidApp")
 include(":shared")
+include(":shared:core")
+include(":shared:core:core-common")
+include(":shared:core:core-api")
+include(":shared:core:core-db")
