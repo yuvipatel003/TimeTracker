@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinPluginSerialization)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -13,6 +15,7 @@ kotlin {
             }
         }
     }
+    androidTarget()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -31,7 +34,12 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                //put your multiplatform dependencies here
+                // Core module
+                implementation(projects.shared.core.coreCommon)
+                // Sql dependencies
+                implementation(libs.sql.delight.runtime)
+                implementation(libs.sql.delight.coroutine.extentions)
+                implementation(libs.kotlin.date.time)
             }
         }
         val commonTest by getting {
@@ -41,6 +49,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                implementation(libs.sql.delight.android.driver)
             }
         }
         val androidUnitTest by getting
@@ -54,6 +63,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
 
             dependencies {
+                implementation(libs.sql.delight.native.driver)
             }
         }
         val iosX64Test by getting
@@ -73,9 +83,17 @@ kotlin {
 
 android {
     namespace = "com.appsdeviser.core_db"
-    compileSdk = 34
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
+    }
+}
+
+sqldelight {
+    databases {
+        create("TimeTrackerDatabase") {
+            packageName.set("com.appsdeviser.core_db.sqldelight")
+            sourceFolders.set(listOf("sqldelight"))
+        }
     }
 }
