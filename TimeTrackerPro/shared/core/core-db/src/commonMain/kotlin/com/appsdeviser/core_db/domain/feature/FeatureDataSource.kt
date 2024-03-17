@@ -6,7 +6,7 @@ interface FeatureDataSource {
 
     fun getFeatures(): CommonFlow<List<FeatureItem>>
 
-    suspend fun setFeature(item: FeatureItem)
+    suspend fun insertFeatures(list: List<FeatureItem>)
 
     suspend fun clearFeatures()
 }

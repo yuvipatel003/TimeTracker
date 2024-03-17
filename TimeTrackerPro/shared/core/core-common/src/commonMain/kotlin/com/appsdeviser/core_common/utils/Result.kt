@@ -1,6 +1,8 @@
 package com.appsdeviser.core_common.utils
 
-sealed class Result<T>(val data: T?, val throwable: Throwable? = null) {
-    class Success<T>(data: T): Result<T>(data)
-    class Error<T>(throwable: Throwable): Result<T>(null, throwable)
+typealias RootError = Error
+
+sealed interface Result<out D, out E: RootError> {
+    data class Success<out D, out E: RootError>(val data: D): Result<D, E>
+    data class Error<out D, out E: RootError>(val error: E): Result<D, E>
 }

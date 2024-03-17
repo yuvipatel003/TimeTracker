@@ -1,7 +1,7 @@
 package com.appsdeviser.core_api.remote
 
 import com.appsdeviser.core_common.utils.ApiError
-import com.appsdeviser.core_common.utils.ApiException
+import com.appsdeviser.core_common.utils.Result
 import io.ktor.client.HttpClient
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.call.body
@@ -17,33 +17,33 @@ expect class HttpClientFactory {
 
 suspend inline fun <reified T> HttpClient.safeRequest(
     apiCall: HttpRequestBuilder.() -> Unit,
-): T =
+): Result<T, ApiError> =
     try {
         val response = request { apiCall() }
         when {
             response.status.isSuccess() -> {
                 try {
                     val result = response.body<T>()
-                    result
+                    Result.Success(result)
                 } catch (e: Exception) {
-                    throw ApiException(ApiError.SERVER_ERROR)
+                    Result.Error(ApiError.Network.SERVER_ERROR)
                 } catch (exception: NoTransformationFoundException) {
-                    throw (ApiException(ApiError.DATA_TRANSFORMATION_ERROR))
+                    Result.Error(ApiError.Network.DATA_TRANSFORMATION_ERROR)
                 }
             }
 
             else -> {
                 when (response.status.value) {
-                    500 -> throw ApiException(ApiError.SERVER_ERROR)
-                    in 400..499 -> throw ApiException(ApiError.CLIENT_ERROR)
-                    else -> throw ApiException(ApiError.UNKNOWN_ERROR)
+                    500 -> Result.Error(ApiError.Network.SERVER_ERROR)
+                    in 400..499 -> Result.Error(ApiError.Network.CLIENT_ERROR)
+                    else -> Result.Error(ApiError.Network.UNKNOWN_ERROR)
                 }
             }
         }
     } catch (exception: Exception) {
-        throw ApiException(ApiError.UNKNOWN_ERROR)
+        Result.Error(ApiError.Network.UNKNOWN_ERROR)
     } catch (e: SerializationException) {
-        throw ApiException(ApiError.SERIALIZATION_ERROR)
+        Result.Error(ApiError.Network.SERIALIZATION_ERROR)
     } catch (e: IOException) {
-        throw ApiException(ApiError.SERVICE_UNAVAILABLE)
+        Result.Error(ApiError.Network.SERVICE_UNAVAILABLE)
     }
