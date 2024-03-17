@@ -34,6 +34,7 @@ kotlin {
             dependencies {
                 // By adding following you can add modules
                 api(projects.shared.core.coreDb)
+                api(projects.shared.core.coreApi)
             }
         }
         val commonTest by getting {
