@@ -33,21 +33,20 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 //put your multiplatform dependencies here
-                implementation(projects.shared.core.coreCommon)
+                api(projects.shared.core.coreCommon)
                 // Ktor
-                implementation(libs.ktor.core)
-                implementation(libs.ktor.serialization)
-                implementation(libs.ktor.serialization.json)
+                api(libs.ktor.core)
+                api(libs.ktor.serialization)
+                api(libs.ktor.serialization.json)
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(libs.kotlin.test)
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation(libs.ktor.android)
+                api(libs.ktor.android)
             }
         }
         val androidUnitTest by getting
@@ -61,7 +60,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
 
             dependencies {
-                implementation(libs.ktor.ios)
+                api(libs.ktor.ios)
             }
         }
         val iosX64Test by getting

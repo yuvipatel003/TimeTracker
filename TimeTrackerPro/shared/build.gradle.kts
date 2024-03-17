@@ -34,7 +34,7 @@ kotlin {
             dependencies {
                 // By adding following you can add modules
                 implementation(projects.shared.core.coreApi)
-                implementation(projects.shared.core.coreDb)
+                api(projects.shared.onboarding)
             }
         }
         val commonTest by getting {

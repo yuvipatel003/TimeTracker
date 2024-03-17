@@ -36,7 +36,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(libs.kotlin.test)
+                api(libs.kotlin.test)
             }
         }
         val androidMain by getting {
