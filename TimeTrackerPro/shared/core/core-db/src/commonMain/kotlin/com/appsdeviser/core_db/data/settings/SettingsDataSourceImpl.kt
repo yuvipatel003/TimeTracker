@@ -28,7 +28,8 @@ class SettingsDataSourceImpl(
         queries.insertSettings(
             username = item.userName,
             email = item.email,
-            showOnboarding = item.showOnboarding.toLong()
+            showOnboarding = item.showOnboarding.toLong(),
+            currentAppVersion = item.currentAppVersion
         )
     }
 

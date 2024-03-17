@@ -4,5 +4,6 @@ data class SettingsItem(
     val id: Long?,
     val userName: String,
     val email: String,
-    val showOnboarding: Boolean
+    val showOnboarding: Boolean,
+    val currentAppVersion: String
 )
