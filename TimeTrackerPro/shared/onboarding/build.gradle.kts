@@ -33,12 +33,11 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 // By adding following you can add modules
-                implementation(projects.shared.core.coreDb)
+                api(projects.shared.core.coreDb)
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(libs.kotlin.test)
             }
         }
         val androidMain by getting {

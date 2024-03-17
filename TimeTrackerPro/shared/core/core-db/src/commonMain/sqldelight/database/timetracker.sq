@@ -9,9 +9,9 @@ CREATE TABLE settingsEntity(
 getSettings:
 SELECT *
 FROM settingsEntity
-ORDER BY id;
+WHERE id = 0;
 
-insertSettingsEntity:
+insertSettings:
 INSERT OR REPLACE
 INTO settingsEntity(
     id,
@@ -21,7 +21,7 @@ INTO settingsEntity(
 )
 VALUES(0,?,?,?);
 
-clearSettingsEntity:
+clearSettings:
 DELETE
 FROM settingsEntity;
 -------------  Settings Entity Ended -----------------
@@ -30,7 +30,7 @@ FROM settingsEntity;
 CREATE TABLE featureEntity(
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     feature TEXT NOT NULL,
-    enabled TEXT NOT NULL,
+    enabled INTEGER NOT NULL,
     androidVersion TEXT NOT NULL,
     iOSVersion TEXT NOT NULL
 );
@@ -40,7 +40,7 @@ SELECT *
 FROM featureEntity
 ORDER BY id;
 
-insertFeatureEntity:
+insertFeature:
 INSERT OR REPLACE
 INTO featureEntity(
     id,
@@ -51,7 +51,7 @@ INTO featureEntity(
 )
 VALUES(?,?,?,?,?);
 
-deleteFeature:
+clearFeatures:
 DELETE
 FROM featureEntity;
 -------------  Feature Entity Ended -----------------

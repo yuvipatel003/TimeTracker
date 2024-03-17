@@ -2,6 +2,7 @@ package com.appsdeviser.timetrackerpro
 
 import com.appsdeviser.core_api.GreetingCoreApi
 import com.appsdeviser.core_db.GreetingCoreDb
+import com.appsdeviser.onboarding.presentation.splash.SplashViewModel
 
 class Greeting {
     private val platform: Platform = getPlatform()
