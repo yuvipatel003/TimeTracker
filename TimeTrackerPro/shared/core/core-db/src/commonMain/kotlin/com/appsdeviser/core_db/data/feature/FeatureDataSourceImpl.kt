@@ -26,14 +26,16 @@ class FeatureDataSourceImpl(
             }.toCommonFlow()
     }
 
-    override suspend fun setFeature(item: FeatureItem) {
-        queries.insertFeature(
-            id = item.id,
-            feature = item.feature,
-            enabled = item.enabled.toLong(),
-            androidVersion = item.androidVersion,
-            iOSVersion = item.iOSVersion
-        )
+    override suspend fun insertFeatures(list: List<FeatureItem>) {
+        list.forEach { item ->
+            queries.insertFeature(
+                id = item.id,
+                feature = item.feature,
+                enabled = item.enabled.toLong(),
+                androidVersion = item.androidVersion,
+                iOSVersion = item.iOSVersion
+            )
+        }
     }
 
     override suspend fun clearFeatures() {

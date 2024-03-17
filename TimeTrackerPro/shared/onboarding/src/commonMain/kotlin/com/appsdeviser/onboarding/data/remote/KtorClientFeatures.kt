@@ -2,6 +2,8 @@ package com.appsdeviser.onboarding.data.remote
 
 import com.appsdeviser.core_api.remote.safeRequest
 import com.appsdeviser.core_common.constants.NetworkConstants
+import com.appsdeviser.core_common.utils.ApiError
+import com.appsdeviser.core_common.utils.Result
 import com.appsdeviser.core_db.domain.feature.FeatureItem
 import com.appsdeviser.onboarding.domain.features.FeaturesClient
 import io.ktor.client.HttpClient
@@ -13,7 +15,7 @@ import io.ktor.http.takeFrom
 class KtorClientFeatures(
     private val httpClient: HttpClient
 ): FeaturesClient {
-    override suspend fun getFeatures(): List<FeatureItem> {
+    override suspend fun getFeatures(): Result<List<FeatureItem>, ApiError> {
         return httpClient.safeRequest {
             method = HttpMethod.Get
             url.takeFrom(NetworkConstants.FEATURES_URL)

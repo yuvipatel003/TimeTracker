@@ -1,13 +1,13 @@
 package com.appsdeviser.onboarding.presentation.splash
 
 import com.appsdeviser.AppConfig
-import com.appsdeviser.core_common.utils.ApiException
 import com.appsdeviser.core_common.utils.Result
 import com.appsdeviser.core_common.utils.getAppVersionToInt
 import com.appsdeviser.core_common.utils.isNewVersionInstalled
+import com.appsdeviser.core_db.domain.feature.FeatureDataSource
 import com.appsdeviser.core_db.domain.settings.SettingsDataSource
 import com.appsdeviser.core_db.flows.toCommonStateFlow
-import com.appsdeviser.onboarding.domain.features.FeaturesUseCase
+import com.appsdeviser.onboarding.domain.features.FeaturesClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -19,7 +19,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SplashViewModel(
-    private val featuresUseCase: FeaturesUseCase,
+    private val featureDataSource: FeatureDataSource,
+    private val featuresClient: FeaturesClient,
     private val settingsDataSource: SettingsDataSource,
     private val coroutineScope: CoroutineScope?,
     private val appConfig: AppConfig
@@ -82,21 +83,22 @@ class SplashViewModel(
                 )
             }
 
-            when (val result = featuresUseCase.invoke()) {
+            when (val result = featuresClient.getFeatures()) {
                 is Result.Error -> {
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            error = (result.throwable as? ApiException)?.error
+                            error = result.error
                         )
                     }
                 }
 
                 is Result.Success -> {
+                    featureDataSource.insertFeatures(result.data)
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            listOfFeatures = result.data ?: emptyList(),
+                            listOfFeatures = result.data,
                             event = when {
                                 it.showOnboarding -> SplashEvent.GoToOnboarding
                                 it.showWhatsNew -> SplashEvent.GoToWhatsNew
