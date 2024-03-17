@@ -8,6 +8,7 @@ fun SettingsEntity.toSettingsItem(): SettingsItem {
         id = this.id,
         userName = this.username,
         email = this.email,
-        showOnboarding = this.showOnboarding.equals(1)
+        showOnboarding = this.showOnboarding.equals(1),
+        currentAppVersion = this.currentAppVersion
     )
 }

@@ -21,7 +21,7 @@ class FeatureManager(
             if(feature == null) {
                 return@map false
             } else {
-                return@map if(appConfig.platformAndroid) {
+                return@map if(appConfig.isAndroidPlatform) {
                     feature.androidVersion.getAppVersionToInt() >= appConfig.applicationVersion.getAppVersionToInt()
                 } else {
                     feature.iOSVersion.getAppVersionToInt() >= appConfig.applicationVersion.getAppVersionToInt()
