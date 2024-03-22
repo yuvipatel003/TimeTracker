@@ -9,6 +9,7 @@ import com.appsdeviser.core_db.data.settings.SettingsDataSourceImpl
 import com.appsdeviser.core_db.databasedriver.DatabaseDriverFactory
 import com.appsdeviser.core_db.domain.feature.FeatureDataSource
 import com.appsdeviser.core_db.domain.settings.SettingsDataSource
+import com.appsdeviser.core_db.featuremanager.FeatureManager
 import com.appsdeviser.core_db.sqldelight.TimeTrackerDatabase
 import com.appsdeviser.onboarding.data.remote.KtorClientFeatures
 import com.appsdeviser.onboarding.domain.features.FeaturesClient
@@ -52,6 +53,12 @@ object AppModule {
     @Singleton
     fun provideSettingsDataSource(sqlDriver: SqlDriver): SettingsDataSource {
         return SettingsDataSourceImpl(TimeTrackerDatabase.invoke(sqlDriver))
+    }
+
+    @Provides
+    @Singleton
+    fun provideFeatureManager(featureDataSource: FeatureDataSource, appConfig: AppConfig): FeatureManager {
+        return FeatureManager(featureDataSource, appConfig)
     }
 
     @Provides

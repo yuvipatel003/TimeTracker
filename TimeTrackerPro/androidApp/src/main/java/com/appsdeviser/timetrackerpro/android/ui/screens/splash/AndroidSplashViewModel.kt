@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.appsdeviser.AppConfig
 import com.appsdeviser.core_db.domain.feature.FeatureDataSource
 import com.appsdeviser.core_db.domain.settings.SettingsDataSource
+import com.appsdeviser.core_db.featuremanager.FeatureManager
 import com.appsdeviser.onboarding.domain.features.FeaturesClient
 import com.appsdeviser.onboarding.presentation.splash.SplashEvent
 import com.appsdeviser.onboarding.presentation.splash.SplashViewModel
@@ -16,7 +17,8 @@ class AndroidSplashViewModel @Inject constructor(
     private val featureDataSource: FeatureDataSource,
     private val featuresClient: FeaturesClient,
     private val settingsDataSource: SettingsDataSource,
-    private val appConfig: AppConfig
+    private val appConfig: AppConfig,
+    private val featureManager: FeatureManager
 ): ViewModel() {
 
     private val viewModel by lazy {
@@ -25,7 +27,8 @@ class AndroidSplashViewModel @Inject constructor(
             featuresClient = featuresClient,
             settingsDataSource = settingsDataSource,
             coroutineScope = viewModelScope,
-            appConfig = appConfig
+            appConfig = appConfig,
+            featureManager = featureManager
         )
     }
 

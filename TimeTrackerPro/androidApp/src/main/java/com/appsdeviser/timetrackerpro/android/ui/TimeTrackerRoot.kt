@@ -13,6 +13,7 @@ import com.appsdeviser.timetrackerpro.android.MainActivity
 import com.appsdeviser.timetrackerpro.android.ui.core.error.ErrorUI
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.HomeScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.WhatsNewScreen
+import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.AndroidOnboardingViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.OnboardingScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.splash.AndroidSplashViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.splash.SplashScreen
@@ -23,11 +24,11 @@ fun TimeTrackerRoot(
 ) {
     val navController = rememberNavController()
     val rootViewModel = TimeTrackerRootViewModel()
-    val errorState = rootViewModel.state
 
     NavHost(
         navController = navController,
-        startDestination = Routes.SPLASH) {
+        startDestination = Routes.SPLASH
+    ) {
         composable(
             route = Routes.SPLASH
         ) {
@@ -42,6 +43,7 @@ fun TimeTrackerRoot(
                                 else -> viewModel.onEvent(SplashEvent.OnErrorSeen(state.error))
                             }
                         }
+
                         else -> {
                             viewModel.onEvent(SplashEvent.OnErrorSeen(state.error))
                         }
@@ -55,7 +57,7 @@ fun TimeTrackerRoot(
             SplashScreen(
                 state = state,
                 onEvent = { event ->
-                    when(event) {
+                    when (event) {
                         SplashEvent.GoToHomePage -> navController.navigate(Routes.HOME)
                         SplashEvent.GoToOnboarding -> navController.navigate(Routes.ONBOARDING)
                         SplashEvent.GoToWhatsNew -> navController.navigate(Routes.WHATS_NEW)
@@ -74,7 +76,13 @@ fun TimeTrackerRoot(
         composable(
             route = Routes.ONBOARDING
         ) {
-            OnboardingScreen()
+            val viewModel = hiltViewModel<AndroidOnboardingViewModel>()
+            val state by viewModel.state.collectAsState()
+            OnboardingScreen(
+                state,
+                onEvent = {
+
+                })
         }
         ///////////////////////////////////////////////
         composable(
