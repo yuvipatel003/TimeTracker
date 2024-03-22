@@ -7,16 +7,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.appsdeviser.onboarding.presentation.onboarding.OnboardingEvent
+import com.appsdeviser.onboarding.presentation.onboarding.OnboardingState
 
 @Composable
-fun OnboardingScreen() {
+fun OnboardingScreen(
+    state: OnboardingState,
+    onEvent:(OnboardingEvent) -> Unit
+) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
-            text = "This is Onboarding Page"
+            text = state.featureString
         )
     }
 }
