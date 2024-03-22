@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 actual open class CommonMutableStateFlow<T> actual constructor(
     private val mutableStateFlow: MutableStateFlow<T>
-): CommonStateFlow<T>(mutableStateFlow), MutableStateFlow<T> {
+) : CommonStateFlow<T>(mutableStateFlow), MutableStateFlow<T> {
     override var value: T
         get() = super.value
         set(value) {

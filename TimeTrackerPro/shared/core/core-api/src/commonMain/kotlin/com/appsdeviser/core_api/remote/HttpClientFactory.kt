@@ -1,7 +1,7 @@
 package com.appsdeviser.core_api.remote
 
-import com.appsdeviser.core_common.utils.ApiError
 import com.appsdeviser.core_common.utils.Result
+import com.appsdeviser.core_common.utils.error.ApiError
 import io.ktor.client.HttpClient
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.call.body
@@ -26,7 +26,7 @@ suspend inline fun <reified T> HttpClient.safeRequest(
                     val result = response.body<T>()
                     Result.Success(result)
                 } catch (e: Exception) {
-                    Result.Error(ApiError.Network.SERVER_ERROR)
+                    Result.Error(ApiError.Network.UNKNOWN_ERROR)
                 } catch (exception: NoTransformationFoundException) {
                     Result.Error(ApiError.Network.DATA_TRANSFORMATION_ERROR)
                 }

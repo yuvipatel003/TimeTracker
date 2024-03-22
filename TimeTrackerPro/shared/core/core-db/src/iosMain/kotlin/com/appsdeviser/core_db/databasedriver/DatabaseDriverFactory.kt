@@ -6,6 +6,6 @@ import com.appsdeviser.core_db.sqldelight.TimeTrackerDatabase
 
 actual class DatabaseDriverFactory {
     actual fun create(): SqlDriver {
-       return NativeSqliteDriver(TimeTrackerDatabase.Schema, "timetracker.db")
+        return NativeSqliteDriver(TimeTrackerDatabase.Schema, "timetracker.db")
     }
 }
