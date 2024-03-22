@@ -6,6 +6,8 @@ import com.appsdeviser.core_common.utils.getAppVersionToInt
 import com.appsdeviser.core_common.utils.isNewVersionInstalled
 import com.appsdeviser.core_db.domain.feature.FeatureDataSource
 import com.appsdeviser.core_db.domain.settings.SettingsDataSource
+import com.appsdeviser.core_db.domain.settings.SettingsItem
+import com.appsdeviser.core_db.featuremanager.FeatureManager
 import com.appsdeviser.core_db.flows.toCommonStateFlow
 import com.appsdeviser.onboarding.domain.features.FeaturesClient
 import kotlinx.coroutines.CoroutineScope
@@ -22,8 +24,9 @@ class SplashViewModel(
     private val featureDataSource: FeatureDataSource,
     private val featuresClient: FeaturesClient,
     private val settingsDataSource: SettingsDataSource,
-    private val coroutineScope: CoroutineScope?,
-    private val appConfig: AppConfig
+    coroutineScope: CoroutineScope?,
+    private val appConfig: AppConfig,
+    private val featureManager: FeatureManager
 ) {
     private val viewModelScope = coroutineScope ?: CoroutineScope(Dispatchers.Main)
     private val _state = MutableStateFlow(SplashState())
@@ -47,6 +50,15 @@ class SplashViewModel(
             appConfig.applicationVersion.isNewVersionInstalled(
                 settings.currentAppVersion.getAppVersionToInt()
             ) -> {
+                settingsDataSource.setSettings(
+                    SettingsItem(
+                        id = null,
+                        userName = settings.userName,
+                        email = settings.email,
+                        showOnboarding = settings.showOnboarding,
+                        currentAppVersion = appConfig.applicationVersion
+                    )
+                )
                 state.copy(
                     showOnboarding = false,
                     showWhatsNew = true
@@ -65,7 +77,6 @@ class SplashViewModel(
                     else -> startAppCompleted()
                 }
             }
-
             else -> Unit
         }
     }
@@ -96,7 +107,6 @@ class SplashViewModel(
                     isLoading = true
                 )
             }
-
             when (val result = featuresClient.getFeatures()) {
                 is Result.Error -> {
                     _state.update {
@@ -109,6 +119,7 @@ class SplashViewModel(
 
                 is Result.Success -> {
                     featureDataSource.insertFeatures(result.data.list)
+                    featureManager.initialize()
                     _state.update {
                         it.copy(
                             isLoading = false,
