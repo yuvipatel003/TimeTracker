@@ -18,10 +18,10 @@ class FeatureManager(
             val feature = featureList.firstOrNull {
                 it.feature == featureKey.toString()
             }
-            if(feature == null) {
+            if (feature == null) {
                 return@map false
             } else {
-                return@map if(appConfig.isAndroidPlatform) {
+                return@map if (appConfig.isAndroidPlatform) {
                     feature.androidVersion.getAppVersionToInt() >= appConfig.applicationVersion.getAppVersionToInt()
                 } else {
                     feature.iOSVersion.getAppVersionToInt() >= appConfig.applicationVersion.getAppVersionToInt()

@@ -2,7 +2,7 @@ package com.appsdeviser.core_db.flows
 
 import kotlinx.coroutines.DisposableHandle
 
-fun interface DisposableHandle: DisposableHandle
+fun interface DisposableHandle : DisposableHandle
 /**
  * Line 5 will cover following code
  *

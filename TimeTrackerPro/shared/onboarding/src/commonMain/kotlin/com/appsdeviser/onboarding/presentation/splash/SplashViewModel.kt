@@ -35,7 +35,7 @@ class SplashViewModel(
     ) { state, settings ->
         when {
             state.username != settings.userName ||
-                state.email != settings.email -> {
+                    state.email != settings.email -> {
                 state.copy(
                     username = settings.userName,
                     email = settings.email,
@@ -43,34 +43,48 @@ class SplashViewModel(
                     showWhatsNew = false
                 )
             }
+
             appConfig.applicationVersion.isNewVersionInstalled(
-                settings.currentAppVersion.getAppVersionToInt()) -> {
+                settings.currentAppVersion.getAppVersionToInt()
+            ) -> {
                 state.copy(
                     showOnboarding = false,
                     showWhatsNew = true
                 )
-                }
-            else -> state
+            }
+
+            else -> state.copy(showOnboarding = true)
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SplashState())
         .toCommonStateFlow()
 
     fun onEvent(event: SplashEvent) {
         when (event) {
-            SplashEvent.OnStartUp -> {
-                loadFeatures()
+            is SplashEvent.OnErrorSeen -> {
+                when (event.error) {
+                    else -> startAppCompleted()
+                }
             }
 
-            else -> {
-                // Not handled here
-            }
+            else -> Unit
         }
     }
 
     init {
+        loadFeatures()
+    }
+
+    private fun startAppCompleted() {
         _state.update {
             it.copy(
-                event = SplashEvent.OnStartUp
+                isLoading = false,
+                event = if (it.showOnboarding) {
+                    SplashEvent.GoToOnboarding
+                } else if (it.showWhatsNew) {
+                    SplashEvent.GoToWhatsNew
+                } else {
+                    SplashEvent.GoToHomePage
+                }
             )
         }
     }
@@ -94,18 +108,14 @@ class SplashViewModel(
                 }
 
                 is Result.Success -> {
-                    featureDataSource.insertFeatures(result.data)
+                    featureDataSource.insertFeatures(result.data.list)
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            listOfFeatures = result.data,
-                            event = when {
-                                it.showOnboarding -> SplashEvent.GoToOnboarding
-                                it.showWhatsNew -> SplashEvent.GoToWhatsNew
-                                else -> SplashEvent.GoToHomePage
-                            }
+                            listOfFeatures = result.data.list
                         )
                     }
+                    startAppCompleted()
                 }
             }
         }

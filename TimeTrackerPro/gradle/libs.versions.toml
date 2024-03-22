@@ -72,7 +72,7 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinGradlePlugin = { id = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
-kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization" , version.ref = "kotlin" }
+kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 androidBuildTools = { id = "com.android.tools.build:gradle", version.ref = "gradle" }
 daggerHiltAndroidPlugin = { id = "dagger.hilt.android.plugin", version.ref = "hilt" }
 sqlDelight = { id = "app.cash.sqldelight", version.ref = "sql-delight" }
