@@ -32,11 +32,16 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 //put your multiplatform dependencies here
+                api(libs.ktor.serialization)
+                api(libs.ktor.serialization.json)
+                api(libs.kotlin.date.time)
             }
         }
         val commonTest by getting {
             dependencies {
                 api(libs.kotlin.test)
+                api(libs.assertk)
+                api(libs.turbine)
             }
         }
         val androidMain by getting {

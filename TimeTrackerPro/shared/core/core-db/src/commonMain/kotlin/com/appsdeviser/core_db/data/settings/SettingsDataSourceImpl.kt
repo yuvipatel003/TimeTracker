@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 
 class SettingsDataSourceImpl(
     db: TimeTrackerDatabase
-): SettingsDataSource {
+) : SettingsDataSource {
 
     private val queries = db.timetrackerQueries
 
@@ -20,7 +20,15 @@ class SettingsDataSourceImpl(
             .getSettings()
             .asFlow()
             .map {
-                it.executeAsList().first().toSettingsItem()
+                return@map if (it.executeAsList().isEmpty()) {
+                    val item = SettingsItem(0, "", "", true, "0.0.0")
+                    setSettings(item)
+                    item
+                } else {
+                    it.executeAsList().map { singleSettings ->
+                        singleSettings.toSettingsItem()
+                    }.first()
+                }
             }.toCommonFlow()
     }
 

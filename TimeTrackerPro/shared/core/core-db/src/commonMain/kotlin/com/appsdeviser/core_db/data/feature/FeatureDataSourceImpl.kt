@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 
 class FeatureDataSourceImpl(
     db: TimeTrackerDatabase
-): FeatureDataSource {
+) : FeatureDataSource {
 
     private val queries = db.timetrackerQueries
 
