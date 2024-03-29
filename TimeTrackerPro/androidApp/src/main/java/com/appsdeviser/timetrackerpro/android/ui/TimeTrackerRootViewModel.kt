@@ -5,8 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
 
-class TimeTrackerRootViewModel(
-) {
+class TimeTrackerRootViewModel {
     var state = MutableStateFlow<Error?>(null)
         private set
 

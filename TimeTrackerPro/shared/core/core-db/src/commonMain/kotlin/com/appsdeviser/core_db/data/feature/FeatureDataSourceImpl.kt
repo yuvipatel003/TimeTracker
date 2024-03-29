@@ -38,6 +38,15 @@ class FeatureDataSourceImpl(
         }
     }
 
+    /**
+     * SELECT *
+     *    FROM your_table
+     *    ORDER BY your_column
+     *    OFFSET 10 ROWS
+     *    FETCH NEXT 10 ROWS ONLY;
+     */
+
+
     override suspend fun clearFeatures() {
         queries.clearFeatures()
     }

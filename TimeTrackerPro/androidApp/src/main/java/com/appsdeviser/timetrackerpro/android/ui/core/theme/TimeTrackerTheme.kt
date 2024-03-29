@@ -45,27 +45,56 @@ fun TimeTrackerTheme(
         headlineLarge = TextStyle(
             fontFamily = sfFontFamily,
             fontWeight = FontWeight.Bold,
-            fontSize = 30.sp
+            fontSize = 30.sp,
+            letterSpacing = 0.3.sp
         ),
         headlineMedium = TextStyle(
             fontFamily = sfFontFamily,
             fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
+            fontSize = 24.sp,
+            letterSpacing = 0.3.sp
         ),
         headlineSmall = TextStyle(
             fontFamily = sfFontFamily,
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            letterSpacing = 0.3.sp
+        ),
+        titleLarge = TextStyle(
+            fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Medium,
-            fontSize = 18.sp
+            fontSize = 24.sp,
+            letterSpacing = 0.3.sp
+        ),
+        titleMedium = TextStyle(
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Medium,
+            fontSize = 20.sp,
+            letterSpacing = 0.3.sp
+        ),
+        titleSmall = TextStyle(
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Medium,
+            fontSize = 16.sp,
+            letterSpacing = 0.3.sp
+        ),
+        bodyLarge = TextStyle(
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Normal,
+            fontSize = 20.sp,
+            letterSpacing = 0.3.sp
         ),
         bodyMedium = TextStyle(
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Normal,
-            fontSize = 14.sp
+            fontSize = 16.sp,
+            letterSpacing = 0.3.sp
         ),
         bodySmall = TextStyle(
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Normal,
-            fontSize = 12.sp
+            fontSize = 12.sp,
+            letterSpacing = 0.3.sp
         )
     )
 

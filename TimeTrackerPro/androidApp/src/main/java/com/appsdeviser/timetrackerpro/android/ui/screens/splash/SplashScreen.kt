@@ -4,12 +4,9 @@ import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.R
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,25 +22,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.appsdeviser.core_common.utils.error.Error
 import com.appsdeviser.onboarding.presentation.splash.SplashEvent
 import com.appsdeviser.onboarding.presentation.splash.SplashState
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
+import com.appsdeviser.timetrackerpro.android.ui.core.theme.changingGradientBackground
 import com.appsdeviser.timetrackerpro.android.ui.screens.splash.components.AnalogClock
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
     state: SplashState,
-    onEvent:(SplashEvent) -> Unit
+    onEvent: (SplashEvent) -> Unit
 ) {
 
     val spacing = LocalSpacing.current
@@ -52,7 +43,7 @@ fun SplashScreen(
         Animatable(0f)
     }
 
-    LaunchedEffect(key1 = state.event){
+    LaunchedEffect(key1 = state.event) {
         state.event?.let(onEvent)
     }
 
@@ -73,7 +64,7 @@ fun SplashScreen(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary)
+            .changingGradientBackground()
             .scale(scale.value)
     ) {
         Column(
@@ -90,7 +81,7 @@ fun SplashScreen(
             Text(
                 text = "It's all about Time",
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onPrimary
             )

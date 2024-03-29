@@ -13,6 +13,7 @@ import com.appsdeviser.onboarding.domain.features.FeaturesClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -31,19 +32,19 @@ class SplashViewModel(
     private val viewModelScope = coroutineScope ?: CoroutineScope(Dispatchers.Main)
     private val _state = MutableStateFlow(SplashState())
     private var featuresJob: Job? = null
+    private var nextAction: SplashEvent = SplashEvent.GoToWhatsNew
 
     val state = combine(
         _state,
         settingsDataSource.getSettings()
     ) { state, settings ->
+        if (settings.userName.isEmpty()) nextAction = SplashEvent.GoToOnboarding
         when {
             state.username != settings.userName ||
                     state.email != settings.email -> {
                 state.copy(
                     username = settings.userName,
-                    email = settings.email,
-                    showOnboarding = settings.userName.isEmpty(),
-                    showWhatsNew = false
+                    email = settings.email
                 )
             }
 
@@ -55,17 +56,16 @@ class SplashViewModel(
                         id = null,
                         userName = settings.userName,
                         email = settings.email,
-                        showOnboarding = settings.showOnboarding,
                         currentAppVersion = appConfig.applicationVersion
                     )
                 )
-                state.copy(
-                    showOnboarding = false,
-                    showWhatsNew = true
-                )
+                if (nextAction != SplashEvent.GoToOnboarding) {
+                    nextAction = SplashEvent.GoToWhatsNew
+                }
+                state
             }
 
-            else -> state.copy(showOnboarding = true)
+            else -> state
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SplashState())
         .toCommonStateFlow()
@@ -77,6 +77,7 @@ class SplashViewModel(
                     else -> startAppCompleted()
                 }
             }
+
             else -> Unit
         }
     }
@@ -89,13 +90,7 @@ class SplashViewModel(
         _state.update {
             it.copy(
                 isLoading = false,
-                event = if (it.showOnboarding) {
-                    SplashEvent.GoToOnboarding
-                } else if (it.showWhatsNew) {
-                    SplashEvent.GoToWhatsNew
-                } else {
-                    SplashEvent.GoToHomePage
-                }
+                event = nextAction
             )
         }
     }
@@ -118,6 +113,7 @@ class SplashViewModel(
                 }
 
                 is Result.Success -> {
+                    delay(5000)
                     featureDataSource.insertFeatures(result.data.list)
                     featureManager.initialize()
                     _state.update {
