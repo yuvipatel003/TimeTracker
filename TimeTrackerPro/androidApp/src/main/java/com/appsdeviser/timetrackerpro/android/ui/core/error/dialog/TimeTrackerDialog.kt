@@ -60,17 +60,19 @@ fun ApiErrorDialog(
                 priority = DialogPriority.HIGH
             )
         }
+
         ApiError.Network.CLIENT_ERROR,
         ApiError.Network.SERVER_ERROR -> {
-                DialogState(
-                    title = context.getString(R.string.api_error_something_went_wrong_title),
-                    description = context.getString(R.string.api_error_something_went_wrong_description),
-                    positiveButtonText = context.getString(R.string.dialog_ok),
-                    negativeButtonText = null,
-                    isCancelable = false,
-                    priority = DialogPriority.HIGH
-                )
+            DialogState(
+                title = context.getString(R.string.api_error_something_went_wrong_title),
+                description = context.getString(R.string.api_error_something_went_wrong_description),
+                positiveButtonText = context.getString(R.string.dialog_ok),
+                negativeButtonText = null,
+                isCancelable = false,
+                priority = DialogPriority.HIGH
+            )
         }
+
         ApiError.Network.UNKNOWN_ERROR,
         ApiError.Network.SERIALIZATION_ERROR,
         ApiError.Network.DATA_TRANSFORMATION_ERROR -> {
@@ -83,6 +85,7 @@ fun ApiErrorDialog(
                 priority = DialogPriority.MEDIUM
             )
         }
+
         ApiError.NoError.NO_ERROR -> null
         else -> null
     }
@@ -98,6 +101,7 @@ fun ApiErrorDialog(
                 currentDialogState.value
             }
         }
+
         else -> null
     }
 
@@ -134,26 +138,33 @@ fun ApiErrorDialog(
                     text = displayDialogState.title,
                     modifier = Modifier.padding(spacing.spaceSmall),
                     color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.titleMedium)
+                    style = MaterialTheme.typography.titleMedium
+                )
 
-                Spacer(modifier = Modifier
+                Spacer(
+                    modifier = Modifier
                         .height(2.dp)
                         .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.onSurface))
+                        .background(MaterialTheme.colorScheme.onSurface)
+                )
 
                 Text(
                     text = displayDialogState.description,
                     modifier = Modifier
                         .padding(spacing.spaceMedium, spacing.spaceLarge),
                     color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.bodyMedium)
+                    style = MaterialTheme.typography.bodyMedium
+                )
 
-                Spacer(modifier = Modifier
+                Spacer(
+                    modifier = Modifier
                         .height(1.dp)
                         .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.onSurface))
+                        .background(MaterialTheme.colorScheme.onSurface)
+                )
 
-                Row(modifier = Modifier
+                Row(
+                    modifier = Modifier
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,

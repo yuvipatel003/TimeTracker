@@ -1,10 +1,20 @@
 package com.appsdeviser.timetrackerpro.android.ui.screens.splash.components
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -12,7 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.unit.dp
-import java.util.*
+import java.util.Calendar
 
 @Composable
 fun AnalogClock(
@@ -67,7 +77,8 @@ fun AnalogClock(
             )
 
             // Draw clock hands
-            val hourAngle = (currentTime.get(Calendar.HOUR) * 30f) + (currentTime.get(Calendar.MINUTE) * 0.5f)
+            val hourAngle =
+                (currentTime.get(Calendar.HOUR) * 30f) + (currentTime.get(Calendar.MINUTE) * 0.5f)
             val minuteAngle = currentTime.get(Calendar.MINUTE) * 6f
             val secondAngle = rotationAnim
 
