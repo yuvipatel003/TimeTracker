@@ -1,7 +1,6 @@
 package com.appsdeviser.core_db.data.settings
 
 import app.cash.sqldelight.coroutines.asFlow
-import com.appsdeviser.core_common.utils.toLong
 import com.appsdeviser.core_db.domain.settings.SettingsDataSource
 import com.appsdeviser.core_db.domain.settings.SettingsItem
 import com.appsdeviser.core_db.flows.CommonFlow
@@ -21,7 +20,7 @@ class SettingsDataSourceImpl(
             .asFlow()
             .map {
                 return@map if (it.executeAsList().isEmpty()) {
-                    val item = SettingsItem(0, "", "", true, "0.0.0")
+                    val item = SettingsItem(0, "", "", "0.0.0")
                     setSettings(item)
                     item
                 } else {
@@ -36,7 +35,6 @@ class SettingsDataSourceImpl(
         queries.insertSettings(
             username = item.userName,
             email = item.email,
-            showOnboarding = item.showOnboarding.toLong(),
             currentAppVersion = item.currentAppVersion
         )
     }

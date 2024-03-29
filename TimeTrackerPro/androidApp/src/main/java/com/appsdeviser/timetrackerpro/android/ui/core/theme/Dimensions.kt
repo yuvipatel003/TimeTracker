@@ -14,7 +14,8 @@ data class Dimensions(
     val splashClockSize: Dp = 200.dp
 )
 
-data class DialogDimensions (
+data class DialogDimensions(
     val width: Dp = 350.dp
 )
+
 val LocalSpacing = compositionLocalOf { Dimensions() }

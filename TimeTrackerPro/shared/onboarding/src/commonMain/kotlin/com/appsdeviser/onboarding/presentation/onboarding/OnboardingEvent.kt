@@ -1,7 +1,10 @@
 package com.appsdeviser.onboarding.presentation.onboarding
 
 sealed class OnboardingEvent {
-    data object onBack : OnboardingEvent() // Will be implemented later
-    data object onFinish : OnboardingEvent()
-    data class onNext(val onboardingSingleScreenState: OnboardingEvent) : OnboardingEvent()
+    data object OnSkip : OnboardingEvent()
+    data object OnNext : OnboardingEvent()
+    data object OnFinish : OnboardingEvent()
+    data object OnErrorSeen : OnboardingEvent()
+    data class OnUserNameUpdate(val username: String) : OnboardingEvent()
+    data class OnEmailUpdate(val email: String) : OnboardingEvent()
 }

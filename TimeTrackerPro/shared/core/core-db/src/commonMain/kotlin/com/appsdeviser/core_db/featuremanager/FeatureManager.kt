@@ -5,7 +5,6 @@ import com.appsdeviser.core_common.constants.FeatureKey
 import com.appsdeviser.core_common.utils.getAppVersionToInt
 import com.appsdeviser.core_db.domain.feature.FeatureDataSource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class FeatureManager(
@@ -13,13 +12,17 @@ class FeatureManager(
     private val appConfig: AppConfig
 ) {
     private val listOfFeatures = featureDataSource.getFeatures()
-    private var features = addFeaturesWithStatus(appConfig.isAndroidPlatform, appConfig.applicationVersion)
+    private var features =
+        addFeaturesWithStatus(appConfig.isAndroidPlatform, appConfig.applicationVersion)
 
     fun initialize() {
         features = addFeaturesWithStatus(appConfig.isAndroidPlatform, appConfig.applicationVersion)
     }
 
-    private fun addFeaturesWithStatus(isAndroidPlatform: Boolean, currentAppVersion: String): Flow<Map<String, Boolean>> {
+    private fun addFeaturesWithStatus(
+        isAndroidPlatform: Boolean,
+        currentAppVersion: String
+    ): Flow<Map<String, Boolean>> {
         return listOfFeatures.map { list ->
             val featureMap = mutableMapOf<String, Boolean>()
             list.forEach { feature ->

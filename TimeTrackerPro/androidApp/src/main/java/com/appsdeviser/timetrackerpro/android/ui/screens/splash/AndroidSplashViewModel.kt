@@ -19,7 +19,7 @@ class AndroidSplashViewModel @Inject constructor(
     private val settingsDataSource: SettingsDataSource,
     private val appConfig: AppConfig,
     private val featureManager: FeatureManager
-): ViewModel() {
+) : ViewModel() {
 
     private val viewModel by lazy {
         SplashViewModel(

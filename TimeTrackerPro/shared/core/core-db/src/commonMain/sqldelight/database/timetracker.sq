@@ -3,7 +3,6 @@ CREATE TABLE settingsEntity(
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL,
     email TEXT NOT NULL,
-    showOnboarding INTEGER NOT NULL,
     currentAppVersion TEXT NOT NULL
 );
 
@@ -18,10 +17,9 @@ INTO settingsEntity(
     id,
     username,
     email,
-    showOnboarding,
     currentAppVersion
 )
-VALUES(0,?,?,?,?);
+VALUES(0,?,?,?);
 
 clearSettings:
 DELETE

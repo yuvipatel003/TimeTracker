@@ -10,8 +10,8 @@ data class DialogState(
 )
 
 sealed class DialogPriority(val priority: Int) {
-    data object HIGH: DialogPriority(1)
-    data object MEDIUM: DialogPriority(2)
-    data object LOW: DialogPriority(3)
-    data object UNKNOWN: DialogPriority(1000)
+    data object HIGH : DialogPriority(1)
+    data object MEDIUM : DialogPriority(2)
+    data object LOW : DialogPriority(3)
+    data object UNKNOWN : DialogPriority(1000)
 }

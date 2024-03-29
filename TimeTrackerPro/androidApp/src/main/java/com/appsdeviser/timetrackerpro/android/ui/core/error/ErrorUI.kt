@@ -18,14 +18,15 @@ fun ErrorUI(
             ApiErrorDialog(
                 onPositiveAction = {
                     onPositiveAction(it as Error)
-                } ,
+                },
                 onNegativeAction = onNegativeAction,
                 apiError = error)
         }
 
         is UiError -> {
-            UiErrorToast (
-                uiError = error
+            UiErrorToast(
+                uiError = error,
+                onUiErrorDisplayed = onNegativeAction
             )
         }
 

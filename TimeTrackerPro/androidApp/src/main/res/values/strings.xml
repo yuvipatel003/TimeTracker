@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="invalid_input">Invalid Input</string>
+    <string name="invalid_email">Please enter valid Email</string>
+    <string name="invalid_username">Username is not valid</string>
     <string name="please_provide_all_required_information">Please provide all required information</string>
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>

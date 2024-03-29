@@ -57,7 +57,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideFeatureManager(featureDataSource: FeatureDataSource, appConfig: AppConfig): FeatureManager {
+    fun provideFeatureManager(
+        featureDataSource: FeatureDataSource,
+        appConfig: AppConfig
+    ): FeatureManager {
         return FeatureManager(featureDataSource, appConfig)
     }
 
