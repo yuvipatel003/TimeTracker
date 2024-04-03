@@ -26,6 +26,10 @@ kotlin {
         framework {
             baseName = "shared"
             isStatic = true
+            export(projects.shared.core.coreApi)
+            export(projects.shared.core.coreCommon)
+            export(projects.shared.core.coreDb)
+            export(projects.shared.onboarding)
         }
     }
 
@@ -33,7 +37,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 // By adding following you can add modules
-                implementation(projects.shared.core.coreApi)
+                api(projects.shared.core.coreApi)
+                api(projects.shared.core.coreCommon)
+                api(projects.shared.core.coreDb)
                 api(projects.shared.onboarding)
             }
         }
