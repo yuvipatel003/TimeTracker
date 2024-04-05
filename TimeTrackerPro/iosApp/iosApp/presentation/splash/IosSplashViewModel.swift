@@ -8,6 +8,8 @@
 
 import Foundation
 import shared
+import SwiftUI
+import Combine
 
 extension SplashScreen {
     
@@ -19,7 +21,7 @@ extension SplashScreen {
         private var featureManager: FeatureManager
         
         private var viewModel: SplashViewModel
-        
+        var cancellables = Set<AnyCancellable>()
         @Published var state: SplashState = SplashState(
             username: "",
             email: "",
