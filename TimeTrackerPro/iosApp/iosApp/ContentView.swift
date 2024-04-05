@@ -3,16 +3,56 @@ import shared
 
 struct ContentView: View {
     let greet = Greeting().greet()
+    @State private var activeScreen: Screens = .SPLASH
     
     var appModule: AppModule = AppModule()
     
     var body: some View {
-        SplashScreen(
-            featureDataSource: appModule.featureDataSource,
-            featureClient: appModule.featureClient,
-            settingsDataSource: appModule.settingsDataSource,
-            appConfig: appModule.appConfig,
-            featureManager: appModule.featureManager
-        )
+        VStack {
+            switch activeScreen {
+            case .SPLASH :
+                SplashScreen(
+                    featureDataSource: appModule.featureDataSource,
+                    featureClient: appModule.featureClient,
+                    settingsDataSource: appModule.settingsDataSource,
+                    appConfig: appModule.appConfig,
+                    featureManager: appModule.featureManager
+                ) { event in
+                    switch (event) {
+                    case SplashEvent.GoToHomePage():
+                        activeScreen = .HOME
+                    case SplashEvent.GoToOnboarding():
+                        activeScreen = .ONBOARDING
+                    case SplashEvent.GoToWhatsNew():
+                        activeScreen = .WHATS_NEW
+                    default:
+                        print("Default Case")
+                    }
+                }
+            case .ONBOARDING:
+                OnboardingScreen()
+            case .WHATS_NEW:
+                OnboardingScreen()
+            case .HOME:
+                OnboardingScreen()
+                
+            }
+        }
     }
 }
+
+
+/**
+ onEvent: { event in
+         switch (event) {
+         case SplashEvent.GoToHomePage():
+             activeScreen = .HOME
+         case SplashEvent.GoToOnboarding():
+             activeScreen = .ONBOARDING
+         case SplashEvent.GoToWhatsNew():
+             activeScreen = .WHATS_NEW
+         default:
+             print("Default Case")
+         }
+ }
+ */

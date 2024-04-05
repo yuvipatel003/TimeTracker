@@ -10,23 +10,26 @@ import SwiftUI
 import shared
 
 struct SplashScreen: View {
-    private var featureDataSource: FeatureDataSource
-    private var featureClient: FeaturesClient
-    private var settingsDataSource: SettingsDataSource
-    private var appConfig: AppConfig
-    private var featureManager: FeatureManager
+    let featureDataSource: FeatureDataSource
+    let featureClient: FeaturesClient
+    let settingsDataSource: SettingsDataSource
+    let appConfig: AppConfig
+    let featureManager: FeatureManager
+    var onEvent: (SplashEvent?) -> Void
     @ObservedObject var viewModel: IosSplashViewModel
     
     init(featureDataSource: FeatureDataSource,
          featureClient: FeaturesClient,
          settingsDataSource: SettingsDataSource,
          appConfig: AppConfig,
-         featureManager: FeatureManager) {
+         featureManager: FeatureManager,
+         onEvent: @escaping (SplashEvent?) -> Void) {
         self.featureDataSource = featureDataSource
         self.featureClient = featureClient
         self.settingsDataSource = settingsDataSource
         self.appConfig = appConfig
         self.featureManager = featureManager
+        self.onEvent = onEvent
         self.viewModel = IosSplashViewModel(
             featureDataSource: featureDataSource,
             featureClient: featureClient,
@@ -34,6 +37,13 @@ struct SplashScreen: View {
             appConfig: appConfig,
             featureManager: featureManager
         )
+        
+        viewModel.$state.sink { state in
+            if let splashEvent = state.event {
+                onEvent(splashEvent)
+            }
+        }
+        .store(in: &viewModel.cancellables)
     }
     
     @State private var scale: CGFloat = 1
@@ -41,6 +51,17 @@ struct SplashScreen: View {
     var body: some View {
         let spacing = LocalSpacing.current
         VStack {
+            // Error Ui for api failure or any Ui message
+        
+            ErrorUI(
+                onPositiveAction: { err in
+                    
+                },
+                onNegativeAction: {
+                    
+                },
+                error: viewModel.state.error
+            )
             Spacer()
             VStack {
                 AnalogClockView()
@@ -56,10 +77,7 @@ struct SplashScreen: View {
                         .padding()
                         .cornerRadius(100)
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                } 
-//                else {
-//                    Text(appConfig.applicationVersion + "Code:" + appConfig.appVersionCode!.stringValue)
-//                }
+                }
             }
             Spacer()
         }
