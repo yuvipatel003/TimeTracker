@@ -13,17 +13,17 @@ import shared
 @ViewBuilder
 func UiErrorToast(
     uiError: UiError?,
-    onUiErrorDisplayed: () -> Void
+    onUiErrorDisplayed: @escaping () -> Void
 ) -> some View {
     switch (uiError as! UiErrorNotification) {
     case .missingRequiredField:
-        Toast(message: "Please provide all required information")
+        Toast(onErrorMessageDisplayed: onUiErrorDisplayed, toastMessage: "Please provide all required information")
     case .invalidInput:
-        Toast(message: "Invalid input")
+        Toast(onErrorMessageDisplayed: onUiErrorDisplayed, toastMessage: "Invalid input")
     case .invalidEmail:
-        Toast(message: "Invalid email")
+        Toast(onErrorMessageDisplayed: onUiErrorDisplayed, toastMessage: "Invalid email")
     case .invalidUsername:
-        Toast(message: "Invalid username")
+        Toast(onErrorMessageDisplayed: onUiErrorDisplayed, toastMessage: "Invalid username")
     default:
         EmptyView()
     }
@@ -31,11 +31,8 @@ func UiErrorToast(
 
 struct Toast: View {
     @State private var showToast = false
-    private var toastMessage = ""
-    
-    init (message: String) {
-        toastMessage = message
-    }
+    let onErrorMessageDisplayed: () -> Void
+    let toastMessage: String
     
     var body: some View {
         VStack {
@@ -45,7 +42,10 @@ struct Toast: View {
         }
         .alert(isPresented: $showToast) {
             Alert(
-                title: Text(toastMessage)
+                title: Text(toastMessage),
+                dismissButton: .default(Text("OK")){
+                    onErrorMessageDisplayed()
+                }
             )
         }
     }
