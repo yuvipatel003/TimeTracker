@@ -30,7 +30,7 @@ fun TimeTrackerRoot(
 
     NavHost(
         navController = navController,
-        startDestination = Routes.HOME
+        startDestination = Routes.ONBOARDING
     ) {
         composable(
             route = Routes.SPLASH

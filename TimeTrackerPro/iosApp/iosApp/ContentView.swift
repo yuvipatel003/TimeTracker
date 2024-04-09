@@ -30,12 +30,20 @@ struct ContentView: View {
                     }
                 }
             case .ONBOARDING:
-                OnboardingScreen()
+                OnboardingScreen(
+                    settingsDataSource: appModule.settingsDataSource) {
+                        event in
+                        switch (event) {
+                        case OnboardingEvent.OnFinish():
+                            activeScreen = .WHATS_NEW
+                        default:
+                            print("Default Case")
+                        }
+                    }
             case .WHATS_NEW:
-                OnboardingScreen()
+                WhatsNewScreen()
             case .HOME:
-                OnboardingScreen()
-                
+                WhatsNewScreen()
             }
         }
     }

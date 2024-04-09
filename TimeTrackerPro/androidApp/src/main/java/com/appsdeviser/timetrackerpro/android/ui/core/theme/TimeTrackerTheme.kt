@@ -75,7 +75,7 @@ fun TimeTrackerTheme(
         titleSmall = TextStyle(
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.Medium,
-            fontSize = 16.sp,
+            fontSize = 14.sp,
             letterSpacing = 0.3.sp
         ),
         bodyLarge = TextStyle(

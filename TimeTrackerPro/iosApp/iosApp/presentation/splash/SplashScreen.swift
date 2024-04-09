@@ -55,10 +55,10 @@ struct SplashScreen: View {
         
             ErrorUI(
                 onPositiveAction: { err in
-                    
+                    viewModel.onEvent(event: SplashEvent.OnErrorSeen(error: err))
                 },
                 onNegativeAction: {
-                    
+                    viewModel.onEvent(event: SplashEvent.OnErrorSeen(error: viewModel.state.error))
                 },
                 error: viewModel.state.error
             )
