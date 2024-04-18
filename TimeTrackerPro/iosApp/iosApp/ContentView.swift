@@ -41,9 +41,17 @@ struct ContentView: View {
                         }
                     }
             case .WHATS_NEW:
-                WhatsNewScreen()
+                WhatsNewScreen(){
+                    event in
+                    switch (event) {
+                    case WhatsNewEvent.OnFinish():
+                        activeScreen = .HOME
+                    default:
+                        print("Default Case")
+                    }
+                }
             case .HOME:
-                WhatsNewScreen()
+                HomeScreen()
             }
         }
     }

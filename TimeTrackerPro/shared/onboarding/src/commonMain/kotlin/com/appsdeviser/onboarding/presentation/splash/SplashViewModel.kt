@@ -32,7 +32,7 @@ class SplashViewModel(
     private val viewModelScope = coroutineScope ?: CoroutineScope(Dispatchers.Main)
     private val _state = MutableStateFlow(SplashState())
     private var featuresJob: Job? = null
-    private var nextAction: SplashEvent = SplashEvent.GoToWhatsNew
+    private var nextAction: SplashEvent = SplashEvent.GoToHomePage
 
     val state = combine(
         _state,
