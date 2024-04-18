@@ -55,3 +55,56 @@ clearFeatures:
 DELETE
 FROM featureEntity;
 -------------  Feature Entity Ended -----------------
+
+-------------  Category Entity Started -----------------
+CREATE TABLE categoryEntity(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    type TEXT NOT NULL,
+    name TEXT NOT NULL,
+    favourite INTEGER DEFAULT 0
+);
+
+getCategoryList:
+SELECT *
+FROM categoryEntity
+ORDER BY id;
+
+getCategory:
+SELECT *
+FROM categoryEntity
+WHERE id = ?;
+
+insertCategory:
+INSERT OR REPLACE
+INTO categoryEntity(
+    id,
+    type,
+    name,
+    favourite
+)
+VALUES(?,?,?,0);
+
+addCategoryToFavourite:
+UPDATE categoryEntity
+SET favourite = 1
+WHERE id = ?;
+
+removeAllCategoryFromFavourite:
+UPDATE categoryEntity
+SET favourite = 0
+WHERE favourite = 1;
+
+removeCategoryFromFavourite:
+UPDATE categoryEntity
+SET favourite = 0
+WHERE id = ?;
+
+deleteCategory:
+DELETE
+FROM categoryEntity
+WHERE id = ?;
+
+clearCategory:
+DELETE
+FROM categoryEntity;
+-------------  Category Entity Ended -----------------
