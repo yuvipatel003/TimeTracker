@@ -4,7 +4,8 @@ package com.appsdeviser.core_db.domain.category
 data class CategoryItem(
     val id: Long?,
     val type: String,
-    val name: String
+    val name: String,
+    val rate: Long
 )
 
 @kotlinx.serialization.Serializable

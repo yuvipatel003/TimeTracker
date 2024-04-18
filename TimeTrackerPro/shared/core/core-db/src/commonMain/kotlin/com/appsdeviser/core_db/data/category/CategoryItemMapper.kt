@@ -7,6 +7,7 @@ fun CategoryEntity.toCategoryItem(): CategoryItem {
     return CategoryItem(
         id = this.id,
         type = this.type,
-        name = this.name
+        name = this.name,
+        rate = this.rate
     )
 }

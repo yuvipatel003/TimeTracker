@@ -13,6 +13,7 @@ kotlin {
             }
         }
     }
+    androidTarget()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -22,34 +23,21 @@ kotlin {
         homepage = "Link to the Shared Module homepage"
         version = "1.0"
         ios.deploymentTarget = "16.0"
-        podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "shared"
+            baseName = "settings"
             isStatic = true
-            export(projects.shared.core.coreApi)
-            export(projects.shared.core.coreCommon)
-            export(projects.shared.core.coreDb)
-            export(projects.shared.onboarding)
-            export(projects.shared.tracker)
-            export(projects.shared.settings)
         }
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                // By adding following you can add modules
-                api(projects.shared.core.coreApi)
-                api(projects.shared.core.coreCommon)
+                //put your multiplatform dependencies here
                 api(projects.shared.core.coreDb)
-                api(projects.shared.onboarding)
-                api(projects.shared.tracker)
-                api(projects.shared.settings)
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(libs.kotlin.test)
             }
         }
         val androidMain by getting {
@@ -85,7 +73,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.appsdeviser.timetrackerpro"
+    namespace = "com.appsdeviser.settings"
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()

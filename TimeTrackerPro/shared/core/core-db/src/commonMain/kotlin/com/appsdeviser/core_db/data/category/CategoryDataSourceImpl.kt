@@ -44,7 +44,8 @@ class CategoryDataSourceImpl(
         queries.insertCategory(
             id = item.id,
             type = item.type,
-            name = item.name
+            name = item.name,
+            rate = item.rate
         )
     }
 
