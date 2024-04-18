@@ -15,7 +15,9 @@ struct Spacing {
     var splashClockSize: CGFloat = 100
     var spaceMedium: CGFloat = 20
     var spaceLarge: CGFloat = 40
-    var spaceExtraSmall: CGFloat = 2
+    var spaceExtraSmall: CGFloat = 5
+    var spaceSmall: CGFloat = 10
+    var spaceExtraLarge: CGFloat = 80
     
     static let `default` = Spacing()
 }
