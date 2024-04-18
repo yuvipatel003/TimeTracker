@@ -108,3 +108,41 @@ clearCategory:
 DELETE
 FROM categoryEntity;
 -------------  Category Entity Ended -----------------
+
+-------------  UI Settings Entity Started -----------------
+CREATE TABLE showRecordPagesettingsEntity(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    dateFormat TEXT NOT NULL DEFAULT "",
+    timeFormatAMPM INTEGER NOT NULL DEFAULT 1,
+    showUnit INTEGER NOT NULL DEFAULT 1,
+    showRate INTEGER NOT NULL DEFAULT 0,
+    showTotalAmount INTEGER NOT NULL DEFAULT 1,
+    showPaidCheck INTEGER NOT NULL DEFAULT 0,
+    showCategory INTEGER NOT NULL DEFAULT 1,
+    showCategoryName INTEGER NOT NULL DEFAULT 0
+);
+
+getShowRecordPageSettings:
+SELECT *
+FROM showRecordPagesettingsEntity
+WHERE id = 0;
+
+insertShowRecordPageSettings:
+INSERT OR REPLACE
+INTO showRecordPagesettingsEntity(
+    id,
+    dateFormat,
+    timeFormatAMPM,
+    showUnit,
+    showRate,
+    showTotalAmount,
+    showPaidCheck,
+    showCategory,
+    showCategoryName
+)
+VALUES(0,?,?,?,?,?,?,?,?);
+
+clearShowRecordPageSettings:
+DELETE
+FROM showRecordPagesettingsEntity;
+-------------  UI Settings Entity Ended -----------------
