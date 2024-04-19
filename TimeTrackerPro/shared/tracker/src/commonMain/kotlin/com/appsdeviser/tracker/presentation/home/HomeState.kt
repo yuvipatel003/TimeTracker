@@ -1,6 +1,6 @@
 package com.appsdeviser.tracker.presentation.home
 
-import com.appsdeviser.core_db.domain.category.CategoryItem
+import com.appsdeviser.tracker.domain.category.CategoryItem
 import com.appsdeviser.core_db.domain.showrecordpage.ShowRecordPageSettingItem
 
 data class HomeState(

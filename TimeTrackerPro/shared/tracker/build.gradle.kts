@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinPluginSerialization)
 }
 
 kotlin {
@@ -34,6 +35,7 @@ kotlin {
             dependencies {
                 //put your multiplatform dependencies here
                 api(projects.shared.core.coreDb)
+                api(projects.shared.core.coreCommon)
             }
         }
         val commonTest by getting {
