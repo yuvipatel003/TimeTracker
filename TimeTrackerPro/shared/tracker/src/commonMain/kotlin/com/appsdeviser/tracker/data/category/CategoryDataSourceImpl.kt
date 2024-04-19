@@ -1,8 +1,8 @@
-package com.appsdeviser.core_db.data.category
+package com.appsdeviser.tracker.data.category
 
 import app.cash.sqldelight.coroutines.asFlow
-import com.appsdeviser.core_db.domain.category.CategoryDataSource
-import com.appsdeviser.core_db.domain.category.CategoryItem
+import com.appsdeviser.tracker.domain.category.CategoryDataSource
+import com.appsdeviser.tracker.domain.category.CategoryItem
 import com.appsdeviser.core_db.flows.CommonFlow
 import com.appsdeviser.core_db.flows.toCommonFlow
 import com.appsdeviser.core_db.sqldelight.TimeTrackerDatabase

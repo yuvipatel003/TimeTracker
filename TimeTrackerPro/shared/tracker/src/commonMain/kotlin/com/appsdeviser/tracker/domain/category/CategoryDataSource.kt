@@ -1,4 +1,4 @@
-package com.appsdeviser.core_db.domain.category
+package com.appsdeviser.tracker.domain.category
 
 import com.appsdeviser.core_db.flows.CommonFlow
 

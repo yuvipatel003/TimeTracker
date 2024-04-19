@@ -1,6 +1,6 @@
-package com.appsdeviser.core_db.data.category
+package com.appsdeviser.tracker.data.category
 
-import com.appsdeviser.core_db.domain.category.CategoryItem
+import com.appsdeviser.tracker.domain.category.CategoryItem
 import database.CategoryEntity
 
 fun CategoryEntity.toCategoryItem(): CategoryItem {
