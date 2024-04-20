@@ -121,7 +121,8 @@ CREATE TABLE showRecordPagesettingsEntity(
     showTotalAmount INTEGER NOT NULL DEFAULT 1,
     showPaidCheck INTEGER NOT NULL DEFAULT 0,
     showCategory INTEGER NOT NULL DEFAULT 1,
-    showCategoryName INTEGER NOT NULL DEFAULT 0
+    showCategoryName INTEGER NOT NULL DEFAULT 0,
+    showOnlyFavouriteOnHome INTEGER NOT NULL DEFAULT 0
 );
 
 getShowRecordPageSettings:
@@ -140,11 +141,75 @@ INTO showRecordPagesettingsEntity(
     showTotalAmount,
     showPaidCheck,
     showCategory,
-    showCategoryName
+    showCategoryName,
+    showOnlyFavouriteOnHome
 )
-VALUES(0,?,?,?,?,?,?,?,?);
+VALUES(0,?, ?,?,?,?,?,?,?,?);
 
 clearShowRecordPageSettings:
 DELETE
 FROM showRecordPagesettingsEntity;
 -------------  UI Settings Entity Ended -----------------
+
+-------------  Record Entity Started -----------------
+CREATE TABLE recordEntity(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    date TEXT NOT NULL,
+    startTime TEXT NOT NULL,
+    endTime TEXT NOT NULL,
+    totalTime TEXT NOT NULL,
+    totalAmount TEXT NOT NULL,
+    categoryType TEXT NOT NULL,
+    categoryName TEXT NOT NULL,
+    rate INTEGER NOT NULL DEFAULT 0,
+    isPaid INTEGER NOT NULL DEFAULT 0,
+    lastUpdated TEXT NOT NULL
+);
+
+getRecords:
+SELECT *
+FROM recordEntity
+ORDER BY id DESC
+LIMIT 10 OFFSET ?;
+
+getSingleRecord:
+SELECT *
+FROM recordEntity
+WHERE id = ?;
+
+insertRecord:
+INSERT OR REPLACE
+INTO recordEntity(
+    id,
+    date,
+    startTime,
+    endTime,
+    totalTime,
+    totalAmount,
+    categoryType,
+    categoryName,
+    rate,
+    isPaid,
+    lastUpdated
+)
+VALUES(?,?,?,?,?,?,?,?,?,?,?);
+
+markAsPaid:
+UPDATE recordEntity
+SET isPaid = 1
+WHERE id = ?;
+
+markAsUnPaid:
+UPDATE recordEntity
+SET isPaid = 0
+WHERE id = ?;
+
+deleteRecord:
+DELETE
+FROM recordEntity
+WHERE id = ?;
+
+clearRecords:
+DELETE
+FROM recordEntity;
+-------------  Record Entity Ended -----------------

@@ -30,7 +30,8 @@ class ShowRecordPageSettingDataSourceImpl(
                         showTotalAmount = true,
                         showPaidCheck = false,
                         showCategory = true,
-                        showCategoryName = false)
+                        showCategoryName = false,
+                        showOnlyFavouriteOnHome = false)
                     insertShowRecordSetting(item)
                     item
                 } else {
@@ -50,7 +51,8 @@ class ShowRecordPageSettingDataSourceImpl(
             showTotalAmount = item.showTotalAmount.toLong(),
             showPaidCheck = item.showPaidCheck.toLong(),
             showCategory = item.showCategory.toLong(),
-            showCategoryName = item.showCategoryName.toLong()
+            showCategoryName = item.showCategoryName.toLong(),
+            showOnlyFavouriteOnHome = item.showOnlyFavouriteOnHome.toLong()
         )
     }
 

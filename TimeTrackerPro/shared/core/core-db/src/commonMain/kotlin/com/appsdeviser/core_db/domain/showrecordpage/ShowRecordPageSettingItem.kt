@@ -10,5 +10,6 @@ data class ShowRecordPageSettingItem(
     val showTotalAmount: Boolean,
     val showPaidCheck: Boolean,
     val showCategory: Boolean,
-    val showCategoryName: Boolean
+    val showCategoryName: Boolean,
+    val showOnlyFavouriteOnHome: Boolean
 )
