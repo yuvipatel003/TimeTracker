@@ -1,6 +1,7 @@
 package com.appsdeviser.tracker.data.category
 
 import app.cash.sqldelight.coroutines.asFlow
+import com.appsdeviser.core_common.utils.toLong
 import com.appsdeviser.tracker.domain.category.CategoryDataSource
 import com.appsdeviser.tracker.domain.category.CategoryItem
 import com.appsdeviser.core_db.flows.CommonFlow
@@ -45,6 +46,7 @@ class CategoryDataSourceImpl(
             id = item.id,
             type = item.type,
             name = item.name,
+            favourite = item.favourite.toLong(),
             rate = item.rate
         )
     }

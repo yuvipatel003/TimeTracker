@@ -25,6 +25,7 @@ import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
 fun TitleBar(
     modifier: Modifier = Modifier,
     title: String = "",
+    isSettingsFeatureEnabled: Boolean = false,
     onSettingsClick: () -> Unit,
     onNotificationClick: () -> Unit,
     isNotificationSelected: Boolean = false,
@@ -60,18 +61,20 @@ fun TitleBar(
                         },
                     tint = if (isNotificationSelected) LightBlue else MaterialTheme.colorScheme.onPrimary
                 )
-                Spacer(modifier = Modifier.width(spacing.spaceMedium))
             }
-            Icon(
-                imageVector = Icons.Default.Settings,
-                contentDescription = "Settings",
-                modifier = Modifier
-                    .size(spacing.titleBarIconSize)
-                    .clickable {
-                        onSettingsClick()
-                    },
-                tint = MaterialTheme.colorScheme.onPrimary
-            )
+            if(isSettingsFeatureEnabled) {
+                Spacer(modifier = Modifier.width(spacing.spaceMedium))
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Settings",
+                    modifier = Modifier
+                        .size(spacing.titleBarIconSize)
+                        .clickable {
+                            onSettingsClick()
+                        },
+                    tint = MaterialTheme.colorScheme.onPrimary
+                )
+            }
         }
     }
 }

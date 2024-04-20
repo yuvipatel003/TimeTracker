@@ -16,5 +16,6 @@ data class HomeState(
     val favouriteCategory: CategoryItem? = null,
     val isSettingFeatureEnabled: Boolean = false,
     val isAddCategoryFeatureEnabled: Boolean = false,
-    val isWeeklyTargetFeatureEnabled: Boolean = false
+    val isWeeklyTargetFeatureEnabled: Boolean = false,
+    val isNotificationFeatureEnabled: Boolean = false
 )

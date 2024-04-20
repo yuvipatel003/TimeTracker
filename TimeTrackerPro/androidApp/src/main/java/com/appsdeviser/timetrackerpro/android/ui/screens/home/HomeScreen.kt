@@ -23,9 +23,14 @@ import androidx.compose.ui.unit.dp
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.TitleBar
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.ActionButton
+import com.appsdeviser.tracker.presentation.home.HomeEvent
+import com.appsdeviser.tracker.presentation.home.HomeState
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    state: HomeState,
+    onEvent: (HomeEvent) -> Unit
+) {
     val spacing = LocalSpacing.current
     Box(
         modifier = Modifier.fillMaxSize()
@@ -47,9 +52,13 @@ fun HomeScreen() {
 
             TitleBar(
                 modifier = Modifier.fillMaxWidth(),
-                title = "Hi, Yuvi",
+                title = "Welcome, " + state.userName,
+                isNotificationFeatureEnabled = !state.isNotificationFeatureEnabled,
+                isNotificationSelected = state.isNotificationOpen,
                 onNotificationClick = {
+                    onEvent(HomeEvent.OnNotificationClick)
                 },
+                isSettingsFeatureEnabled = !state.isSettingFeatureEnabled,
                 onSettingsClick = {
 
                 }
