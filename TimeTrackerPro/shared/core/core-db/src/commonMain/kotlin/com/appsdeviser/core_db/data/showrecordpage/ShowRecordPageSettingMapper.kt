@@ -13,6 +13,7 @@ fun ShowRecordPagesettingsEntity.toShowRecordPageSettingItem(): ShowRecordPageSe
         showTotalAmount = this.showTotalAmount == 1L,
         showPaidCheck = this.showPaidCheck == 1L,
         showCategory = this.showCategory == 1L,
-        showCategoryName = this.showCategoryName == 1L
+        showCategoryName = this.showCategoryName == 1L,
+        showOnlyFavouriteOnHome = this.showOnlyFavouriteOnHome == 1L
     )
 }

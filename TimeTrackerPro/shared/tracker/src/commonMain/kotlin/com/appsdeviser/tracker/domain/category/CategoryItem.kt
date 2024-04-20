@@ -5,7 +5,8 @@ data class CategoryItem(
     val id: Long?,
     val type: String,
     val name: String,
-    val rate: Long
+    val rate: Long,
+    val favourite: Boolean
 )
 
 @kotlinx.serialization.Serializable
