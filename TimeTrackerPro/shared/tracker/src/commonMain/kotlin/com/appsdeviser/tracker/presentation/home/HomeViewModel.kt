@@ -39,11 +39,11 @@ class HomeViewModel (
         showRecordPageSettingDataSource.getShowRecordSetting(),
         recordDataSource.getRecordList()
     ) { state, settings, categoryList, showRecordSetting, recentRecords ->
-        _state.update { homeState ->
-            homeState.copy(
+        _state.update {
+            it.copy(
                 userName = settings.userName,
                 loadShowRecordSetting = showRecordSetting,
-                favouriteCategory = categoryList.first { it.favourite },
+                favouriteCategory = categoryList.firstOrNull() { item -> item.favourite },
                 listOfRecentRecords = recentRecords
             )
         }
@@ -62,7 +62,8 @@ class HomeViewModel (
                 it.copy(
                     isAddCategoryFeatureEnabled = featureManager.isEnabled(FeatureKey.Show_Add_Category_Page).first(),
                     isSettingFeatureEnabled = featureManager.isEnabled(FeatureKey.Show_Settings_Page).first(),
-                    isWeeklyTargetFeatureEnabled = featureManager.isEnabled(FeatureKey.Show_Weekly_Target_Page).first()
+                    isWeeklyTargetFeatureEnabled = featureManager.isEnabled(FeatureKey.Show_Weekly_Target_Page).first(),
+                    isNotificationFeatureEnabled = featureManager.isEnabled(FeatureKey.Show_Notification).first()
                 )
             }
         }

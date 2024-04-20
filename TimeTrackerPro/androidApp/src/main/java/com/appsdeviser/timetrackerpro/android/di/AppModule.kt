@@ -6,14 +6,20 @@ import com.appsdeviser.AppConfig
 import com.appsdeviser.core_api.remote.HttpClientFactory
 import com.appsdeviser.core_db.data.feature.FeatureDataSourceImpl
 import com.appsdeviser.core_db.data.settings.SettingsDataSourceImpl
+import com.appsdeviser.core_db.data.showrecordpage.ShowRecordPageSettingDataSourceImpl
 import com.appsdeviser.core_db.databasedriver.DatabaseDriverFactory
 import com.appsdeviser.core_db.domain.feature.FeatureDataSource
 import com.appsdeviser.core_db.domain.settings.SettingsDataSource
+import com.appsdeviser.core_db.domain.showrecordpage.ShowRecordPageSettingDataSource
 import com.appsdeviser.core_db.featuremanager.FeatureManager
 import com.appsdeviser.core_db.sqldelight.TimeTrackerDatabase
 import com.appsdeviser.onboarding.data.remote.KtorClientFeatures
 import com.appsdeviser.onboarding.domain.features.FeaturesClient
 import com.appsdeviser.timetrackerpro.android.AppConfigImpl
+import com.appsdeviser.tracker.data.category.CategoryDataSourceImpl
+import com.appsdeviser.tracker.data.record.RecordDataSourceImpl
+import com.appsdeviser.tracker.domain.category.CategoryDataSource
+import com.appsdeviser.tracker.domain.record.RecordDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,6 +59,24 @@ object AppModule {
     @Singleton
     fun provideSettingsDataSource(sqlDriver: SqlDriver): SettingsDataSource {
         return SettingsDataSourceImpl(TimeTrackerDatabase.invoke(sqlDriver))
+    }
+
+    @Provides
+    @Singleton
+    fun provideCategoryDataSource(sqlDriver: SqlDriver): CategoryDataSource {
+        return CategoryDataSourceImpl(TimeTrackerDatabase.invoke(sqlDriver))
+    }
+
+    @Provides
+    @Singleton
+    fun provideShowRecordPageSetting(sqlDriver: SqlDriver): ShowRecordPageSettingDataSource {
+        return ShowRecordPageSettingDataSourceImpl(TimeTrackerDatabase.invoke(sqlDriver))
+    }
+
+    @Provides
+    @Singleton
+    fun provideRecordDataSource(sqlDriver: SqlDriver): RecordDataSource {
+        return RecordDataSourceImpl(TimeTrackerDatabase.invoke(sqlDriver))
     }
 
     @Provides

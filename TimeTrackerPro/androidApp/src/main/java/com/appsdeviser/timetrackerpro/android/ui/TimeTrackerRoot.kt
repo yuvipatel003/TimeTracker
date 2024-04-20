@@ -13,6 +13,7 @@ import com.appsdeviser.onboarding.presentation.splash.SplashEvent
 import com.appsdeviser.onboarding.presentation.whatsnew.WhatsNewEvent
 import com.appsdeviser.timetrackerpro.android.MainActivity
 import com.appsdeviser.timetrackerpro.android.ui.core.error.ErrorUI
+import com.appsdeviser.timetrackerpro.android.ui.screens.home.AndroidHomeViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.HomeScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.AndroidOnboardingViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.OnboardingScreen
@@ -73,7 +74,17 @@ fun TimeTrackerRoot(
         composable(
             route = Routes.HOME
         ) {
-            HomeScreen()
+            val viewModel = hiltViewModel<AndroidHomeViewModel>()
+            val state by viewModel.state.collectAsState()
+            HomeScreen(
+                state = state,
+                onEvent = { event ->
+                    when(event) {
+                        else -> viewModel.onEvent(event)
+                    }
+
+                }
+            )
         }
         ///////////////////////////////////////////////
         composable(

@@ -84,7 +84,7 @@ INTO categoryEntity(
     favourite,
     rate
 )
-VALUES(?,?,?,0,?);
+VALUES(?,?,?,?,?);
 
 addCategoryToFavourite:
 UPDATE categoryEntity
