@@ -1,12 +1,14 @@
 package com.appsdeviser.tracker.presentation.home
 
-import com.appsdeviser.tracker.domain.category.CategoryItem
 import com.appsdeviser.core_db.domain.showrecordpage.ShowRecordPageSettingItem
+import com.appsdeviser.tracker.domain.category.CategoryItem
 import com.appsdeviser.tracker.domain.record.RecordItem
+import com.appsdeviser.tracker.presentation.home.components.NotificationState
+import com.appsdeviser.tracker.presentation.home.components.notificationList
 
 data class HomeState(
     val userName: String = "",
-    val isNotificationOpen: Boolean = false,
+    val notificationState: NotificationState = (NotificationState(false, 0, notificationList)),
     val listOfRecentRecords: List<RecordItem> = emptyList(),
     val loadShowRecordSetting: ShowRecordPageSettingItem? = null,
     val isTrackerInProgress: Boolean = false,

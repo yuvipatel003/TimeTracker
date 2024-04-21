@@ -8,11 +8,13 @@ data class Dimensions(
     val default: Dp = 0.dp,
     val spaceExtraSmall: Dp = 4.dp,
     val spaceSmall: Dp = 8.dp,
+    val spaceSmallMedium: Dp = 12.dp,
     val spaceMedium: Dp = 16.dp,
     val spaceLarge: Dp = 32.dp,
     val spaceExtraLarge: Dp = 64.dp,
     val splashClockSize: Dp = 200.dp,
-    val titleBarIconSize: Dp = 25.dp
+    val titleBarIconSize: Dp = 25.dp,
+    val notificationImageSize: Dp = 50.dp
 )
 
 data class DialogDimensions(
