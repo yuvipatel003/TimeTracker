@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LightBlue
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
 
@@ -50,7 +49,7 @@ fun TitleBar(
         Row(
             modifier = Modifier.align(Alignment.CenterEnd)
         ) {
-            if(isNotificationFeatureEnabled) {
+            if (isNotificationFeatureEnabled) {
                 Icon(
                     imageVector = Icons.Default.Notifications,
                     contentDescription = "Notifications",
@@ -62,7 +61,7 @@ fun TitleBar(
                     tint = if (isNotificationSelected) LightBlue else MaterialTheme.colorScheme.onPrimary
                 )
             }
-            if(isSettingsFeatureEnabled) {
+            if (isSettingsFeatureEnabled) {
                 Spacer(modifier = Modifier.width(spacing.spaceMedium))
                 Icon(
                     imageVector = Icons.Default.Settings,
