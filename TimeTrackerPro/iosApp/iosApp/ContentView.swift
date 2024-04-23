@@ -54,6 +54,8 @@ struct ContentView: View {
                 HomeScreen()
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.backgroundColor)
     }
 }
 

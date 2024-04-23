@@ -30,10 +30,10 @@ struct OutlinedActionButton: View {
                 .frame(maxWidth: .infinity)
                 .font(TimeTrackerTheme.current.titleSmall.bold())
                 .padding()
-                .foregroundColor(isEnabled ? .blue : .gray)
+                .foregroundColor(isEnabled ? .onBackgroundColor : .onBackgroundColor)
                 .overlay(
                     Capsule()
-                        .stroke(isEnabled ? Color.blue : Color.gray, lineWidth: 2)
+                        .stroke(isEnabled ? .onBackgroundColor : Color.onBackgroundColor, lineWidth: 1)
                 )
         }
         .disabled(!isEnabled)

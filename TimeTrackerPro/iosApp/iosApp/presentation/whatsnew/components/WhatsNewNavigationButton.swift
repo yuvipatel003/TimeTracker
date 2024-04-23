@@ -25,14 +25,14 @@ struct WhatsNewNavigationButton: View {
             if(isNext) {
                 Image(systemName: "arrow.forward")
                     .padding(spacing.spaceMedium)
-                    .foregroundColor(Color.white)
-                    .background(Color.blue)
+                    .foregroundColor(Color.onPrimaryColor)
+                    .background(Color.primaryColor)
                     .clipShape(Capsule())
             } else {
                 Image(systemName: "arrow.backward")
                     .padding(spacing.spaceMedium)
-                    .foregroundColor(Color.white)
-                    .background(Color.blue)
+                    .foregroundColor(Color.onPrimaryColor)
+                    .background(Color.primaryColor)
                     .clipShape(Capsule())
             }
         }

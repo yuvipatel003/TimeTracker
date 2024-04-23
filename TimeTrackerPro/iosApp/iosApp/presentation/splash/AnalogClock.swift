@@ -42,26 +42,27 @@ struct AnalogClockView: View {
                 
                 //Minutes
                 Rectangle()
-                    .fill(Color.black)
+                    .fill(Color.onPrimaryColor)
                     .frame(width: 4, height: (width - 150) / 2)
                     .offset(y: -(width - 180) / 4)
                     .rotationEffect(.init(degrees: Double(currentTime.min) * 6))
                 
                 //Hours
                 Rectangle()
-                    .fill(Color.black)
+                    .fill(Color.onPrimaryColor)
                     .frame(width: 4.5, height: (width - 240) / 2)
                     .offset(y: -(width - 240) / 4)
                     .rotationEffect(.init(degrees: Double(currentTime.hour + currentTime.min / 60) * 30))
                 
                 //Seconds
                 Rectangle()
-                    .fill(Color.red)
+                    .fill(Color.onPrimaryColor)
                     .frame(width: 2, height: (width - 180) / 2)
                     .offset(y: -(width - 180) / 4)
                     .rotationEffect(.init(degrees: Double(currentTime.sec) * 6))
                 
                 Circle()
+                    .fill(Color.onPrimaryColor)
                     .frame(width: 15, height: 15)
             }
             .frame(width: width - 80, height: width - 80)

@@ -90,7 +90,6 @@ struct OnboardingScreen: View {
                 .frame(height: 20)
         }
         .frame(maxWidth: .infinity, alignment: .center)
-        .background(Color.lightBlue)
         .onAppear {
             viewModel.startObserving()
         }

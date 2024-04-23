@@ -83,7 +83,7 @@ struct SplashScreen: View {
         }
         .frame(maxWidth: .infinity, alignment: .center)
         .background(
-            LinearGradient(gradient: Gradient(colors: [Color.primaryAppsDeviser, Color.primaryColorAppsDeviser]), startPoint: .top, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(colors: [Color.primaryColor, Color.primaryColor]), startPoint: .top, endPoint: .bottom)
         )
         .edgesIgnoringSafeArea(.all)
         .onAppear {

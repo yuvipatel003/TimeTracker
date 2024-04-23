@@ -22,19 +22,30 @@ extension Color {
     }
 
     private static let colors = Colors()
+    
+    static let primaryColorTimeTracker = Color(hex: colors.PrimaryColor)
+    static let onPrimaryColorTimeTracker = Color(hex: colors.OnPrimaryColor)
+    static let darkGreyBackground = Color(hex: colors.DarkGreyBackground)
+    static let offWhiteBackground = Color(hex: colors.OffWhiteBackground)
+    static let textColorBlack = Color(hex: colors.TextColorBlack)
+    static let textColorWhite = Color(hex: colors.TextColorWhite)
+        
+    static let primaryColor = Color(lightColor: .primaryColorTimeTracker, darkColor: .primaryColorTimeTracker)
+    static let backgroundColor = Color(lightColor: .offWhiteBackground, darkColor: .darkGreyBackground)
+    static let onPrimaryColor = Color(lightColor: .onPrimaryColorTimeTracker, darkColor: .onPrimaryColorTimeTracker)
+    static let onBackgroundColor = Color(lightColor: .textColorBlack, darkColor: .textColorWhite)
+    static let surfaceColor = Color(lightColor: .offWhiteBackground, darkColor: .darkGreyBackground)
+    static let onSurfaceColor = Color(lightColor: .textColorBlack, darkColor: .textColorWhite)
+    
+    static let lightPrimaryColor = Color(hex: colors.LightPrimaryColor)
+    static let lightGreen = Color(hex: colors.LightGreen)
+    static let lightRed = Color(hex: colors.LightRed)
     static let lightBlue = Color(hex: colors.LightBlue)
-    static let lightBlueGrey = Color(hex: colors.LightBlueGrey)
-    static let primaryAppsDeviser = Color(hex: colors.PrimaryAppsDeviser)
-    static let primaryColorAppsDeviser = Color(hex: colors.PrimaryColorAppsDeviser)
-    static let secondaryColorAppsDeviser = Color(hex: colors.secondaryColorAppsDeviser)
-    static let darkGrey = Color(hex: colors.DarkGrey)
-
-    static let primaryColor = Color(lightColor: .primaryAppsDeviser, darkColor: .primaryAppsDeviser)
-    static let backgroundColor = Color(lightColor: .lightBlueGrey, darkColor: .darkGrey)
-    static let onPrimaryColor = Color(lightColor: .white, darkColor: .white)
-    static let onBackgroundColor = Color(lightColor: .black, darkColor: .white)
-    static let surfaceColor = Color(lightColor: .white, darkColor: .darkGrey)
-    static let onSurfaceColor = Color(lightColor: .black, darkColor: .white)
+    static let lightPink = Color(hex: colors.LightPink)
+    static let lightOrange = Color(hex: colors.LightOrange)
+    static let lightViolet = Color(hex: colors.LightViolet)
+    static let lightYellow = Color(hex: colors.LightYellow)
+    static let lightIndigo = Color(hex: colors.LightIndigo)
 }
 
 private extension Color {
