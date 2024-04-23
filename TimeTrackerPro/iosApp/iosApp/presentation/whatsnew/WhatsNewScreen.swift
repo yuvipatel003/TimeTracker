@@ -46,7 +46,7 @@ struct WhatsNewScreen: View {
                 Spacer()
                 ForEach(viewModel.state.list.indices, id: \.self) { index in
                     Circle()
-                        .foregroundColor(index == viewModel.state.currentSelection ? .blue : .gray)
+                        .foregroundColor(index == viewModel.state.currentSelection ? .primaryColor : .gray)
                         .frame(width: index == viewModel.state.currentSelection ? spacing.spaceSmall : spacing.spaceExtraSmall, height: index == viewModel.state.currentSelection ? spacing.spaceSmall : spacing.spaceExtraSmall)
                         .padding(0.5)
                 }

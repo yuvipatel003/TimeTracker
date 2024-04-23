@@ -30,8 +30,8 @@ struct ActionButton: View {
                 .frame(maxWidth: .infinity)
                 .font(TimeTrackerTheme.current.titleSmall.bold())
                 .padding()
-                .foregroundColor(Color.white)
-                .background(isEnabled ? Color.blue : Color.gray)
+                .foregroundColor(Color.textColorWhite)
+                .background(isEnabled ? Color.primaryColor : Color.primaryColor)
                 .clipShape(Capsule())
         }
         .disabled(!isEnabled)

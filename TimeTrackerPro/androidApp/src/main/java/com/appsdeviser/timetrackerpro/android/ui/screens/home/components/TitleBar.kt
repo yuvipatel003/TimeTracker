@@ -36,14 +36,14 @@ fun TitleBar(
     Box(
         modifier = modifier
             .background(MaterialTheme.colorScheme.primary)
-            .padding(spacing.spaceMedium, spacing.spaceSmall),
+            .padding(spacing.spaceMedium, spacing.spaceSmallMedium),
     ) {
         Row(
             modifier = Modifier.align(Alignment.CenterStart)
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleSmall,
+                style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onPrimary
             )
         }

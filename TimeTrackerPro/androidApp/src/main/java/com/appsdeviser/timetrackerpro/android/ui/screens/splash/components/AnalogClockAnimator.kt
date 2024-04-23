@@ -52,16 +52,16 @@ fun AnalogClock(
             val radius = size.width / 2 - 16 // Adjust the radius as needed
 
 
-            repeat(60) { hour ->
-                val angle = Math.toRadians((hour * 6 - 90).toDouble())
-                val x = (centerX + radius * Math.cos(angle)).toFloat()
-                val y = (centerY + radius * Math.sin(angle)).toFloat()
-                drawCircle(
-                    color = color,
-                    radius = 1.dp.toPx(),
-                    center = Offset(x, y)
-                )
-            }
+//            repeat(60) { hour ->
+//                val angle = Math.toRadians((hour * 6 - 90).toDouble())
+//                val x = (centerX + radius * Math.cos(angle)).toFloat()
+//                val y = (centerY + radius * Math.sin(angle)).toFloat()
+//                drawCircle(
+//                    color = color,
+//                    radius = 1.dp.toPx(),
+//                    center = Offset(x, y)
+//                )
+//            }
 
             repeat(12) { hour ->
                 val angle = Math.toRadians((hour * 30 - 90).toDouble())
@@ -74,38 +74,8 @@ fun AnalogClock(
                 )
             }
 
-            //
-//            repeat(60) { hour ->
-//                val angle = Math.toRadians((hour * 6 - 90).toDouble())
-//                val x = (centerX + radius * Math.cos(angle)).toFloat()
-//                val y = (centerY + radius * Math.sin(angle)).toFloat()
-//
-//                drawLine(
-//                    color = color,
-//                    start = Offset(x, y),
-//                    end = Offset(centerX, centerY - radius * 0.1f),
-//                    strokeWidth = 5.dp.toPx()
-//                )
-//                drawCircle(
-//                    color = color,
-//                    radius = 2.5.dp.toPx(),
-//                    center = Offset(x, y)
-//                )
-//            }
-//            // Draw clock numbers
-//            repeat(4) { hour ->
-//                val angle = Math.toRadians((hour * 90 - 90).toDouble())
-//                val x = (centerX + radius * Math.cos(angle)).toFloat()
-//                val y = (centerY + radius * Math.sin(angle)).toFloat()
-//                drawCircle(
-//                    color = color,
-//                    radius = 5.dp.toPx(),
-//                    center = Offset(x, y)
-//                )
-//            }
-
             drawCircle(
-                color = TextColorBlack,
+                color = color,
                 radius = 5.dp.toPx(),
                 center = Offset(centerX, centerY)
             )
@@ -118,7 +88,7 @@ fun AnalogClock(
 
             rotate(hourAngle) {
                 drawLine(
-                    color = TextColorBlack,
+                    color = color,
                     start = Offset(centerX, centerY),
                     end = Offset(centerX, centerY - radius * 0.45f),
                     strokeWidth = 8.dp.toPx()
@@ -127,7 +97,7 @@ fun AnalogClock(
 
             rotate(minuteAngle) {
                 drawLine(
-                    color = TextColorBlack,
+                    color = color,
                     start = Offset(centerX, centerY),
                     end = Offset(centerX, centerY - radius * 0.7f),
                     strokeWidth = 4.dp.toPx()
@@ -136,7 +106,7 @@ fun AnalogClock(
 
             rotate(secondAngle) {
                 drawLine(
-                    color = TextColorBlack,
+                    color = color,
                     start = Offset(centerX, centerY),
                     end = Offset(centerX, centerY - radius * 0.85f),
                     strokeWidth = 2.dp.toPx()
