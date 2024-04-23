@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.NotificationView
@@ -31,6 +32,7 @@ import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.TitleBa
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.ActionButton
 import com.appsdeviser.tracker.presentation.home.HomeEvent
 import com.appsdeviser.tracker.presentation.home.HomeState
+import com.appsdeviser.timetrackerpro.android.R
 
 @Composable
 fun HomeScreen(
@@ -60,7 +62,7 @@ fun HomeScreen(
 
             TitleBar(
                 modifier = Modifier.fillMaxWidth(),
-                title = "Welcome, " + state.userName,
+                title = stringResource(id = R.string.home_welcome) + state.userName,
                 isNotificationFeatureEnabled = !state.isNotificationFeatureEnabled,
                 isNotificationSelected = state.notificationState.isNotificationOpen,
                 onNotificationClick = {
@@ -123,7 +125,7 @@ fun HomeScreen(
                         .weight(1f)
                 )
                 Text(
-                    "Recent Activity",
+                    stringResource(id = R.string.home_recent_activity),
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier
                         .padding(horizontal = spacing.spaceMedium)
@@ -143,7 +145,7 @@ fun HomeScreen(
         }
 
         ActionButton(
-            text = "Clock In",
+            text = stringResource(id = R.string.home_clock_in),
             onClick = { },
             modifier = Modifier
                 .fillMaxWidth()

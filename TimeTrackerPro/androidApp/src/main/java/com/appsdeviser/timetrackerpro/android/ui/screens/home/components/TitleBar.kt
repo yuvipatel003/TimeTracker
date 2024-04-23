@@ -17,6 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.appsdeviser.timetrackerpro.android.R
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LightBlue
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
 
@@ -52,7 +54,7 @@ fun TitleBar(
             if (isNotificationFeatureEnabled) {
                 Icon(
                     imageVector = Icons.Default.Notifications,
-                    contentDescription = "Notifications",
+                    contentDescription = stringResource(id = R.string.home_notifications),
                     modifier = Modifier
                         .size(spacing.titleBarIconSize)
                         .clickable {
@@ -65,7 +67,7 @@ fun TitleBar(
                 Spacer(modifier = Modifier.width(spacing.spaceMedium))
                 Icon(
                     imageVector = Icons.Default.Settings,
-                    contentDescription = "Settings",
+                    contentDescription = stringResource(id = R.string.home_settings),
                     modifier = Modifier
                         .size(spacing.titleBarIconSize)
                         .clickable {

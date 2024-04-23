@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -40,7 +41,6 @@ fun ApiErrorDialog(
     apiError: ApiError?
 ) {
     val spacing = LocalSpacing.current
-    val context = LocalContext.current
 
     val shouldDismiss = remember {
         mutableStateOf(false)
@@ -52,9 +52,9 @@ fun ApiErrorDialog(
     val dialogState: DialogState? = when (apiError) {
         ApiError.Network.SERVICE_UNAVAILABLE -> {
             DialogState(
-                title = context.getString(R.string.api_error_service_not_available_title),
-                description = context.getString(R.string.api_error_service_not_available_description),
-                positiveButtonText = context.getString(R.string.dialog_ok),
+                title = stringResource(R.string.api_error_service_not_available_title),
+                description = stringResource(R.string.api_error_service_not_available_description),
+                positiveButtonText = stringResource(R.string.dialog_ok),
                 negativeButtonText = null,
                 isCancelable = false,
                 priority = DialogPriority.HIGH
@@ -64,9 +64,9 @@ fun ApiErrorDialog(
         ApiError.Network.CLIENT_ERROR,
         ApiError.Network.SERVER_ERROR -> {
             DialogState(
-                title = context.getString(R.string.api_error_something_went_wrong_title),
-                description = context.getString(R.string.api_error_something_went_wrong_description),
-                positiveButtonText = context.getString(R.string.dialog_ok),
+                title = stringResource(R.string.api_error_something_went_wrong_title),
+                description = stringResource(R.string.api_error_something_went_wrong_description),
+                positiveButtonText = stringResource(R.string.dialog_ok),
                 negativeButtonText = null,
                 isCancelable = false,
                 priority = DialogPriority.HIGH
@@ -77,9 +77,9 @@ fun ApiErrorDialog(
         ApiError.Network.SERIALIZATION_ERROR,
         ApiError.Network.DATA_TRANSFORMATION_ERROR -> {
             DialogState(
-                title = context.getString(R.string.api_error_missing_features_title),
-                description = context.getString(R.string.api_error_missing_features_description),
-                positiveButtonText = context.getString(R.string.dialog_ok),
+                title = stringResource(R.string.api_error_missing_features_title),
+                description = stringResource(R.string.api_error_missing_features_description),
+                positiveButtonText = stringResource(R.string.dialog_ok),
                 negativeButtonText = null,
                 isCancelable = false,
                 priority = DialogPriority.MEDIUM

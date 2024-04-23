@@ -4,6 +4,7 @@ import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,12 +23,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.appsdeviser.onboarding.presentation.splash.SplashEvent
 import com.appsdeviser.onboarding.presentation.splash.SplashState
+import com.appsdeviser.timetrackerpro.android.R
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
-import com.appsdeviser.timetrackerpro.android.ui.core.theme.changingGradientBackground
+import com.appsdeviser.timetrackerpro.android.ui.core.theme.PrimaryColor
 import com.appsdeviser.timetrackerpro.android.ui.screens.splash.components.AnalogClock
 import kotlinx.coroutines.delay
 
@@ -64,7 +67,7 @@ fun SplashScreen(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
-            .changingGradientBackground()
+            .background(PrimaryColor)
             .scale(scale.value)
     ) {
         Column(
@@ -79,7 +82,7 @@ fun SplashScreen(
             )
             Spacer(modifier = Modifier.height(spacing.spaceMedium))
             Text(
-                text = "It's all about Time",
+                text = stringResource(id = R.string.splash_message),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,

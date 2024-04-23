@@ -14,8 +14,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import coil.compose.AsyncImage
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
+import com.appsdeviser.timetrackerpro.android.ui.core.theme.TextColorBlack
+import com.appsdeviser.timetrackerpro.presentation.Colors
 import com.appsdeviser.tracker.domain.notification.NotificationItem
 
 @Composable
@@ -50,7 +53,8 @@ fun NotificationContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = spacing.spaceSmall),
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall,
+                color = TextColorBlack
             )
             Spacer(modifier = Modifier.height(spacing.spaceSmall))
             Text(
@@ -60,7 +64,8 @@ fun NotificationContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = spacing.spaceSmall),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = TextColorBlack
             )
         }
     }

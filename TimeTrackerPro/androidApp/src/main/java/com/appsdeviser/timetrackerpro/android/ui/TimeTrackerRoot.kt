@@ -27,7 +27,6 @@ fun TimeTrackerRoot(
     activity: MainActivity
 ) {
     val navController = rememberNavController()
-    val rootViewModel = TimeTrackerRootViewModel()
 
     NavHost(
         navController = navController,
@@ -79,10 +78,9 @@ fun TimeTrackerRoot(
             HomeScreen(
                 state = state,
                 onEvent = { event ->
-                    when(event) {
+                    when (event) {
                         else -> viewModel.onEvent(event)
                     }
-
                 }
             )
         }
