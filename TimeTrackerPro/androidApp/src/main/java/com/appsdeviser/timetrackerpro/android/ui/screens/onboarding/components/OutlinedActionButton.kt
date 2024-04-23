@@ -28,7 +28,7 @@ fun OutlinedActionButton(
         Text(
             text = text,
             style = textStyle,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.padding(LocalSpacing.current.spaceSmall)
         )
     }

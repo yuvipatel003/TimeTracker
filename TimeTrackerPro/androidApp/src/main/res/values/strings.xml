@@ -14,4 +14,15 @@
     <string name="api_error_something_went_wrong_description">Something went wrong ! Please try again later.</string>
     <string name="api_error_missing_features_title">Missing Information</string>
     <string name="api_error_missing_features_description">Unfortunately, Some features will be disable for a moment</string>
+    <string name="onboarding_welcome">"Welcome"</string>
+    <string name="home_welcome">"Welcome, "</string>
+    <string name="home_recent_activity">Recent Activity</string>
+    <string name="home_clock_in">Clock In</string>
+    <string name="home_notifications">Notifications</string>
+    <string name="home_settings">Settings</string>
+    <string name="onboarding_enter_username">Enter Username</string>
+    <string name="onboarding_enter_email">Enter Email</string>
+    <string name="skip">Skip</string>
+    <string name="onboarding_lets_get_started">Let\'s get Started</string>
+    <string name="splash_message">It\'s all about Time</string>
 </resources>

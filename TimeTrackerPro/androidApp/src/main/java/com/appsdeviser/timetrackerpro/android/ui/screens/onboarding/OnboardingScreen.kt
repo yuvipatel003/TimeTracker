@@ -22,10 +22,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.appsdeviser.onboarding.presentation.onboarding.OnboardingEvent
 import com.appsdeviser.onboarding.presentation.onboarding.OnboardingState
+import com.appsdeviser.timetrackerpro.android.R
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
+import com.appsdeviser.timetrackerpro.android.ui.core.theme.TextColorBlack
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.ActionButton
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.OutlinedActionButton
 
@@ -58,7 +61,7 @@ fun OnboardingScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Welcome",
+                text = stringResource(id = R.string.onboarding_welcome),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineMedium
             )
@@ -79,11 +82,13 @@ fun OnboardingScreen(
                 },
                 label = {
                     Text(
-                        text = "Enter username",
+                        text = stringResource(id = R.string.onboarding_enter_username),
                         style = MaterialTheme.typography.titleSmall
                     )
                 },
-                textStyle = MaterialTheme.typography.bodyMedium
+                textStyle = MaterialTheme.typography.bodyMedium.copy(
+                    color = TextColorBlack
+                )
             )
             Spacer(modifier = Modifier.height(spacing.spaceMedium))
             TextField(
@@ -102,11 +107,13 @@ fun OnboardingScreen(
                 },
                 label = {
                     Text(
-                        text = "Enter email",
+                        text = stringResource(id = R.string.onboarding_enter_email),
                         style = MaterialTheme.typography.titleSmall
                     )
                 },
-                textStyle = MaterialTheme.typography.bodyMedium
+                textStyle = MaterialTheme.typography.bodyMedium.copy(
+                    color = TextColorBlack
+                )
             )
             Spacer(modifier = Modifier.height(spacing.spaceLarge))
         }
@@ -119,14 +126,14 @@ fun OnboardingScreen(
             verticalAlignment = Alignment.Bottom
         ) {
             OutlinedActionButton(
-                text = "Skip",
+                text = stringResource(id = R.string.skip),
                 onClick = { onEvent(OnboardingEvent.OnSkip) },
                 modifier = Modifier
                     .weight(1f)
                     .padding(spacing.spaceSmall)
             )
             ActionButton(
-                text = "Lets Get Started",
+                text = stringResource(id = R.string.onboarding_lets_get_started),
                 onClick = { onEvent(OnboardingEvent.OnNext) },
                 modifier = Modifier
                     .weight(1f)

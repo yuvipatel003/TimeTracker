@@ -20,10 +20,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.appsdeviser.onboarding.presentation.whatsnew.WhatsNewEvent
 import com.appsdeviser.onboarding.presentation.whatsnew.WhatsNewItem
 import com.appsdeviser.onboarding.presentation.whatsnew.WhatsNewState
+import com.appsdeviser.timetrackerpro.android.R
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
 import com.appsdeviser.timetrackerpro.android.ui.screens.whatsnew.components.WhatsNewContent
 
@@ -110,7 +112,7 @@ fun WhatsNewScreen(
         }
 
         Text(
-            text = "Skip",
+            text = stringResource(id = R.string.skip),
             modifier = Modifier
                 .clickable {
                     onEvent(WhatsNewEvent.OnFinish)

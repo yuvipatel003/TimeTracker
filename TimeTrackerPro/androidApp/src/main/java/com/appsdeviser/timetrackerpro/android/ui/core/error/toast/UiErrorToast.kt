@@ -3,6 +3,7 @@ package com.appsdeviser.timetrackerpro.android.ui.core.error.toast
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import com.appsdeviser.core_common.utils.error.UiError
 import com.appsdeviser.timetrackerpro.android.R
 
@@ -14,10 +15,10 @@ fun UiErrorToast(
     val context = LocalContext.current
 
     val message = when (uiError) {
-        UiError.Notification.MISSING_REQUIRED_FIELD -> context.getString(R.string.please_provide_all_required_information)
-        UiError.Notification.INVALID_INPUT -> context.getString(R.string.invalid_input)
-        UiError.Notification.INVALID_EMAIL -> context.getString(R.string.invalid_email)
-        UiError.Notification.INVALID_USERNAME -> context.getString(R.string.invalid_username)
+        UiError.Notification.MISSING_REQUIRED_FIELD -> stringResource(R.string.please_provide_all_required_information)
+        UiError.Notification.INVALID_INPUT -> stringResource(R.string.invalid_input)
+        UiError.Notification.INVALID_EMAIL -> stringResource(R.string.invalid_email)
+        UiError.Notification.INVALID_USERNAME -> stringResource(R.string.invalid_username)
         else -> null
     }
 

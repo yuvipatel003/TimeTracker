@@ -17,8 +17,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import com.appsdeviser.timetrackerpro.android.ui.core.theme.LightBlue
+import com.appsdeviser.timetrackerpro.android.ui.core.theme.LightPrimaryColor
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
+import com.appsdeviser.timetrackerpro.android.ui.core.theme.TextColorBlack
+import com.appsdeviser.timetrackerpro.presentation.Colors
 import com.appsdeviser.tracker.presentation.home.components.NotificationState
 
 @Composable
@@ -36,7 +41,7 @@ fun NotificationView(
         Box(modifier = Modifier
             .padding(spacing.spaceSmall)
             .background(
-                color = MaterialTheme.colorScheme.surface,
+                color = LightPrimaryColor,
                 shape = RoundedCornerShape(spacing.spaceMedium)
             )
             .padding(spacing.spaceSmallMedium)
@@ -71,7 +76,9 @@ fun NotificationView(
             }
         ) {
             Icon(
-                imageVector = Icons.Default.Cancel, contentDescription = null,
+                imageVector = Icons.Default.Cancel,
+                contentDescription = null,
+                tint = TextColorBlack,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .clickable {
