@@ -62,7 +62,8 @@ CREATE TABLE categoryEntity(
     type TEXT NOT NULL,
     name TEXT NOT NULL,
     favourite INTEGER DEFAULT 0,
-    rate INTEGER NOT NULL DEFAULT 0.0
+    rate INTEGER NOT NULL DEFAULT 0.0,
+    color TEXT NOT NULL
 );
 
 getCategoryList:
@@ -82,9 +83,10 @@ INTO categoryEntity(
     type,
     name,
     favourite,
-    rate
+    rate,
+    color
 )
-VALUES(?,?,?,?,?);
+VALUES(?,?,?,?,?, ?);
 
 addCategoryToFavourite:
 UPDATE categoryEntity

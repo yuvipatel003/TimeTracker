@@ -8,7 +8,8 @@ fun CategoryEntity.toCategoryItem(): CategoryItem {
         id = this.id,
         type = this.type,
         name = this.name,
-        rate = this.rate.toLong(),
-        favourite = this.favourite == 1L
+        rate = this.rate,
+        favourite = this.favourite == 1L,
+        color = this.color
     )
 }
