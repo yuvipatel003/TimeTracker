@@ -47,7 +47,8 @@ class CategoryDataSourceImpl(
             type = item.type,
             name = item.name,
             favourite = item.favourite.toLong(),
-            rate = item.rate
+            rate = item.rate,
+            color = item.color
         )
     }
 

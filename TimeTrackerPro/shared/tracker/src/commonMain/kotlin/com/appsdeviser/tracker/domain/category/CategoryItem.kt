@@ -6,7 +6,8 @@ data class CategoryItem(
     val type: String,
     val name: String,
     val rate: Long,
-    val favourite: Boolean
+    val favourite: Boolean,
+    val color: String
 )
 
 @kotlinx.serialization.Serializable

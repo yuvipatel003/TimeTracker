@@ -27,6 +27,7 @@
 		6D4BC89F2BC1CA42006CF04A /* OutlinedActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BC89E2BC1CA42006CF04A /* OutlinedActionButton.swift */; };
 		6D4BC8A12BC1CA9C006CF04A /* IosOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BC8A02BC1CA9C006CF04A /* IosOnboardingViewModel.swift */; };
 		6D4BC8A42BC2434B006CF04A /* TimeTrackerTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BC8A32BC2434B006CF04A /* TimeTrackerTheme.swift */; };
+		6D6062602BD8A10400BE58DA /* CategoryWithColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D60625F2BD8A10400BE58DA /* CategoryWithColor.swift */; };
 		6DDEB0352BCF0D6E00EE5574 /* IosWhatsNewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEB0342BCF0D6E00EE5574 /* IosWhatsNewViewModel.swift */; };
 		6DDEB0382BCF0EFA00EE5574 /* WhatsNewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEB0372BCF0EFA00EE5574 /* WhatsNewContent.swift */; };
 		6DDEB03D2BD0831F00EE5574 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEB03C2BD0831F00EE5574 /* HomeScreen.swift */; };
@@ -55,6 +56,7 @@
 		6D4BC89E2BC1CA42006CF04A /* OutlinedActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlinedActionButton.swift; sourceTree = "<group>"; };
 		6D4BC8A02BC1CA9C006CF04A /* IosOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosOnboardingViewModel.swift; sourceTree = "<group>"; };
 		6D4BC8A32BC2434B006CF04A /* TimeTrackerTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTrackerTheme.swift; sourceTree = "<group>"; };
+		6D60625F2BD8A10400BE58DA /* CategoryWithColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryWithColor.swift; sourceTree = "<group>"; };
 		6DDEB0342BCF0D6E00EE5574 /* IosWhatsNewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosWhatsNewViewModel.swift; sourceTree = "<group>"; };
 		6DDEB0372BCF0EFA00EE5574 /* WhatsNewContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewContent.swift; sourceTree = "<group>"; };
 		6DDEB03C2BD0831F00EE5574 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				6D4BC87F2BBF5007006CF04A /* Colors.swift */,
 				6D4BC8862BBF69AD006CF04A /* LocalSpacing.swift */,
 				6D4BC8A32BC2434B006CF04A /* TimeTrackerTheme.swift */,
+				6D60625F2BD8A10400BE58DA /* CategoryWithColor.swift */,
 			);
 			path = core;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				6DDEB03D2BD0831F00EE5574 /* HomeScreen.swift in Sources */,
 				6DDEB0352BCF0D6E00EE5574 /* IosWhatsNewViewModel.swift in Sources */,
 				6D4BC8922BC06057006CF04A /* ErrorUI.swift in Sources */,
+				6D6062602BD8A10400BE58DA /* CategoryWithColor.swift in Sources */,
 				6D4BC89F2BC1CA42006CF04A /* OutlinedActionButton.swift in Sources */,
 				6D4BC88E2BC0591E006CF04A /* TimeTrackerDialog.swift in Sources */,
 				6D4BC8942BC07884006CF04A /* Screens.swift in Sources */,
