@@ -15,14 +15,29 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Brightness1
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
@@ -33,6 +48,10 @@ import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.A
 import com.appsdeviser.tracker.presentation.home.HomeEvent
 import com.appsdeviser.tracker.presentation.home.HomeState
 import com.appsdeviser.timetrackerpro.android.R
+import com.appsdeviser.timetrackerpro.android.ui.core.theme.PrimaryColor
+import com.appsdeviser.timetrackerpro.android.ui.core.theme.onPrimaryColor
+import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.FloatingActionButtonItem
+import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.OutlinedActionButton
 
 @Composable
 fun HomeScreen(
@@ -40,117 +59,196 @@ fun HomeScreen(
     onEvent: (HomeEvent) -> Unit
 ) {
     val spacing = LocalSpacing.current
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    var expanded by remember { mutableStateOf(false) }
 
-        Column(
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
+    // Floating Button
+    Scaffold(
+        floatingActionButton = {
+            Column(
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.End,
+                modifier = Modifier.padding(top = 0.dp, bottom = 112.dp, start = 0.dp, end = 0.dp)
+            ) {
+                if (expanded) {
+                    FloatingActionButtonItem(
+                        onClick = {
+                            onEvent(HomeEvent.ShowCategoryList)
+                        },
+                        imageRes = R.drawable.record,
+                        title = stringResource(id = R.string.view_all_category)
+                    )
+                    FloatingActionButtonItem(
+                        onClick = {
+                            onEvent(HomeEvent.ShowAddNewCategory)
+                        },
+                        imageRes = R.drawable.record,
+                        title = stringResource(id = R.string.add_category)
+                    )
+                    FloatingActionButtonItem(
+                        onClick = {
+                              onEvent(HomeEvent.ShowRecords)
+                        },
+                        imageRes = R.drawable.record_list,
+                        title = stringResource(id = R.string.view_records)
+                    )
+                    FloatingActionButtonItem(
+                        onClick = {
+                              onEvent(HomeEvent.ShowAddNewRecord)
+                        },
+                        imageRes = R.drawable.record,
+                        title = stringResource(id = R.string.add_record)
+                    )
+                }
+
+                FloatingActionButton(
+                    onClick = {
+                        expanded = !expanded
+                    },
+                    containerColor = PrimaryColor,
+                    contentColor = onPrimaryColor,
+                    modifier = Modifier.clip(CircleShape)
+                ) {
+                    Icon(imageVector = if(expanded) Icons.Default.Close else Icons.Default.Add , contentDescription = "")
+                }
+            }
+        }
+    ) { paddingValues ->
+        // Main content
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .align(Alignment.TopCenter)
-                .padding(0.dp, 0.dp, 0.dp, spacing.spaceExtraLarge + spacing.spaceMedium)
-                .scrollable(
-                    state = ScrollableState {
-                        0.1f
-                    },
-                    orientation = Orientation.Vertical
-                ),
+                .padding(bottom = paddingValues.calculateBottomPadding())
+        ) {
 
-            ) {
-
-            TitleBar(
-                modifier = Modifier.fillMaxWidth(),
-                title = stringResource(id = R.string.home_welcome) + state.userName,
-                isNotificationFeatureEnabled = !state.isNotificationFeatureEnabled,
-                isNotificationSelected = state.notificationState.isNotificationOpen,
-                onNotificationClick = {
-                    onEvent(HomeEvent.OnNotificationClick)
-                },
-                isSettingsFeatureEnabled = !state.isSettingFeatureEnabled,
-                onSettingsClick = {
-
-                }
-            )
-            Spacer(modifier = Modifier.height(spacing.spaceExtraSmall))
-            NotificationView(
-                state.notificationState,
-                onCloseClick = {
-                    onEvent(HomeEvent.OnNotificationClick)
-                },
-                onNextSwipe = {
-                    onEvent(HomeEvent.OnNextNotification)
-                },
-                onPreviousSwipe = {
-                    onEvent(HomeEvent.OnPreviousNotification)
-                },
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = spacing.spaceMedium)
-            )
-            if (state.notificationState.isNotificationOpen) {
-                LazyRow(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
+                    .fillMaxSize()
+                    .align(Alignment.TopCenter)
+                    .padding(0.dp, 0.dp, 0.dp, spacing.spaceExtraLarge + spacing.spaceExtraLarge)
+                    .scrollable(
+                        state = ScrollableState {
+                            0.1f
+                        },
+                        orientation = Orientation.Vertical
+                    ),
+
                 ) {
-                    items(state.notificationState.listOfNotification.size) { item ->
-                        val size = if (item == state.notificationState.currentPosition) {
-                            spacing.spaceMedium
-                        } else {
-                            spacing.spaceSmall
+
+                // TitleBar
+                TitleBar(
+                    modifier = Modifier.fillMaxWidth(),
+                    title = stringResource(id = R.string.home_welcome) + state.userName,
+                    isNotificationFeatureEnabled = !state.isNotificationFeatureEnabled,
+                    isNotificationSelected = state.notificationState.isNotificationOpen,
+                    onNotificationClick = {
+                        onEvent(HomeEvent.OnNotificationClick)
+                    },
+                    isSettingsFeatureEnabled = !state.isSettingFeatureEnabled,
+                    onSettingsClick = {
+
+                    }
+                )
+                Spacer(modifier = Modifier.height(spacing.spaceExtraSmall))
+                // Notification
+                NotificationView(
+                    state.notificationState,
+                    onCloseClick = {
+                        onEvent(HomeEvent.OnNotificationClick)
+                    },
+                    onNextSwipe = {
+                        onEvent(HomeEvent.OnNextNotification)
+                    },
+                    onPreviousSwipe = {
+                        onEvent(HomeEvent.OnPreviousNotification)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = spacing.spaceMedium)
+                )
+                // Notification Indicator
+                if (state.notificationState.isNotificationOpen) {
+                    LazyRow(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        items(state.notificationState.listOfNotification.size) { item ->
+                            val size = if (item == state.notificationState.currentPosition) {
+                                spacing.spaceMedium
+                            } else {
+                                spacing.spaceSmall
+                            }
+                            Icon(
+                                imageVector = Icons.Default.Brightness1,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(size)
+                                    .padding(1.dp)
+                            )
                         }
-                        Icon(
-                            imageVector = Icons.Default.Brightness1,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(size)
-                                .padding(1.dp)
-                        )
                     }
                 }
+                Spacer(modifier = Modifier.height(spacing.spaceExtraSmall))
+                // Weekly and Monthly Goal
+
+                // Recent Records or Activity
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = spacing.spaceLarge),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Spacer(
+                        modifier = Modifier
+                            .height(1.dp)
+                            .background(MaterialTheme.colorScheme.onBackground)
+                            .weight(1f)
+                    )
+                    Text(
+                        stringResource(id = R.string.home_recent_activity),
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier
+                            .padding(horizontal = spacing.spaceMedium)
+                            .weight(1f)
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .height(1.dp)
+                            .background(MaterialTheme.colorScheme.onBackground)
+                            .weight(1f)
+                    )
+                }
+                Spacer(modifier = Modifier.height(spacing.spaceExtraSmall))
+                RecentActivity(
+                    modifier = Modifier.weight(1f)
+                )
             }
-            Spacer(modifier = Modifier.height(spacing.spaceExtraSmall))
-            Row(
+
+            // Category Button and Start/Stop Button for Shortcut
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = spacing.spaceLarge),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                    .align(Alignment.BottomCenter)
+                    .padding(spacing.spaceMedium),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .background(MaterialTheme.colorScheme.onBackground)
-                        .weight(1f)
-                )
-                Text(
-                    stringResource(id = R.string.home_recent_activity),
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier
-                        .padding(horizontal = spacing.spaceMedium)
-                        .weight(1f)
-                )
-                Spacer(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .background(MaterialTheme.colorScheme.onBackground)
-                        .weight(1f)
-                )
-            }
-            Spacer(modifier = Modifier.height(spacing.spaceExtraSmall))
-            RecentActivity(
-                modifier = Modifier.weight(1f)
-            )
-        }
+                OutlinedActionButton(
+                    text = "Change Current Category",
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { },
 
-        ActionButton(
-            text = stringResource(id = R.string.home_clock_in),
-            onClick = { },
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(spacing.spaceMedium)
-        )
+                    )
+                Spacer(modifier = Modifier.height(spacing.spaceSmall))
+                ActionButton(
+                    text = stringResource(id = R.string.home_clock_in),
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { },
+
+                    )
+            }
+        }
     }
 }
