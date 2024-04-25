@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -66,7 +67,7 @@ fun TitleBar(
             if (isSettingsFeatureEnabled) {
                 Spacer(modifier = Modifier.width(spacing.spaceMedium))
                 Icon(
-                    imageVector = Icons.Default.Settings,
+                    imageVector = Icons.Default.Menu,
                     contentDescription = stringResource(id = R.string.home_settings),
                     modifier = Modifier
                         .size(spacing.titleBarIconSize)

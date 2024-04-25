@@ -25,4 +25,9 @@
     <string name="skip">Skip</string>
     <string name="onboarding_lets_get_started">Let\'s get Started</string>
     <string name="splash_message">It\'s all about Time</string>
+    <string name="floating_button">Floating Button</string>
+    <string name="add_record">Add Record</string>
+    <string name="view_records">View Records</string>
+    <string name="add_category">Add Category</string>
+    <string name="view_all_category">View All Category</string>
 </resources>
