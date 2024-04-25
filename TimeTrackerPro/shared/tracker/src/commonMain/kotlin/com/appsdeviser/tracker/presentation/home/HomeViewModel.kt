@@ -7,16 +7,17 @@ import com.appsdeviser.core_db.featuremanager.FeatureManager
 import com.appsdeviser.core_db.flows.toCommonStateFlow
 import com.appsdeviser.tracker.domain.category.CategoryDataSource
 import com.appsdeviser.tracker.domain.record.RecordDataSource
+import com.appsdeviser.tracker.presentation.home.components.CategoryState
+import com.appsdeviser.tracker.presentation.home.components.HomeFeatureState
+import com.appsdeviser.tracker.presentation.home.components.NotificationState
+import com.appsdeviser.tracker.presentation.home.components.RecentRecordState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val featureManager: FeatureManager,
@@ -28,48 +29,92 @@ class HomeViewModel(
 ) {
     private val viewModelScope = coroutineScope ?: CoroutineScope(Dispatchers.Main)
     private val _state = MutableStateFlow(HomeState())
-    private var loadFeatureJob: Job? = null
+    private val _homeFeatureState = MutableStateFlow(HomeFeatureState())
+    private val _recentRecordState = MutableStateFlow(RecentRecordState())
+    private val _categoryState = MutableStateFlow(CategoryState())
+    private val _notificationState = MutableStateFlow(NotificationState())
 
+    /**
+     * HomeFeatureState
+     */
+    private val homeFeatureState = combine(
+        _homeFeatureState,
+        featureManager.isEnabled(FeatureKey.Show_Add_Category_Page),
+        featureManager.isEnabled(FeatureKey.Show_Settings_Page),
+        featureManager.isEnabled(FeatureKey.Show_Weekly_Target_Page),
+        featureManager.isEnabled(FeatureKey.Show_Notification)
+    ) { homeFeatureState, showAddCategory, showSetting, showWeeklyTarget, showNotification ->
+        _homeFeatureState.update {
+            it.copy(
+                isAddCategoryFeatureEnabled = showAddCategory,
+                isWeeklyTargetFeatureEnabled = showWeeklyTarget,
+                isNotificationFeatureEnabled = showNotification,
+                isSettingFeatureEnabled = showSetting
+            )
+        }
+        homeFeatureState
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HomeFeatureState())
+
+    /**
+     * CategoryState and NotificationState
+     */
+    private val categoryState = combine(
+        _categoryState,
+        categoryDataSource.getCategoryList(),
+        _notificationState
+    ) { categoryState, categoryList, notificationState ->
+        _categoryState.update {
+            it.copy(
+                favouriteCategory = categoryList.firstOrNull { item -> item.favourite },
+                listOfCategory = categoryList
+            )
+        }
+        _state.update {
+            it.copy(
+                notificationState = notificationState
+            )
+        }
+        categoryState
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), CategoryState())
+
+    /**
+     * RecentRecordState
+     */
+    private val recentRecordState = combine(
+        _recentRecordState,
+        showRecordPageSettingDataSource.getShowRecordSetting(),
+        recordDataSource.getRecordList()
+    ) { recentRecordState, showRecordSetting, recentRecords ->
+        _recentRecordState.update {
+            it.copy(
+                loadShowRecordSetting = showRecordSetting,
+                listOfRecentRecords = recentRecords
+            )
+        }
+        recentRecordState
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), RecentRecordState())
+
+    /**
+     *  State for UI use
+     */
     val state = combine(
         _state,
         settingsDataSource.getSettings(),
-        categoryDataSource.getCategoryList(),
-        showRecordPageSettingDataSource.getShowRecordSetting(),
-        recordDataSource.getRecordList()
-    ) { state, settings, categoryList, showRecordSetting, recentRecords ->
+        categoryState,
+        homeFeatureState,
+        recentRecordState
+    ) { state, settings, categoryState, homeFeatureState, recentRecordState ->
         _state.update {
             it.copy(
                 userName = settings.userName,
-                loadShowRecordSetting = showRecordSetting,
-                favouriteCategory = categoryList.firstOrNull { item -> item.favourite },
-                listOfRecentRecords = recentRecords
+                recentRecordState = recentRecordState,
+                categoryState = categoryState,
+                homeFeatureState = homeFeatureState
             )
         }
         state
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HomeState())
         .toCommonStateFlow()
-
-    init {
-        checkAllFeatures()
-    }
-
-    // Check All featureManager Item and enable and Disable in state from here
-    private fun checkAllFeatures() {
-        loadFeatureJob = viewModelScope.launch {
-            _state.update {
-                it.copy(
-                    isAddCategoryFeatureEnabled = featureManager.isEnabled(FeatureKey.Show_Add_Category_Page)
-                        .first(),
-                    isSettingFeatureEnabled = featureManager.isEnabled(FeatureKey.Show_Settings_Page)
-                        .first(),
-                    isWeeklyTargetFeatureEnabled = featureManager.isEnabled(FeatureKey.Show_Weekly_Target_Page)
-                        .first(),
-                    isNotificationFeatureEnabled = featureManager.isEnabled(FeatureKey.Show_Notification)
-                        .first()
-                )
-            }
-        }
-    }
 
     fun onEvent(event: HomeEvent) {
         when (event) {
@@ -82,34 +127,28 @@ class HomeViewModel(
             }
 
             HomeEvent.OnNotificationClick -> {
-                _state.update {
+                _notificationState.update {
                     it.copy(
-                        notificationState = it.notificationState.copy(
-                            isNotificationOpen = !it.notificationState.isNotificationOpen
-                        )
+                        isNotificationOpen = !it.isNotificationOpen
                     )
                 }
             }
 
             HomeEvent.OnNextNotification -> {
-                _state.update {
-                    if (it.notificationState.currentPosition < it.notificationState.listOfNotification.size - 1) {
+                _notificationState.update {
+                    if (it.currentPosition < it.listOfNotification.size - 1) {
                         it.copy(
-                            notificationState = it.notificationState.copy(
-                                currentPosition = it.notificationState.currentPosition + 1
-                            )
+                            currentPosition = it.currentPosition + 1
                         )
                     } else it
                 }
             }
 
             HomeEvent.OnPreviousNotification -> {
-                _state.update {
-                    if (it.notificationState.currentPosition > 0) {
+                _notificationState.update {
+                    if (it.currentPosition > 0) {
                         it.copy(
-                            notificationState = it.notificationState.copy(
-                                currentPosition = it.notificationState.currentPosition - 1
-                            )
+                            currentPosition = it.currentPosition - 1
                         )
                     } else it
                 }

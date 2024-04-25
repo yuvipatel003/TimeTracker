@@ -5,7 +5,7 @@ import com.appsdeviser.tracker.domain.notification.NotificationItem
 data class NotificationState(
     val isNotificationOpen: Boolean = false,
     val currentPosition: Int = 0,
-    val listOfNotification: List<NotificationItem> = emptyList()
+    val listOfNotification: List<NotificationItem> = notificationList
 )
 
 val notificationList = listOf(
