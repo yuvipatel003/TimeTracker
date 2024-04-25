@@ -16,14 +16,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Brightness1
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -37,21 +33,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.appsdeviser.timetrackerpro.android.R
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
+import com.appsdeviser.timetrackerpro.android.ui.core.theme.PrimaryColor
+import com.appsdeviser.timetrackerpro.android.ui.core.theme.onPrimaryColor
+import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.FloatingActionButtonItem
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.NotificationView
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.RecentActivity
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.TitleBar
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.ActionButton
+import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.OutlinedActionButton
 import com.appsdeviser.tracker.presentation.home.HomeEvent
 import com.appsdeviser.tracker.presentation.home.HomeState
-import com.appsdeviser.timetrackerpro.android.R
-import com.appsdeviser.timetrackerpro.android.ui.core.theme.PrimaryColor
-import com.appsdeviser.timetrackerpro.android.ui.core.theme.onPrimaryColor
-import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.FloatingActionButtonItem
-import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.OutlinedActionButton
 
 @Composable
 fun HomeScreen(
@@ -86,14 +81,14 @@ fun HomeScreen(
                     )
                     FloatingActionButtonItem(
                         onClick = {
-                              onEvent(HomeEvent.ShowRecords)
+                            onEvent(HomeEvent.ShowRecords)
                         },
                         imageRes = R.drawable.record_list,
                         title = stringResource(id = R.string.view_records)
                     )
                     FloatingActionButtonItem(
                         onClick = {
-                              onEvent(HomeEvent.ShowAddNewRecord)
+                            onEvent(HomeEvent.ShowAddNewRecord)
                         },
                         imageRes = R.drawable.record,
                         title = stringResource(id = R.string.add_record)
@@ -108,7 +103,10 @@ fun HomeScreen(
                     contentColor = onPrimaryColor,
                     modifier = Modifier.clip(CircleShape)
                 ) {
-                    Icon(imageVector = if(expanded) Icons.Default.Close else Icons.Default.Add , contentDescription = "")
+                    Icon(
+                        imageVector = if (expanded) Icons.Default.Close else Icons.Default.Add,
+                        contentDescription = ""
+                    )
                 }
             }
         }
@@ -140,12 +138,12 @@ fun HomeScreen(
                 TitleBar(
                     modifier = Modifier.fillMaxWidth(),
                     title = stringResource(id = R.string.home_welcome) + state.userName,
-                    isNotificationFeatureEnabled = !state.isNotificationFeatureEnabled,
+                    isNotificationFeatureEnabled = !state.homeFeatureState.isNotificationFeatureEnabled,
                     isNotificationSelected = state.notificationState.isNotificationOpen,
                     onNotificationClick = {
                         onEvent(HomeEvent.OnNotificationClick)
                     },
-                    isSettingsFeatureEnabled = !state.isSettingFeatureEnabled,
+                    isSettingsFeatureEnabled = !state.homeFeatureState.isSettingFeatureEnabled,
                     onSettingsClick = {
 
                     }
