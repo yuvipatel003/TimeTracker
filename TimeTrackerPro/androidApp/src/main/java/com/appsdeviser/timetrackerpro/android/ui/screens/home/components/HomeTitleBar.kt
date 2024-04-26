@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,7 +23,7 @@ import com.appsdeviser.timetrackerpro.android.ui.core.theme.LightBlue
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
 
 @Composable
-fun TitleBar(
+fun HomeTitleBar(
     modifier: Modifier = Modifier,
     title: String = "",
     isSettingsFeatureEnabled: Boolean = false,

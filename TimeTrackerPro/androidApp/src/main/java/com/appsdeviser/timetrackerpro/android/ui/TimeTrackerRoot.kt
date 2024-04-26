@@ -13,14 +13,20 @@ import com.appsdeviser.onboarding.presentation.splash.SplashEvent
 import com.appsdeviser.onboarding.presentation.whatsnew.WhatsNewEvent
 import com.appsdeviser.timetrackerpro.android.MainActivity
 import com.appsdeviser.timetrackerpro.android.ui.core.error.ErrorUI
+import com.appsdeviser.timetrackerpro.android.ui.screens.category.add.AddCategoryScreen
+import com.appsdeviser.timetrackerpro.android.ui.screens.category.view.ViewAllCategoryScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.AndroidHomeViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.HomeScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.AndroidOnboardingViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.OnboardingScreen
+import com.appsdeviser.timetrackerpro.android.ui.screens.record.add.AddRecordScreen
+import com.appsdeviser.timetrackerpro.android.ui.screens.record.view.ViewAllRecordScreen
+import com.appsdeviser.timetrackerpro.android.ui.screens.settings.SettingsScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.splash.AndroidSplashViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.splash.SplashScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.whatsnew.AndroidWhatsNewViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.whatsnew.WhatsNewScreen
+import com.appsdeviser.tracker.presentation.home.HomeEvent
 
 @Composable
 fun TimeTrackerRoot(
@@ -30,8 +36,11 @@ fun TimeTrackerRoot(
 
     NavHost(
         navController = navController,
-        startDestination = Routes.SPLASH
+        startDestination = Routes.HOME
     ) {
+        /**
+         * SplashScreen
+         */
         composable(
             route = Routes.SPLASH
         ) {
@@ -69,7 +78,9 @@ fun TimeTrackerRoot(
                 }
             )
         }
-        ///////////////////////////////////////////////
+        /**
+         * HomeScreen
+         */
         composable(
             route = Routes.HOME
         ) {
@@ -79,12 +90,21 @@ fun TimeTrackerRoot(
                 state = state,
                 onEvent = { event ->
                     when (event) {
+                        HomeEvent.OnErrorSeen -> TODO()
+                        HomeEvent.ShowAddNewCategory -> navController.navigate(Routes.ADD_CATEGORY)
+                        HomeEvent.ShowAddNewRecord -> navController.navigate(Routes.ADD_RECORD)
+                        HomeEvent.ShowCategoryList -> navController.navigate(Routes.VIEW_ALL_CATEGORY)
+                        HomeEvent.ShowRecords -> navController.navigate(Routes.VIEW_ALL_RECORD)
+                        HomeEvent.ShowSetting -> navController.navigate(Routes.SETTINGS)
+                        HomeEvent.StartOrStopRecord -> TODO()
                         else -> viewModel.onEvent(event)
                     }
                 }
             )
         }
-        ///////////////////////////////////////////////
+        /**
+         * Onboarding Screen
+         */
         composable(
             route = Routes.ONBOARDING
         ) {
@@ -107,7 +127,9 @@ fun TimeTrackerRoot(
                     }
                 })
         }
-        ///////////////////////////////////////////////
+        /**
+         * Whats New Screen
+         */
         composable(
             route = Routes.WHATS_NEW
         ) {
@@ -126,5 +148,66 @@ fun TimeTrackerRoot(
                 }
             )
         }
+        /**
+         * Add Category
+         */
+        composable(
+            route = Routes.ADD_CATEGORY
+        ) {
+            AddCategoryScreen(
+                onBackClick = {
+                    navController.navigateUp()
+                }
+            )
+        }
+        /**
+         * View All Category
+         */
+        composable(
+            route = Routes.VIEW_ALL_CATEGORY
+        ) {
+            ViewAllCategoryScreen(
+                onBackClick = {
+                    navController.navigateUp()
+                }
+            )
+        }
+        /**
+         * Add Record
+         */
+        composable(
+            route = Routes.ADD_RECORD
+        ) {
+            AddRecordScreen(
+                onBackClick = {
+                    navController.navigateUp()
+                }
+            )
+        }
+        /**
+         * View All Records
+         */
+        composable(
+            route = Routes.VIEW_ALL_RECORD
+        ) {
+            ViewAllRecordScreen(
+                onBackClick = {
+                    navController.navigateUp()
+                }
+            )
+        }
+        /**
+         * Settings
+         */
+        composable(
+            route = Routes.SETTINGS
+        ) {
+            SettingsScreen(
+                onBackClick = {
+                    navController.navigateUp()
+                }
+            )
+        }
+
     }
 }

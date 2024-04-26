@@ -42,7 +42,7 @@ import com.appsdeviser.timetrackerpro.android.ui.core.theme.onPrimaryColor
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.FloatingActionButtonItem
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.NotificationView
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.RecentActivity
-import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.TitleBar
+import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.HomeTitleBar
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.ActionButton
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.OutlinedActionButton
 import com.appsdeviser.tracker.presentation.home.HomeEvent
@@ -135,7 +135,7 @@ fun HomeScreen(
                 ) {
 
                 // TitleBar
-                TitleBar(
+                HomeTitleBar(
                     modifier = Modifier.fillMaxWidth(),
                     title = stringResource(id = R.string.home_welcome) + state.userName,
                     isNotificationFeatureEnabled = !state.homeFeatureState.isNotificationFeatureEnabled,
@@ -145,7 +145,7 @@ fun HomeScreen(
                     },
                     isSettingsFeatureEnabled = !state.homeFeatureState.isSettingFeatureEnabled,
                     onSettingsClick = {
-
+                        onEvent(HomeEvent.ShowSetting)
                     }
                 )
                 Spacer(modifier = Modifier.height(spacing.spaceExtraSmall))
