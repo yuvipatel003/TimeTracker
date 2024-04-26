@@ -5,6 +5,7 @@ sealed interface UiError : Error {
         MISSING_REQUIRED_FIELD,
         INVALID_EMAIL,
         INVALID_USERNAME,
-        INVALID_INPUT
+        INVALID_INPUT,
+        UPDATED
     }
 }

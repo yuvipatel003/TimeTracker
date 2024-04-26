@@ -21,12 +21,14 @@ import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.AndroidOnboa
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.OnboardingScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.record.add.AddRecordScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.record.view.ViewAllRecordScreen
+import com.appsdeviser.timetrackerpro.android.ui.screens.settings.AndroidSettingsViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.settings.SettingsScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.splash.AndroidSplashViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.splash.SplashScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.whatsnew.AndroidWhatsNewViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.whatsnew.WhatsNewScreen
 import com.appsdeviser.tracker.presentation.home.HomeEvent
+import com.appsdeviser.tracker.presentation.settings.SettingsEvent
 
 @Composable
 fun TimeTrackerRoot(
@@ -202,12 +204,24 @@ fun TimeTrackerRoot(
         composable(
             route = Routes.SETTINGS
         ) {
+            val viewModel = hiltViewModel<AndroidSettingsViewModel>()
+            val state by viewModel.state.collectAsState()
+
+            ErrorUI(
+                onPositiveAction = {},
+                onNegativeAction = { viewModel.onEvent(SettingsEvent.OnErrorSeen) },
+                error = state.error
+            )
+
             SettingsScreen(
+                state,
+                onEvent = {
+                    viewModel.onEvent(it)
+                },
                 onBackClick = {
                     navController.navigateUp()
                 }
             )
         }
-
     }
 }
