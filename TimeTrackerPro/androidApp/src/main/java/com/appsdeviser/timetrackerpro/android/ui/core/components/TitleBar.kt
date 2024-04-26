@@ -3,7 +3,6 @@ package com.appsdeviser.timetrackerpro.android.ui.core.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
@@ -35,12 +34,14 @@ fun TitleBar(
             modifier = Modifier.align(Alignment.CenterStart)
                 .clickable {
                     onBackClick()
-                }
+                },
+            tint = MaterialTheme.colorScheme.onPrimary
             )
         Text(
             text = title,
             style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.align(Alignment.Center)
+            modifier = Modifier.align(Alignment.Center),
+            color = MaterialTheme.colorScheme.onPrimary
         )
     }
 }

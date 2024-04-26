@@ -31,4 +31,7 @@
     <string name="add_category">Add Category</string>
     <string name="view_all_category">View All Category</string>
     <string name="navigation_back">Navigate to Previous Screen</string>
+    <string name="username">Username</string>
+    <string name="email">Email-id</string>
+    <string name="updated">Updated !</string>
 </resources>

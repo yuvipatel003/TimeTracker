@@ -19,6 +19,7 @@ fun UiErrorToast(
         UiError.Notification.INVALID_INPUT -> stringResource(R.string.invalid_input)
         UiError.Notification.INVALID_EMAIL -> stringResource(R.string.invalid_email)
         UiError.Notification.INVALID_USERNAME -> stringResource(R.string.invalid_username)
+        UiError.Notification.UPDATED -> stringResource(R.string.updated)
         else -> null
     }
 
