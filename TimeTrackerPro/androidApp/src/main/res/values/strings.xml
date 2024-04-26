@@ -30,4 +30,5 @@
     <string name="view_records">View Records</string>
     <string name="add_category">Add Category</string>
     <string name="view_all_category">View All Category</string>
+    <string name="navigation_back">Navigate to Previous Screen</string>
 </resources>
