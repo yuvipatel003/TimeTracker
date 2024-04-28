@@ -5,6 +5,7 @@ import com.appsdeviser.core_common.utils.isValidEmail
 import com.appsdeviser.core_common.utils.isValidUsername
 import com.appsdeviser.core_db.domain.settings.SettingsDataSource
 import com.appsdeviser.core_db.domain.showrecordpage.ShowRecordPageSettingDataSource
+import com.appsdeviser.core_db.domain.showrecordpage.ShowRecordPageSettingItem
 import com.appsdeviser.core_db.featuremanager.FeatureManager
 import com.appsdeviser.core_db.flows.toCommonStateFlow
 import kotlinx.coroutines.CoroutineScope
@@ -27,11 +28,14 @@ class SettingsViewModel(
 
     val state = combine(
         _state,
-        settingsDataSource.getSettings()
-    ) { state, settingsItem ->
+        settingsDataSource.getSettings(),
+        showRecordPageSettingDataSource.getShowRecordSetting()
+
+    ) { state, settingsItem, recordPageSettingItem ->
         _state.update {
             it.copy(
-                settingsItem = settingsItem
+                settingsItem = settingsItem,
+                showRecordPageSettingItem = recordPageSettingItem
             )
         }
         state
@@ -58,6 +62,16 @@ class SettingsViewModel(
                 }
             }
 
+            is SettingsEvent.OnUpdateRecordSetting -> {
+                _state.update {
+                    it.copy(
+                        event = null,
+                        showRecordPageSettingItem = event.showRecordPageSettingItem
+                    )
+                }
+                updateRecordSetting()
+            }
+
             is SettingsEvent.OnErrorSeen -> {
                 _state.update {
                     it.copy(
@@ -65,6 +79,20 @@ class SettingsViewModel(
                     )
                 }
             }
+        }
+    }
+
+    private fun updateRecordSetting() {
+        state.value.showRecordPageSettingItem?.let {
+            viewModelScope.launch {
+                showRecordPageSettingDataSource.insertShowRecordSetting(it)
+            }
+        }
+        // Sending NotificationError to sent Toast
+        _state.update {
+            it.copy(
+                error = UiError.Notification.UPDATED
+            )
         }
     }
 
