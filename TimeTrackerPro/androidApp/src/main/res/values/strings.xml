@@ -34,4 +34,14 @@
     <string name="username">Username</string>
     <string name="email">Email-id</string>
     <string name="updated">Updated !</string>
+    <string name="record_setting">Record Setting</string>
+    <string name="date">Date</string>
+    <string name="clock_12_hours">Clock- 12 Hours</string>
+    <string name="total_hours">Total Hours</string>
+    <string name="hourly_rate">Hourly Rate</string>
+    <string name="total_amount">Total Amount</string>
+    <string name="paid">Paid</string>
+    <string name="category_type">Category Type</string>
+    <string name="category_name">Category Name</string>
+    <string name="favourite_category_only">Favourite Category Only</string>
 </resources>
