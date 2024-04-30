@@ -16,7 +16,10 @@ data class Dimensions(
     val splashClockSize: Dp = 200.dp,
     val titleBarIconSize: Dp = 25.dp,
     val notificationImageSize: Dp = 50.dp,
-    val settingsDateWidth: Dp = 150.dp
+    val settingsDateWidth: Dp = 150.dp,
+    val smallLanguageIcon: Dp = 30.dp,
+    val categoryItemHeight: Dp = 80.dp,
+    val categoryIconSize: Dp = 25.dp
 )
 
 data class DialogDimensions(

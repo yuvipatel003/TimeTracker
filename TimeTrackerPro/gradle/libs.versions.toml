@@ -63,6 +63,7 @@ turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 junit = { module = "junit:junit", version.ref = "jUnit" }
 test-runner = { module = "androidx.test:runner", version.ref = "test-runner" }
 hiltGradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+androidx-annotation-jvm = { group = "androidx.annotation", name = "annotation-jvm", version = "1.7.1" }
 
 
 [plugins]

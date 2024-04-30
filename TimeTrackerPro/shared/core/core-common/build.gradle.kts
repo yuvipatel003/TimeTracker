@@ -46,6 +46,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                implementation(libs.androidx.annotation.jvm)
             }
         }
         val androidUnitTest by getting

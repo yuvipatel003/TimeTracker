@@ -2,16 +2,16 @@ package com.appsdeviser.tracker.data.category
 
 import app.cash.sqldelight.coroutines.asFlow
 import com.appsdeviser.core_common.utils.toLong
-import com.appsdeviser.tracker.domain.category.CategoryDataSource
-import com.appsdeviser.tracker.domain.category.CategoryItem
 import com.appsdeviser.core_db.flows.CommonFlow
 import com.appsdeviser.core_db.flows.toCommonFlow
 import com.appsdeviser.core_db.sqldelight.TimeTrackerDatabase
+import com.appsdeviser.tracker.domain.category.CategoryDataSource
+import com.appsdeviser.tracker.domain.category.CategoryItem
 import kotlinx.coroutines.flow.map
 
 class CategoryDataSourceImpl(
     db: TimeTrackerDatabase
-): CategoryDataSource {
+) : CategoryDataSource {
 
     private val queries = db.timetrackerQueries
 
@@ -31,7 +31,7 @@ class CategoryDataSourceImpl(
             .getCategory(id)
             .asFlow()
             .map {
-                return@map if(it.executeAsList().isEmpty()) {
+                return@map if (it.executeAsList().isEmpty()) {
                     null
                 } else {
                     it.executeAsList().map { singleCategory ->
@@ -47,7 +47,7 @@ class CategoryDataSourceImpl(
             type = item.type,
             name = item.name,
             favourite = item.favourite.toLong(),
-            rate = item.rate,
+            rate = item.rate.toString(),
             color = item.color
         )
     }
