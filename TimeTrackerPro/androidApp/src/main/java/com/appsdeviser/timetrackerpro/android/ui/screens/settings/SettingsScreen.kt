@@ -28,8 +28,8 @@ import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
 import com.appsdeviser.timetrackerpro.android.ui.screens.settings.components.DateFormatSelection
 import com.appsdeviser.timetrackerpro.android.ui.screens.settings.components.RecordSettingItem
 import com.appsdeviser.timetrackerpro.android.ui.screens.settings.components.SettingsText
-import com.appsdeviser.tracker.presentation.settings.SettingsEvent
-import com.appsdeviser.tracker.presentation.settings.SettingsState
+import com.appsdeviser.settings.presentation.settings.SettingsEvent
+import com.appsdeviser.settings.presentation.settings.SettingsState
 
 @Composable
 fun SettingsScreen(
