@@ -1,4 +1,4 @@
-package com.appsdeviser.tracker.presentation.settings
+package com.appsdeviser.settings.presentation.settings
 
 import com.appsdeviser.core_common.utils.error.Error
 import com.appsdeviser.core_db.domain.settings.SettingsItem

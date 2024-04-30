@@ -28,7 +28,7 @@ import com.appsdeviser.timetrackerpro.android.ui.screens.splash.SplashScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.whatsnew.AndroidWhatsNewViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.whatsnew.WhatsNewScreen
 import com.appsdeviser.tracker.presentation.home.HomeEvent
-import com.appsdeviser.tracker.presentation.settings.SettingsEvent
+import com.appsdeviser.settings.presentation.settings.SettingsEvent
 
 @Composable
 fun TimeTrackerRoot(

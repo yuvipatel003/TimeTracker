@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.appsdeviser.core_db.domain.settings.SettingsDataSource
 import com.appsdeviser.core_db.domain.showrecordpage.ShowRecordPageSettingDataSource
 import com.appsdeviser.core_db.featuremanager.FeatureManager
-import com.appsdeviser.tracker.presentation.settings.SettingsEvent
-import com.appsdeviser.tracker.presentation.settings.SettingsViewModel
+import com.appsdeviser.settings.presentation.settings.SettingsEvent
+import com.appsdeviser.settings.presentation.settings.SettingsViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
