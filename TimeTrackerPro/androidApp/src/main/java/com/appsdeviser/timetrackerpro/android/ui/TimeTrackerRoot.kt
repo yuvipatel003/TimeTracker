@@ -13,8 +13,8 @@ import com.appsdeviser.onboarding.presentation.splash.SplashEvent
 import com.appsdeviser.onboarding.presentation.whatsnew.WhatsNewEvent
 import com.appsdeviser.timetrackerpro.android.MainActivity
 import com.appsdeviser.timetrackerpro.android.ui.core.error.ErrorUI
-import com.appsdeviser.timetrackerpro.android.ui.screens.category.add.AddCategoryScreen
-import com.appsdeviser.timetrackerpro.android.ui.screens.category.view.ViewAllCategoryScreen
+import com.appsdeviser.timetrackerpro.android.ui.screens.category.AndroidCategoryViewModel
+import com.appsdeviser.timetrackerpro.android.ui.screens.category.CategoryScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.AndroidHomeViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.HomeScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.AndroidOnboardingViewModel
@@ -93,9 +93,8 @@ fun TimeTrackerRoot(
                 onEvent = { event ->
                     when (event) {
                         HomeEvent.OnErrorSeen -> TODO()
-                        HomeEvent.ShowAddNewCategory -> navController.navigate(Routes.ADD_CATEGORY)
                         HomeEvent.ShowAddNewRecord -> navController.navigate(Routes.ADD_RECORD)
-                        HomeEvent.ShowCategoryList -> navController.navigate(Routes.VIEW_ALL_CATEGORY)
+                        HomeEvent.ShowCategory -> navController.navigate(Routes.CATEGORY)
                         HomeEvent.ShowRecords -> navController.navigate(Routes.VIEW_ALL_RECORD)
                         HomeEvent.ShowSetting -> navController.navigate(Routes.SETTINGS)
                         HomeEvent.StartOrStopRecord -> TODO()
@@ -151,24 +150,18 @@ fun TimeTrackerRoot(
             )
         }
         /**
-         * Add Category
-         */
-        composable(
-            route = Routes.ADD_CATEGORY
-        ) {
-            AddCategoryScreen(
-                onBackClick = {
-                    navController.navigateUp()
-                }
-            )
-        }
-        /**
          * View All Category
          */
         composable(
-            route = Routes.VIEW_ALL_CATEGORY
+            route = Routes.CATEGORY
         ) {
-            ViewAllCategoryScreen(
+            val viewModel = hiltViewModel<AndroidCategoryViewModel>()
+            val state by viewModel.state.collectAsState()
+            CategoryScreen(
+                state = state,
+                onEvent = { event ->
+                    viewModel.onEvent(event)
+                },
                 onBackClick = {
                     navController.navigateUp()
                 }

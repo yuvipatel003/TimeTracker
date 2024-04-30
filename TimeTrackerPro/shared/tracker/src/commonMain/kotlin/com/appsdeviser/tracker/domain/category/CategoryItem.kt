@@ -5,7 +5,7 @@ data class CategoryItem(
     val id: Long?,
     val type: String,
     val name: String,
-    val rate: Long,
+    val rate: Double,
     val favourite: Boolean,
     val color: String
 )

@@ -17,9 +17,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Brightness1
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -40,9 +40,9 @@ import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.PrimaryColor
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.onPrimaryColor
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.FloatingActionButtonItem
+import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.HomeTitleBar
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.NotificationView
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.RecentActivity
-import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.HomeTitleBar
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.ActionButton
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.OutlinedActionButton
 import com.appsdeviser.tracker.presentation.home.HomeEvent
@@ -67,17 +67,10 @@ fun HomeScreen(
                 if (expanded) {
                     FloatingActionButtonItem(
                         onClick = {
-                            onEvent(HomeEvent.ShowCategoryList)
+                            onEvent(HomeEvent.ShowCategory)
                         },
                         imageRes = R.drawable.record,
-                        title = stringResource(id = R.string.view_all_category)
-                    )
-                    FloatingActionButtonItem(
-                        onClick = {
-                            onEvent(HomeEvent.ShowAddNewCategory)
-                        },
-                        imageRes = R.drawable.record,
-                        title = stringResource(id = R.string.add_category)
+                        title = stringResource(id = R.string.category)
                     )
                     FloatingActionButtonItem(
                         onClick = {
@@ -104,7 +97,7 @@ fun HomeScreen(
                     modifier = Modifier.clip(CircleShape)
                 ) {
                     Icon(
-                        imageVector = if (expanded) Icons.Default.Close else Icons.Default.Add,
+                        imageVector = if (expanded) Icons.Default.Close else Icons.Default.Dashboard,
                         contentDescription = ""
                     )
                 }
