@@ -29,6 +29,7 @@ import com.appsdeviser.timetrackerpro.android.ui.screens.whatsnew.AndroidWhatsNe
 import com.appsdeviser.timetrackerpro.android.ui.screens.whatsnew.WhatsNewScreen
 import com.appsdeviser.tracker.presentation.home.HomeEvent
 import com.appsdeviser.settings.presentation.settings.SettingsEvent
+import com.appsdeviser.tracker.presentation.category.CategoryEvent
 
 @Composable
 fun TimeTrackerRoot(
@@ -157,6 +158,11 @@ fun TimeTrackerRoot(
         ) {
             val viewModel = hiltViewModel<AndroidCategoryViewModel>()
             val state by viewModel.state.collectAsState()
+            ErrorUI(
+                onPositiveAction = {},
+                onNegativeAction = { viewModel.onEvent(CategoryEvent.OnErrorSeen) },
+                error = state.error
+            )
             CategoryScreen(
                 state = state,
                 onEvent = { event ->

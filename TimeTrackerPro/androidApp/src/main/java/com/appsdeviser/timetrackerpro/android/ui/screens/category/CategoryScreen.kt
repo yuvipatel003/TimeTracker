@@ -2,12 +2,15 @@ package com.appsdeviser.timetrackerpro.android.ui.screens.category
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -28,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.appsdeviser.timetrackerpro.android.R
+import com.appsdeviser.timetrackerpro.android.ui.core.components.ScrollToTopButton
 import com.appsdeviser.timetrackerpro.android.ui.core.components.SingleFloatingActionButton
 import com.appsdeviser.timetrackerpro.android.ui.core.components.SwipeableContentView
 import com.appsdeviser.timetrackerpro.android.ui.core.components.TitleBar
@@ -48,6 +52,8 @@ fun CategoryScreen(
     val spacing = LocalSpacing.current
     var isSheetOpen by remember { mutableStateOf(false) }
     var bottomSheetState = rememberModalBottomSheetState()
+    val lazyState = rememberLazyListState()
+
     Scaffold(
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
@@ -69,48 +75,69 @@ fun CategoryScreen(
         }
     ) { paddingValues ->
 
-        Column(
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            TitleBar(
-                modifier = Modifier.fillMaxWidth(),
-                title = stringResource(id = R.string.category),
-                onBackClick = onBackClick
-            )
-
-            LazyColumn(
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .padding(
-                        horizontal = spacing.spaceExtraSmall,
-                        vertical = spacing.spaceExtraSmall
-                    )
-                    .clip(RoundedCornerShape(spacing.spaceSmall))
+                    .fillMaxSize()
+                    .padding(paddingValues)
             ) {
-                items(state.listOfCategoryItem.size) {
-                    val currentCategoryItem = state.listOfCategoryItem[it]
-                    SwipeableContentView(
-                        height = spacing.categoryItemHeight,
-                        onEdit = {
-                            onEvent(CategoryEvent.SelectCategory(currentCategoryItem))
-                            isSheetOpen = true
-                        },
-                        onRemove = {
-                            onEvent(CategoryEvent.RemoveCategory(currentCategoryItem))
-                        },
-                        content = {
-                            CategoryItemDisplay(categoryItem = currentCategoryItem)
-                        }
-                    )
-                    VerticalDivider(
+                TitleBar(
+                    modifier = Modifier.fillMaxWidth(),
+                    title = stringResource(id = R.string.category),
+                    onBackClick = onBackClick
+                )
+
+                Box {
+                    LazyColumn(
+                        state = lazyState,
                         modifier = Modifier
-                            .height(1.dp)
-                            .background(TextColorBlack)
+                            .padding(
+                                horizontal = spacing.spaceExtraSmall,
+                                vertical = spacing.spaceExtraSmall
+                            )
+                            .align(Alignment.CenterStart)
+                            .clip(RoundedCornerShape(spacing.spaceSmall))
+                    ) {
+                        items(state.listOfCategoryItem.size) {
+                            val currentCategoryItem = state.listOfCategoryItem[it]
+                            SwipeableContentView(
+                                height = spacing.categoryItemHeight,
+                                onEdit = {
+                                    onEvent(CategoryEvent.SelectCategory(currentCategoryItem))
+                                    isSheetOpen = true
+                                },
+                                onRemove = {
+                                    onEvent(CategoryEvent.RemoveCategory(currentCategoryItem))
+                                },
+                                content = {
+                                    CategoryItemDisplay(
+                                        categoryItem = currentCategoryItem,
+                                        onFavourite = {
+                                            onEvent(CategoryEvent.MarkFavourite(
+                                                isFavourite = it,
+                                                categoryItem = currentCategoryItem)
+                                            )
+                                        }
+                                    )
+                                }
+                            )
+                            VerticalDivider(
+                                modifier = Modifier
+                                    .height(1.dp)
+                                    .background(TextColorBlack)
+                            )
+                        }
+                    }
+
+                    ScrollToTopButton(state = lazyState,
+                        modifier = Modifier
+                            .padding(paddingValues)
+                            .align(Alignment.TopEnd)
+                            .padding(top = spacing.spaceLarge, end = spacing.spaceSmall)
+                            .size(40.dp)
                     )
                 }
-            }
         }
     }
 

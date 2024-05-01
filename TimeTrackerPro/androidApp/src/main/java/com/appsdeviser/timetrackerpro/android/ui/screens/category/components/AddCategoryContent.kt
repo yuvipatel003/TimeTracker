@@ -54,7 +54,7 @@ fun ColumnScope.AddCategoryContent(
             )
         )
     }
-    var rate by remember { mutableStateOf((selectedItem?.rate ?: 0).toString()) }
+    var rate by remember { mutableStateOf((selectedItem?.rate ?: "").toString()) }
     var expanded by remember { mutableStateOf(false) }
 
     /**
