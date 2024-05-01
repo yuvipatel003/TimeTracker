@@ -1,7 +1,9 @@
 package com.appsdeviser.tracker.data.record
 
 import app.cash.sqldelight.coroutines.asFlow
+import com.appsdeviser.core_common.utils.toDateLong
 import com.appsdeviser.core_common.utils.toLong
+import com.appsdeviser.core_common.utils.toTimeLong
 import com.appsdeviser.core_db.flows.CommonFlow
 import com.appsdeviser.core_db.flows.toCommonFlow
 import com.appsdeviser.core_db.sqldelight.TimeTrackerDatabase
@@ -44,16 +46,17 @@ class RecordDataSourceImpl(
     override suspend fun insertRecord(item: RecordItem) {
         queries.insertRecord(
             id = item.id,
-            date = item.date,
-            startTime = item.startTime,
-            endTime = item.endTime,
+            startDate = item.startDate.toDateLong(),
+            startTime = item.startTime.toTimeLong(),
+            endTime = item.endTime.toTimeLong(),
+            endDate = item.endDate.toDateLong(),
             totalTime = item.totalTime,
             totalAmount = item.totalAmount,
             categoryType = item.categoryType,
             categoryName = item.categoryName,
             rate = item.rate,
             isPaid = item.isPaid.toLong(),
-            lastUpdated = item.lastUpdated
+            lastUpdated = item.lastUpdated.toDateLong()
         )
     }
 

@@ -156,23 +156,30 @@ FROM showRecordPagesettingsEntity;
 -------------  Record Entity Started -----------------
 CREATE TABLE recordEntity(
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    date TEXT NOT NULL,
-    startTime TEXT NOT NULL,
-    endTime TEXT NOT NULL,
+    startDate INTEGER NOT NULL,
+    startTime INTEGER NOT NULL,
+    endTime INTEGER NOT NULL,
+    endDate INTEGER NOT NULL,
     totalTime TEXT NOT NULL,
     totalAmount TEXT NOT NULL,
     categoryType TEXT NOT NULL,
     categoryName TEXT NOT NULL,
     rate INTEGER NOT NULL DEFAULT 0,
     isPaid INTEGER NOT NULL DEFAULT 0,
-    lastUpdated TEXT NOT NULL
+    lastUpdated INTEGER NOT NULL
 );
 
 getRecords:
 SELECT *
 FROM recordEntity
-ORDER BY id DESC
+ORDER BY lastUpdated DESC
 LIMIT 10 OFFSET ?;
+
+getRecordsBetweenDates:
+SELECT *
+FROM recordEntity
+WHERE startDate >= ? AND startDate <= ?
+ORDER BY lastUpdated DESC;
 
 getSingleRecord:
 SELECT *
@@ -183,9 +190,10 @@ insertRecord:
 INSERT OR REPLACE
 INTO recordEntity(
     id,
-    date,
+    startDate,
     startTime,
     endTime,
+    endDate,
     totalTime,
     totalAmount,
     categoryType,
@@ -194,7 +202,7 @@ INTO recordEntity(
     isPaid,
     lastUpdated
 )
-VALUES(?,?,?,?,?,?,?,?,?,?,?);
+VALUES(?,?,?,?,?,?,?,?,?,?,?,?);
 
 markAsPaid:
 UPDATE recordEntity
