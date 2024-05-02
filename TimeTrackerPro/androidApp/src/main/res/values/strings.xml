@@ -48,10 +48,21 @@
     <string name="delete">Delete</string>
     <string name="add_new_category">Add New Category</string>
     <string name="select_category">Select Category</string>
+    <string name="select">Select</string>
     <string name="organization_name_or_activity_detail">Organization Name or Activity Detail</string>
     <string name="hourly_rate_earning">Hourly Rate/Earning</string>
     <string name="select_category_color">Select Category Color</string>
     <string name="cancel">Cancel</string>
     <string name="update">Update</string>
     <string name="add">Add</string>
+    <string name="record_added_successfully">Record Added Successfully!</string>
+    <string name="time">Time</string>
+    <string name="select_date">Select Date</string>
+    <string name="accept">Accept</string>
+    <string name="start_date">Start Date:</string>
+    <string name="start_time">Start Time:</string>
+    <string name="end_date">End Date:</string>
+    <string name="end_time">End Time:</string>
+    <string name="note">Note</string>
+    <string name="reset">Reset</string>
 </resources>

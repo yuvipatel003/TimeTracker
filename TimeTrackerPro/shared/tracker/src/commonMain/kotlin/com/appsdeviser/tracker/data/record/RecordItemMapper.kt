@@ -14,10 +14,9 @@ fun RecordEntity.toRecordItem(): RecordItem {
         endDate = this.endDate.toDateString(),
         totalTime = this.totalTime,
         totalAmount = this.totalAmount,
-        categoryType = this.categoryType,
-        categoryName = this.categoryName,
-        rate = this.rate,
+        categoryId = this.categoryId,
         isPaid = this.isPaid == 1L,
+        note = this.note,
         lastUpdated = this.lastUpdated.toDateString()
     )
 }

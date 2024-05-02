@@ -17,9 +17,38 @@ class RecordDataSourceImpl(
 
     private val queries = db.timetrackerQueries
 
-    override fun getRecordList(id: Long): CommonFlow<List<RecordItem>> {
+    override fun getRecordList(offset: Long): CommonFlow<List<RecordItem>> {
         return queries
-            .getRecords(id)
+            .getRecords(offset)
+            .asFlow()
+            .map {
+                it.executeAsList().map { recordEntity ->
+                    recordEntity.toRecordItem()
+                }
+            }.toCommonFlow()
+    }
+
+    override fun getSelectedCategoryRecordList(
+        categoryId: Long,
+        offset: Long
+    ): CommonFlow<List<RecordItem>> {
+        return queries
+            .getSelectedCategoryRecords(categoryId, offset)
+            .asFlow()
+            .map {
+                it.executeAsList().map { recordEntity ->
+                    recordEntity.toRecordItem()
+                }
+            }.toCommonFlow()
+    }
+
+    override fun getRecordsBetweenDates(
+        startDate: Long,
+        endDate: Long,
+        offset: Long
+    ): CommonFlow<List<RecordItem>> {
+        return queries
+            .getRecordsBetweenDates(startDate, endDate, offset)
             .asFlow()
             .map {
                 it.executeAsList().map { recordEntity ->
@@ -52,16 +81,19 @@ class RecordDataSourceImpl(
             endDate = item.endDate.toDateLong(),
             totalTime = item.totalTime,
             totalAmount = item.totalAmount,
-            categoryType = item.categoryType,
-            categoryName = item.categoryName,
-            rate = item.rate,
+            categoryId = item.categoryId,
             isPaid = item.isPaid.toLong(),
+            note = item.note,
             lastUpdated = item.lastUpdated.toDateLong()
         )
     }
 
     override suspend fun deleteRecord(item: RecordItem) {
        queries.deleteRecord(id = item.id ?: -1)
+    }
+
+    override suspend fun deleteSelectedCategoryRecord(categoryId: Long) {
+        queries.deleteSelectedCategoryRecord(categoryId)
     }
 
     override suspend fun markRecordAsPaid(item: RecordItem) {

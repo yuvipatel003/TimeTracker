@@ -34,12 +34,15 @@ import com.appsdeviser.tracker.presentation.category.CategoryEvent
 @Composable
 fun CategoryItemDisplay(
     categoryItem: CategoryItem,
-    onFavourite: (isFavourite: Boolean) -> Unit
+    onFavourite: (isFavourite: Boolean) -> Unit,
+    showFavouriteColumn: Boolean = true,
+    showCategoryColumn: Boolean = true,
+    modifier: Modifier = Modifier
 ) {
     val spacing = LocalSpacing.current
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(spacing.categoryItemHeight)
             .background(CategoryWithColor.fromString(categoryItem.color).getColor())
     ) {
@@ -49,14 +52,16 @@ fun CategoryItemDisplay(
                 .align(Alignment.CenterStart),
             verticalAlignment = Alignment.CenterVertically,
         ){
-            CategoryDisplay(
-                category = UiCategory.byType(categoryItem.type),
-                modifier = Modifier.weight(2f),
-                textStyle = MaterialTheme.typography.titleSmall,
-                textFontWeight = FontWeight.Bold,
-                color = TextColorBlack,
-                paddingValue = spacing.spaceExtraSmall,
-            )
+            if(showCategoryColumn) {
+                CategoryDisplay(
+                    category = UiCategory.byType(categoryItem.type),
+                    modifier = Modifier.weight(2f),
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    textFontWeight = FontWeight.Bold,
+                    color = TextColorBlack,
+                    paddingValue = spacing.spaceExtraSmall,
+                )
+            }
             Column(
                 modifier = Modifier
                     .weight(3f),
@@ -99,17 +104,19 @@ fun CategoryItemDisplay(
                 )
             }
 
-            Icon(
-                painter = painterResource(id = if(categoryItem.favourite) R.drawable.favourite_selected else R.drawable.favourite_not_selected),
-                contentDescription = "",
-                modifier = Modifier
-                    .weight(0.75f)
-                    .size(spacing.categoryIconSize)
-                    .clickable {
-                        onFavourite(!categoryItem.favourite)
-                    },
-                tint = PrimaryColor
-            )
+            if(showFavouriteColumn) {
+                Icon(
+                    painter = painterResource(id = if (categoryItem.favourite) R.drawable.favourite_selected else R.drawable.favourite_not_selected),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .weight(0.75f)
+                        .size(spacing.categoryIconSize)
+                        .clickable {
+                            onFavourite(!categoryItem.favourite)
+                        },
+                    tint = PrimaryColor
+                )
+            }
         }
     }
 }
