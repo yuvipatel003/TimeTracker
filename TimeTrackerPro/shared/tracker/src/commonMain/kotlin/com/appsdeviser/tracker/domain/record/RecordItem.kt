@@ -9,10 +9,9 @@ data class RecordItem(
     val endDate: String,
     val totalTime: String,
     val totalAmount: String,
-    val categoryType: String,
-    val categoryName: String,
-    val rate: Long,
+    val categoryId: Long,
     val isPaid: Boolean,
+    val note: String,
     val lastUpdated: String
 )
 

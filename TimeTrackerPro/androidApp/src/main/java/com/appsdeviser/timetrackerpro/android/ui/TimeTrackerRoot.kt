@@ -20,7 +20,7 @@ import com.appsdeviser.timetrackerpro.android.ui.screens.home.HomeScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.AndroidOnboardingViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.OnboardingScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.record.add.AddRecordScreen
-import com.appsdeviser.timetrackerpro.android.ui.screens.record.view.ViewAllRecordScreen
+import com.appsdeviser.timetrackerpro.android.ui.screens.record.view.ViewRecordScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.settings.AndroidSettingsViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.settings.SettingsScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.splash.AndroidSplashViewModel
@@ -29,7 +29,10 @@ import com.appsdeviser.timetrackerpro.android.ui.screens.whatsnew.AndroidWhatsNe
 import com.appsdeviser.timetrackerpro.android.ui.screens.whatsnew.WhatsNewScreen
 import com.appsdeviser.tracker.presentation.home.HomeEvent
 import com.appsdeviser.settings.presentation.settings.SettingsEvent
+import com.appsdeviser.timetrackerpro.android.ui.screens.record.add.AndroidAddRecordViewModel
+import com.appsdeviser.timetrackerpro.android.ui.screens.record.view.AndroidViewRecordViewModel
 import com.appsdeviser.tracker.presentation.category.CategoryEvent
+import com.appsdeviser.tracker.presentation.record.add.AddRecordEvent
 
 @Composable
 fun TimeTrackerRoot(
@@ -151,7 +154,7 @@ fun TimeTrackerRoot(
             )
         }
         /**
-         * View All Category
+         * View Category
          */
         composable(
             route = Routes.CATEGORY
@@ -179,7 +182,27 @@ fun TimeTrackerRoot(
         composable(
             route = Routes.ADD_RECORD
         ) {
+            val viewModel = hiltViewModel<AndroidAddRecordViewModel>()
+            val state by viewModel.state.collectAsState()
+            val selectedRecordId: Long? = null
+            val selectedCategoryId: Long? = null
+
+            selectedRecordId?.let {
+                viewModel.onEvent(AddRecordEvent.OnSelectRecord(it))
+            }
+            selectedCategoryId?.let {
+                viewModel.onEvent(AddRecordEvent.OnSelectCategory(it))
+            }
+            ErrorUI(
+                onPositiveAction = {},
+                onNegativeAction = { viewModel.onEvent(AddRecordEvent.OnErrorSeen) },
+                error = state.error
+            )
             AddRecordScreen(
+                state = state,
+                onEvent = { event ->
+                    viewModel.onEvent(event)
+                },
                 onBackClick = {
                     navController.navigateUp()
                 }
@@ -191,7 +214,14 @@ fun TimeTrackerRoot(
         composable(
             route = Routes.VIEW_ALL_RECORD
         ) {
-            ViewAllRecordScreen(
+            val viewModel = hiltViewModel<AndroidViewRecordViewModel>()
+            val state by viewModel.state.collectAsState()
+
+            ViewRecordScreen(
+                state = state,
+                onEvent = {
+
+                },
                 onBackClick = {
                     navController.navigateUp()
                 }

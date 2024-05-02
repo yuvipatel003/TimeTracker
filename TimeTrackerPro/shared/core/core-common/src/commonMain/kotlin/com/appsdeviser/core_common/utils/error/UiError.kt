@@ -6,6 +6,7 @@ sealed interface UiError : Error {
         INVALID_EMAIL,
         INVALID_USERNAME,
         INVALID_INPUT,
-        UPDATED
+        UPDATED,
+        RECORD_ADDED
     }
 }
