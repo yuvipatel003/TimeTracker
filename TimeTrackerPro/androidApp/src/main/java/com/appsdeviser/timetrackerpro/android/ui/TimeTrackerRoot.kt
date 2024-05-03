@@ -257,10 +257,10 @@ fun TimeTrackerRoot(
                 state = state,
                 onEvent = { event ->
                     when (event) {
-                        ViewRecordEvent.OnErrorSeen -> TODO()
                         is ViewRecordEvent.SelectRecord -> {
                             navController.navigate(Routes.ADD_RECORD + "/${event.recordId}" + "/${RoutesArguments.DEFAULT_CATEGORY_ID_VALUE}")
                         }
+                        else -> viewModel.onEvent(event)
                     }
 
                 },

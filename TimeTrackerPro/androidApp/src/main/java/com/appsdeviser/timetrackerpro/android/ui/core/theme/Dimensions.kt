@@ -19,7 +19,9 @@ data class Dimensions(
     val settingsDateWidth: Dp = 150.dp,
     val smallLanguageIcon: Dp = 30.dp,
     val categoryItemHeight: Dp = 80.dp,
-    val categoryIconSize: Dp = 25.dp
+    val categoryIconSize: Dp = 25.dp,
+    val recordItemHeight: Dp = 120.dp,
+    val scrollToTopButtonSize: Dp = 40.dp
 )
 
 data class DialogDimensions(
