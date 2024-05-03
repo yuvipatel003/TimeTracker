@@ -14,11 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import coil.compose.AsyncImage
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.TextColorBlack
-import com.appsdeviser.timetrackerpro.presentation.Colors
 import com.appsdeviser.tracker.domain.notification.NotificationItem
 
 @Composable

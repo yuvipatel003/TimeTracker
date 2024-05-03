@@ -47,7 +47,10 @@ fun FloatingActionButtonItem(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.padding(horizontal = spacing.spaceSmallMedium, vertical = spacing.spaceExtraSmall)
+                modifier = Modifier.padding(
+                    horizontal = spacing.spaceSmallMedium,
+                    vertical = spacing.spaceExtraSmall
+                )
             ) {
                 if (title.isNotEmpty()) {
                     Text(

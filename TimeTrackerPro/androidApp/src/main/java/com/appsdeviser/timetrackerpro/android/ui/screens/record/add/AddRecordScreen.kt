@@ -59,7 +59,7 @@ fun AddRecordScreen(
     ) {
         TitleBar(
             modifier = Modifier.fillMaxWidth(),
-            title = stringResource(id = if(isNewRecord) R.string.add_record else R.string.update_record),
+            title = stringResource(id = if (isNewRecord) R.string.add_record else R.string.update_record),
             onBackClick = onBackClick
         )
 
@@ -425,14 +425,16 @@ fun AddRecordScreen(
                         modifier = Modifier.weight(1f),
                         onClick = {
                             onEvent(AddRecordEvent.Reset)
-                            if(!isNewRecord){
+                            if (!isNewRecord) {
                                 onBackClick()
                             }
                         }
                     )
                     Spacer(modifier = Modifier.width(spacing.spaceMedium))
                     ActionButton(
-                        text = if(isNewRecord) stringResource(id = R.string.add) else stringResource(R.string.update),
+                        text = if (isNewRecord) stringResource(id = R.string.add) else stringResource(
+                            R.string.update
+                        ),
                         modifier = Modifier.weight(1f),
                         onClick = {
                             onEvent(
@@ -441,7 +443,7 @@ fun AddRecordScreen(
                                     formatDate(Date(), DEFAULT_DB_DATE_FORMAT)
                                 )
                             )
-                            if(!isNewRecord){
+                            if (!isNewRecord) {
                                 onBackClick()
                             }
                         },

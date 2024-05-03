@@ -46,7 +46,7 @@ fun ViewRecordScreen(
                 key = {
                     it.id ?: -1
                 }
-            ) {record ->
+            ) { record ->
                 Text(
                     text = record.toString(),
                     modifier = Modifier

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -15,13 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.appsdeviser.core_common.presentation.UiCategory
 import com.appsdeviser.timetrackerpro.android.R
 import com.appsdeviser.timetrackerpro.android.ui.core.CategoryWithColor
@@ -29,7 +25,6 @@ import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.PrimaryColor
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.TextColorBlack
 import com.appsdeviser.tracker.domain.category.CategoryItem
-import com.appsdeviser.tracker.presentation.category.CategoryEvent
 
 @Composable
 fun CategoryItemDisplay(
@@ -44,15 +39,19 @@ fun CategoryItemDisplay(
     Box(
         modifier = modifier
             .height(spacing.categoryItemHeight)
-            .background(CategoryWithColor.fromString(categoryItem.color).getColor())
+            .background(
+                CategoryWithColor
+                    .fromString(categoryItem.color)
+                    .getColor()
+            )
     ) {
 
-        Row (
+        Row(
             modifier = Modifier
                 .align(Alignment.CenterStart),
             verticalAlignment = Alignment.CenterVertically,
-        ){
-            if(showCategoryColumn) {
+        ) {
+            if (showCategoryColumn) {
                 CategoryDisplay(
                     category = UiCategory.byType(categoryItem.type),
                     modifier = Modifier.weight(2f),
@@ -68,12 +67,13 @@ fun CategoryItemDisplay(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Organization/Activity",
+                    text = stringResource(R.string.organization_activity),
                     style = MaterialTheme.typography.bodySmall,
                     color = TextColorBlack
                 )
-                Spacer(modifier = Modifier
-                    .height(spacing.spaceSmall)
+                Spacer(
+                    modifier = Modifier
+                        .height(spacing.spaceSmall)
                 )
                 Text(
                     text = categoryItem.name,
@@ -88,12 +88,13 @@ fun CategoryItemDisplay(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Rate/Earning",
+                    text = stringResource(R.string.rate_earning),
                     style = MaterialTheme.typography.bodySmall,
                     color = TextColorBlack
                 )
-                Spacer(modifier = Modifier
-                    .height(spacing.spaceSmall)
+                Spacer(
+                    modifier = Modifier
+                        .height(spacing.spaceSmall)
                 )
                 Text(
                     text = categoryItem.rate.toString(),
@@ -104,7 +105,7 @@ fun CategoryItemDisplay(
                 )
             }
 
-            if(showFavouriteColumn) {
+            if (showFavouriteColumn) {
                 Icon(
                     painter = painterResource(id = if (categoryItem.favourite) R.drawable.favourite_selected else R.drawable.favourite_not_selected),
                     contentDescription = "",

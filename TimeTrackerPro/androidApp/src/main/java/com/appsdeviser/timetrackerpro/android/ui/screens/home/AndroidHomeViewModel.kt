@@ -19,7 +19,7 @@ class AndroidHomeViewModel @Inject constructor(
     private val categoryDataSource: CategoryDataSource,
     private val showRecordPageSettingDataSource: ShowRecordPageSettingDataSource,
     private val recordDataSource: RecordDataSource
-): ViewModel() {
+) : ViewModel() {
 
     private val viewModel by lazy {
         HomeViewModel(
@@ -35,7 +35,7 @@ class AndroidHomeViewModel @Inject constructor(
 
     val state = viewModel.state
 
-    fun onEvent(event: HomeEvent){
+    fun onEvent(event: HomeEvent) {
         viewModel.onEvent(event)
     }
 }

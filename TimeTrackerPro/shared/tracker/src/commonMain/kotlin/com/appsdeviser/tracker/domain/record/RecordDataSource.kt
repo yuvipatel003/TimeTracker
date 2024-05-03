@@ -6,9 +6,16 @@ interface RecordDataSource {
 
     fun getRecordList(offset: Long = 0): CommonFlow<List<RecordItem>>
 
-    fun getSelectedCategoryRecordList(categoryId: Long, offset: Long = 0): CommonFlow<List<RecordItem>>
+    fun getSelectedCategoryRecordList(
+        categoryId: Long,
+        offset: Long = 0
+    ): CommonFlow<List<RecordItem>>
 
-    fun getRecordsBetweenDates(startDate: Long, endDate: Long, offset: Long = 0): CommonFlow<List<RecordItem>>
+    fun getRecordsBetweenDates(
+        startDate: Long,
+        endDate: Long,
+        offset: Long = 0
+    ): CommonFlow<List<RecordItem>>
 
     fun getRecord(id: Long): CommonFlow<RecordItem?>
 

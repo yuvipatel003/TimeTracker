@@ -20,6 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.appsdeviser.settings.presentation.settings.SettingsEvent
+import com.appsdeviser.settings.presentation.settings.SettingsState
 import com.appsdeviser.timetrackerpro.android.R
 import com.appsdeviser.timetrackerpro.android.ui.core.components.TitleBar
 import com.appsdeviser.timetrackerpro.android.ui.core.listOfDateFormat
@@ -28,8 +30,6 @@ import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
 import com.appsdeviser.timetrackerpro.android.ui.screens.settings.components.DateFormatSelection
 import com.appsdeviser.timetrackerpro.android.ui.screens.settings.components.RecordSettingItem
 import com.appsdeviser.timetrackerpro.android.ui.screens.settings.components.SettingsText
-import com.appsdeviser.settings.presentation.settings.SettingsEvent
-import com.appsdeviser.settings.presentation.settings.SettingsState
 
 @Composable
 fun SettingsScreen(
@@ -146,7 +146,7 @@ fun SettingsScreen(
                             }
                         )
                         RecordSettingItem(
-                            title = stringResource(R.string.hourly_rate),
+                            title = stringResource(R.string.hourly_rate_earning),
                             isEnabled = showRecordSettingsItem.showRate,
                             modifier = Modifier.fillMaxWidth(),
                             onChange = {

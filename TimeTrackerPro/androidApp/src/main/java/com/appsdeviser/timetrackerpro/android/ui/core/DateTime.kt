@@ -2,7 +2,8 @@ package com.appsdeviser.timetrackerpro.android.ui.core
 
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import kotlin.math.roundToInt
 
 fun formatDate(date: Date, format: String): String {
@@ -11,17 +12,18 @@ fun formatDate(date: Date, format: String): String {
 }
 
 fun String.displayAsDate(format: String): String {
-    if(this.isEmpty()){
+    if (this.isEmpty()) {
         return this
     }
     val formatter = SimpleDateFormat(DEFAULT_DB_DATE_FORMAT, Locale.getDefault())
     val date = formatter.parse(this)
-    val outputFormat = SimpleDateFormat(format.ifEmpty { DEFAULT_DB_DATE_FORMAT }, Locale.getDefault())
+    val outputFormat =
+        SimpleDateFormat(format.ifEmpty { DEFAULT_DB_DATE_FORMAT }, Locale.getDefault())
     return outputFormat.format(date)
 }
 
 fun String.displayAsTime(is12HourFormat: Boolean): String {
-    if(this.isEmpty()){
+    if (this.isEmpty()) {
         return this
     }
     val inputFormat = SimpleDateFormat(DEFAULT_DB_TIME_FORMAT, Locale.getDefault())
@@ -35,10 +37,11 @@ fun String.displayAsTime(is12HourFormat: Boolean): String {
 }
 
 fun calculateHours(startDate: String, startTime: String, endDate: String, endTime: String): Double {
-    if(startDate.isEmpty() || startTime.isEmpty() || endDate.isEmpty() || endTime.isEmpty()) {
+    if (startDate.isEmpty() || startTime.isEmpty() || endDate.isEmpty() || endTime.isEmpty()) {
         return 0.0
     }
-    val dateFormat = SimpleDateFormat("$DEFAULT_DB_DATE_FORMAT $DEFAULT_DB_TIME_FORMAT", Locale.getDefault())
+    val dateFormat =
+        SimpleDateFormat("$DEFAULT_DB_DATE_FORMAT $DEFAULT_DB_TIME_FORMAT", Locale.getDefault())
     val startDateTime = dateFormat.parse("$startDate $startTime")
     val endDateTime = dateFormat.parse("$endDate $endTime")
 

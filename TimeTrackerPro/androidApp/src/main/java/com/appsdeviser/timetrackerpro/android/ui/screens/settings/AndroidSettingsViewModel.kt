@@ -15,7 +15,7 @@ class AndroidSettingsViewModel @Inject constructor(
     private val featureManager: FeatureManager,
     private val settingsDataSource: SettingsDataSource,
     private val showRecordPageSettingDataSource: ShowRecordPageSettingDataSource
-): ViewModel() {
+) : ViewModel() {
 
     private val viewModel by lazy {
         SettingsViewModel(
@@ -28,7 +28,7 @@ class AndroidSettingsViewModel @Inject constructor(
 
     val state = viewModel.state
 
-    fun onEvent(event: SettingsEvent){
+    fun onEvent(event: SettingsEvent) {
         viewModel.onEvent(event)
     }
 }

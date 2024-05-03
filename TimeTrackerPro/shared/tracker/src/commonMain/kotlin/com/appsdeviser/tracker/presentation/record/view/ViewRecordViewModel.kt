@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
-class ViewRecordViewModel (
+class ViewRecordViewModel(
     private val categoryDataSource: CategoryDataSource,
     private val recordDataSource: RecordDataSource,
     private val recordPageSettingDataSource: ShowRecordPageSettingDataSource,
@@ -34,6 +34,6 @@ class ViewRecordViewModel (
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ViewRecordState())
         .toCommonStateFlow()
 
-    fun onEvent(event: ViewRecordEvent){
+    fun onEvent(event: ViewRecordEvent) {
     }
 }
