@@ -1,12 +1,18 @@
 package com.appsdeviser.timetrackerpro.android.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.appsdeviser.core_common.utils.error.ApiError
 import com.appsdeviser.onboarding.presentation.onboarding.OnboardingEvent
 import com.appsdeviser.onboarding.presentation.splash.SplashEvent
@@ -33,6 +39,7 @@ import com.appsdeviser.timetrackerpro.android.ui.screens.record.add.AndroidAddRe
 import com.appsdeviser.timetrackerpro.android.ui.screens.record.view.AndroidViewRecordViewModel
 import com.appsdeviser.tracker.presentation.category.CategoryEvent
 import com.appsdeviser.tracker.presentation.record.add.AddRecordEvent
+import com.appsdeviser.tracker.presentation.record.view.ViewRecordEvent
 
 @Composable
 fun TimeTrackerRoot(
@@ -97,7 +104,10 @@ fun TimeTrackerRoot(
                 onEvent = { event ->
                     when (event) {
                         HomeEvent.OnErrorSeen -> TODO()
-                        HomeEvent.ShowAddNewRecord -> navController.navigate(Routes.ADD_RECORD)
+                        HomeEvent.ShowAddNewRecord -> navController.navigate(Routes.ADD_RECORD
+                                + "/${RoutesArguments.DEFAULT_RECORD_ID_VALUE}"
+                                + "/${RoutesArguments.DEFAULT_CATEGORY_ID_VALUE}"
+                        )
                         HomeEvent.ShowCategory -> navController.navigate(Routes.CATEGORY)
                         HomeEvent.ShowRecords -> navController.navigate(Routes.VIEW_ALL_RECORD)
                         HomeEvent.ShowSetting -> navController.navigate(Routes.SETTINGS)
@@ -169,7 +179,12 @@ fun TimeTrackerRoot(
             CategoryScreen(
                 state = state,
                 onEvent = { event ->
-                    viewModel.onEvent(event)
+                    when(event) {
+                       is CategoryEvent.AddRecordToCategory -> {
+                           navController.navigate(Routes.ADD_RECORD + "/${RoutesArguments.DEFAULT_RECORD_ID_VALUE}" + "/${event.categoryItem.id}")
+                       }
+                       else ->  viewModel.onEvent(event)
+                    }
                 },
                 onBackClick = {
                     navController.navigateUp()
@@ -180,19 +195,36 @@ fun TimeTrackerRoot(
          * Add Record
          */
         composable(
-            route = Routes.ADD_RECORD
+            route = Routes.ADD_RECORD + "/{${RoutesArguments.RECORD_ID}}" + "/{${RoutesArguments.CATEGORY_ID}}",
+            arguments = listOf(
+                navArgument(RoutesArguments.RECORD_ID) {
+                    type = NavType.LongType
+                },
+                navArgument(RoutesArguments.CATEGORY_ID) {
+                    type = NavType.LongType
+                }
+            )
         ) {
             val viewModel = hiltViewModel<AndroidAddRecordViewModel>()
             val state by viewModel.state.collectAsState()
-            val selectedRecordId: Long? = null
-            val selectedCategoryId: Long? = null
+            val selectedRecordId: Long = it.arguments?.getLong(RoutesArguments.RECORD_ID) ?: -1L
+            val selectedCategoryId: Long = it.arguments?.getLong(RoutesArguments.CATEGORY_ID) ?: -1L
+            var isNewRecord: Boolean by remember {
+                mutableStateOf(false)
+            }
 
-            selectedRecordId?.let {
-                viewModel.onEvent(AddRecordEvent.OnSelectRecord(it))
+            LaunchedEffect(Unit) {
+                isNewRecord = true
+                if(selectedRecordId != -1L) {
+                    viewModel.onEvent(AddRecordEvent.OnSelectRecord(selectedRecordId))
+                    isNewRecord = false
+                }
+                // Optionally, load data for selected category
+                if(selectedCategoryId != -1L)  {
+                    viewModel.onEvent(AddRecordEvent.OnSelectCategory(selectedCategoryId))
+                }
             }
-            selectedCategoryId?.let {
-                viewModel.onEvent(AddRecordEvent.OnSelectCategory(it))
-            }
+
             ErrorUI(
                 onPositiveAction = {},
                 onNegativeAction = { viewModel.onEvent(AddRecordEvent.OnErrorSeen) },
@@ -205,7 +237,8 @@ fun TimeTrackerRoot(
                 },
                 onBackClick = {
                     navController.navigateUp()
-                }
+                },
+                isNewRecord = isNewRecord
             )
         }
         /**
@@ -219,7 +252,13 @@ fun TimeTrackerRoot(
 
             ViewRecordScreen(
                 state = state,
-                onEvent = {
+                onEvent = { event ->
+                          when(event) {
+                              ViewRecordEvent.OnErrorSeen -> TODO()
+                              is ViewRecordEvent.SelectRecord -> {
+                                  navController.navigate(Routes.ADD_RECORD + "/${event.recordId}" + "/${RoutesArguments.DEFAULT_CATEGORY_ID_VALUE}")
+                              }
+                          }
 
                 },
                 onBackClick = {

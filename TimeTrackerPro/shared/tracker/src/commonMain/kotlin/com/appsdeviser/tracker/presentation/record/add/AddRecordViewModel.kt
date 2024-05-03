@@ -55,21 +55,37 @@ class AddRecordViewModel(
             is AddRecordEvent.OnErrorSeen -> {
                 _state.update {
                     it.copy(
-                        error = null
+                        error = null,
+                        event = null
                     )
                 }
             }
 
             is AddRecordEvent.AddRecord -> {
                 addRecord(event.recordItem, event.lastUpdated)
+                _state.update {
+                    it.copy(
+                        event = null
+                    )
+                }
             }
 
             is AddRecordEvent.OnSelectRecord -> {
                 selectRecord(event.recordId)
+                _state.update {
+                    it.copy(
+                        event = null
+                    )
+                }
             }
 
             is AddRecordEvent.OnSelectCategory -> {
                 selectCategory(event.categoryId)
+                _state.update {
+                    it.copy(
+                        event = null
+                    )
+                }
             }
 
             is AddRecordEvent.UpdateDate -> {
@@ -78,7 +94,8 @@ class AddRecordViewModel(
                         it.copy(
                             selectedRecord = it.selectedRecord.copy(
                                 startDate = event.date
-                            )
+                            ),
+                            event = null
                         )
                     }
                 } else {
@@ -86,7 +103,8 @@ class AddRecordViewModel(
                         it.copy(
                             selectedRecord = it.selectedRecord.copy(
                                 endDate = event.date
-                            )
+                            ),
+                            event = null
                         )
                     }
                 }
@@ -98,7 +116,8 @@ class AddRecordViewModel(
                         it.copy(
                             selectedRecord = it.selectedRecord.copy(
                                 startTime = event.time
-                            )
+                            ),
+                            event = null
                         )
                     }
                 } else {
@@ -106,7 +125,8 @@ class AddRecordViewModel(
                         it.copy(
                             selectedRecord = it.selectedRecord.copy(
                                 endTime = event.time
-                            )
+                            ),
+                            event = null
                         )
                     }
                 }
@@ -117,7 +137,8 @@ class AddRecordViewModel(
                     it.copy(
                         selectedRecord = it.selectedRecord.copy(
                             note = event.note
-                        )
+                        ),
+                        event = null
                     )
                 }
             }
@@ -137,7 +158,8 @@ class AddRecordViewModel(
                             isPaid = false,
                             note = "",
                             lastUpdated = ""
-                        )
+                        ),
+                        event = null
                     )
                 }
             }
@@ -210,7 +232,7 @@ class AddRecordViewModel(
                 val categoryItem = categoryDataSource.getCategory(record.categoryId)
                 _state.update {
                     it.copy(
-                        selectedRecord = recordItem,
+                        selectedRecord = record,
                         selectedCategory = categoryItem.first()
                     )
                 }

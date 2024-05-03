@@ -50,7 +50,8 @@ fun DateFormatSelection(
         Text(
             text = title,
             color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.align(Alignment.Top)
+            modifier = Modifier.align(Alignment.Top),
+            style = MaterialTheme.typography.bodyMedium
         )
 
         if(isSelecting){
