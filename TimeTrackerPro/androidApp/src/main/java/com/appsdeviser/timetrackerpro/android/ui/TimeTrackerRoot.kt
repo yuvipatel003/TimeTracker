@@ -17,6 +17,7 @@ import com.appsdeviser.core_common.utils.error.ApiError
 import com.appsdeviser.onboarding.presentation.onboarding.OnboardingEvent
 import com.appsdeviser.onboarding.presentation.splash.SplashEvent
 import com.appsdeviser.onboarding.presentation.whatsnew.WhatsNewEvent
+import com.appsdeviser.settings.presentation.settings.SettingsEvent
 import com.appsdeviser.timetrackerpro.android.MainActivity
 import com.appsdeviser.timetrackerpro.android.ui.core.error.ErrorUI
 import com.appsdeviser.timetrackerpro.android.ui.screens.category.AndroidCategoryViewModel
@@ -26,6 +27,8 @@ import com.appsdeviser.timetrackerpro.android.ui.screens.home.HomeScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.AndroidOnboardingViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.OnboardingScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.record.add.AddRecordScreen
+import com.appsdeviser.timetrackerpro.android.ui.screens.record.add.AndroidAddRecordViewModel
+import com.appsdeviser.timetrackerpro.android.ui.screens.record.view.AndroidViewRecordViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.record.view.ViewRecordScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.settings.AndroidSettingsViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.settings.SettingsScreen
@@ -33,11 +36,8 @@ import com.appsdeviser.timetrackerpro.android.ui.screens.splash.AndroidSplashVie
 import com.appsdeviser.timetrackerpro.android.ui.screens.splash.SplashScreen
 import com.appsdeviser.timetrackerpro.android.ui.screens.whatsnew.AndroidWhatsNewViewModel
 import com.appsdeviser.timetrackerpro.android.ui.screens.whatsnew.WhatsNewScreen
-import com.appsdeviser.tracker.presentation.home.HomeEvent
-import com.appsdeviser.settings.presentation.settings.SettingsEvent
-import com.appsdeviser.timetrackerpro.android.ui.screens.record.add.AndroidAddRecordViewModel
-import com.appsdeviser.timetrackerpro.android.ui.screens.record.view.AndroidViewRecordViewModel
 import com.appsdeviser.tracker.presentation.category.CategoryEvent
+import com.appsdeviser.tracker.presentation.home.HomeEvent
 import com.appsdeviser.tracker.presentation.record.add.AddRecordEvent
 import com.appsdeviser.tracker.presentation.record.view.ViewRecordEvent
 
@@ -104,10 +104,12 @@ fun TimeTrackerRoot(
                 onEvent = { event ->
                     when (event) {
                         HomeEvent.OnErrorSeen -> TODO()
-                        HomeEvent.ShowAddNewRecord -> navController.navigate(Routes.ADD_RECORD
-                                + "/${RoutesArguments.DEFAULT_RECORD_ID_VALUE}"
-                                + "/${RoutesArguments.DEFAULT_CATEGORY_ID_VALUE}"
+                        HomeEvent.ShowAddNewRecord -> navController.navigate(
+                            Routes.ADD_RECORD
+                                    + "/${RoutesArguments.DEFAULT_RECORD_ID_VALUE}"
+                                    + "/${RoutesArguments.DEFAULT_CATEGORY_ID_VALUE}"
                         )
+
                         HomeEvent.ShowCategory -> navController.navigate(Routes.CATEGORY)
                         HomeEvent.ShowRecords -> navController.navigate(Routes.VIEW_ALL_RECORD)
                         HomeEvent.ShowSetting -> navController.navigate(Routes.SETTINGS)
@@ -179,11 +181,12 @@ fun TimeTrackerRoot(
             CategoryScreen(
                 state = state,
                 onEvent = { event ->
-                    when(event) {
-                       is CategoryEvent.AddRecordToCategory -> {
-                           navController.navigate(Routes.ADD_RECORD + "/${RoutesArguments.DEFAULT_RECORD_ID_VALUE}" + "/${event.categoryItem.id}")
-                       }
-                       else ->  viewModel.onEvent(event)
+                    when (event) {
+                        is CategoryEvent.AddRecordToCategory -> {
+                            navController.navigate(Routes.ADD_RECORD + "/${RoutesArguments.DEFAULT_RECORD_ID_VALUE}" + "/${event.categoryItem.id}")
+                        }
+
+                        else -> viewModel.onEvent(event)
                     }
                 },
                 onBackClick = {
@@ -215,12 +218,12 @@ fun TimeTrackerRoot(
 
             LaunchedEffect(Unit) {
                 isNewRecord = true
-                if(selectedRecordId != -1L) {
+                if (selectedRecordId != -1L) {
                     viewModel.onEvent(AddRecordEvent.OnSelectRecord(selectedRecordId))
                     isNewRecord = false
                 }
                 // Optionally, load data for selected category
-                if(selectedCategoryId != -1L)  {
+                if (selectedCategoryId != -1L) {
                     viewModel.onEvent(AddRecordEvent.OnSelectCategory(selectedCategoryId))
                 }
             }
@@ -253,12 +256,12 @@ fun TimeTrackerRoot(
             ViewRecordScreen(
                 state = state,
                 onEvent = { event ->
-                          when(event) {
-                              ViewRecordEvent.OnErrorSeen -> TODO()
-                              is ViewRecordEvent.SelectRecord -> {
-                                  navController.navigate(Routes.ADD_RECORD + "/${event.recordId}" + "/${RoutesArguments.DEFAULT_CATEGORY_ID_VALUE}")
-                              }
-                          }
+                    when (event) {
+                        ViewRecordEvent.OnErrorSeen -> TODO()
+                        is ViewRecordEvent.SelectRecord -> {
+                            navController.navigate(Routes.ADD_RECORD + "/${event.recordId}" + "/${RoutesArguments.DEFAULT_CATEGORY_ID_VALUE}")
+                        }
+                    }
 
                 },
                 onBackClick = {

@@ -31,12 +31,13 @@ fun TitleBar(
         Icon(
             imageVector = Icons.Default.ArrowBackIosNew,
             contentDescription = stringResource(id = R.string.navigation_back),
-            modifier = Modifier.align(Alignment.CenterStart)
+            modifier = Modifier
+                .align(Alignment.CenterStart)
                 .clickable {
                     onBackClick()
                 },
             tint = MaterialTheme.colorScheme.onPrimary
-            )
+        )
         Text(
             text = title,
             style = MaterialTheme.typography.titleMedium,

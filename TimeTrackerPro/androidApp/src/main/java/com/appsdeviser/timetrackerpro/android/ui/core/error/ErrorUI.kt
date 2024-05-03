@@ -20,7 +20,8 @@ fun ErrorUI(
                     onPositiveAction(it as Error)
                 },
                 onNegativeAction = onNegativeAction,
-                apiError = error)
+                apiError = error
+            )
         }
 
         is UiError -> {

@@ -21,7 +21,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.unit.dp
-import com.appsdeviser.timetrackerpro.android.ui.core.theme.TextColorBlack
 import java.util.Calendar
 
 @Composable

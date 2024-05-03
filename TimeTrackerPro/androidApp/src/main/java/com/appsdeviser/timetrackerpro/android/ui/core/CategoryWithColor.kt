@@ -24,7 +24,7 @@ sealed class CategoryWithColor(val colorName: String = CategoryColorCommon.DEFAU
     object Default : CategoryWithColor(CategoryColorCommon.DEFAULT)
 
     fun getColor(): Color {
-        return when(this){
+        return when (this) {
             Orange -> LightOrange
             Blue -> LightBlue
             Green -> LightGreen

@@ -28,6 +28,7 @@ actual open class CommonFlow<T> actual constructor(
         return subscribe(
             coroutineScope = GlobalScope,
             dispatcher = Dispatchers.Main,
-            onCollect = onCollect)
+            onCollect = onCollect
+        )
     }
 }

@@ -20,7 +20,7 @@ fun UiErrorToast(
         UiError.Notification.INVALID_EMAIL -> stringResource(R.string.invalid_email)
         UiError.Notification.INVALID_USERNAME -> stringResource(R.string.invalid_username)
         UiError.Notification.UPDATED -> stringResource(R.string.updated)
-        UiError.Notification.RECORD_ADDED -> stringResource(R.string.record_added_successfully)
+        UiError.Notification.RECORD_ADDED -> stringResource(R.string.records_updated_successfully)
         else -> null
     }
 

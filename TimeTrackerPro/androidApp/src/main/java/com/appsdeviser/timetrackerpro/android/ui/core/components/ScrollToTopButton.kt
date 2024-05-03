@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -19,10 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.unit.dp
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
-import com.appsdeviser.timetrackerpro.android.ui.core.theme.PrimaryColor
 import kotlinx.coroutines.launch
 
 @Composable
@@ -39,22 +35,22 @@ fun ScrollToTopButton(
         }
     }
 
-    if(showScrollToTopButton) {
+    if (showScrollToTopButton) {
         Box(modifier = modifier
-            .clickable{
-            scope.launch {
-                state.animateScrollToItem(0)
+            .clickable {
+                scope.launch {
+                    state.animateScrollToItem(0)
+                }
             }
-        }
             .background(MaterialTheme.colorScheme.primary, CircleShape)
             .padding(spacing.spaceSmall)
         ) {
             Icon(
-               imageVector = Icons.Default.KeyboardArrowUp,
-               contentDescription = "",
-               modifier = Modifier
-                   .align(Alignment.Center)
-                   .size(spacing.spaceLarge),
+                imageVector = Icons.Default.KeyboardArrowUp,
+                contentDescription = "",
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .size(spacing.spaceLarge),
                 tint = MaterialTheme.colorScheme.onPrimary
             )
         }

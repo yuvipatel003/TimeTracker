@@ -5,7 +5,6 @@ import com.appsdeviser.core_common.utils.isValidEmail
 import com.appsdeviser.core_common.utils.isValidUsername
 import com.appsdeviser.core_db.domain.settings.SettingsDataSource
 import com.appsdeviser.core_db.domain.showrecordpage.ShowRecordPageSettingDataSource
-import com.appsdeviser.core_db.domain.showrecordpage.ShowRecordPageSettingItem
 import com.appsdeviser.core_db.featuremanager.FeatureManager
 import com.appsdeviser.core_db.flows.toCommonStateFlow
 import kotlinx.coroutines.CoroutineScope
@@ -42,10 +41,13 @@ class SettingsViewModel(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SettingsState())
         .toCommonStateFlow()
 
-    fun onEvent(event: SettingsEvent){
-        when(event){
+    fun onEvent(event: SettingsEvent) {
+        when (event) {
             is SettingsEvent.OnUpdateEmail -> {
-                updateEmailAndUsername(email = event.email, username = state.value.settingsItem?.userName ?: "")
+                updateEmailAndUsername(
+                    email = event.email,
+                    username = state.value.settingsItem?.userName ?: ""
+                )
                 _state.update {
                     it.copy(
                         event = null
@@ -54,7 +56,10 @@ class SettingsViewModel(
             }
 
             is SettingsEvent.OnUpdateUsername -> {
-                updateEmailAndUsername(email = state.value.settingsItem?.email ?: "", username = event.username)
+                updateEmailAndUsername(
+                    email = state.value.settingsItem?.email ?: "",
+                    username = event.username
+                )
                 _state.update {
                     it.copy(
                         event = null

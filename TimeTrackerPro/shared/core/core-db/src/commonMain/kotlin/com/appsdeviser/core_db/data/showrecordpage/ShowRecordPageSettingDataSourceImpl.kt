@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 
 class ShowRecordPageSettingDataSourceImpl(
     db: TimeTrackerDatabase
-): ShowRecordPageSettingDataSource {
+) : ShowRecordPageSettingDataSource {
 
     private val queries = db.timetrackerQueries
 
@@ -20,7 +20,7 @@ class ShowRecordPageSettingDataSourceImpl(
             .getShowRecordPageSettings()
             .asFlow()
             .map {
-                return@map if(it.executeAsList().isEmpty()){
+                return@map if (it.executeAsList().isEmpty()) {
                     val item = ShowRecordPageSettingItem(
                         id = 0,
                         dateFormat = "",
@@ -31,7 +31,8 @@ class ShowRecordPageSettingDataSourceImpl(
                         showPaidCheck = false,
                         showCategory = true,
                         showCategoryName = false,
-                        showOnlyFavouriteOnHome = false)
+                        showOnlyFavouriteOnHome = false
+                    )
                     insertShowRecordSetting(item)
                     item
                 } else {

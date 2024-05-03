@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 
 class RecordDataSourceImpl(
     db: TimeTrackerDatabase
-): RecordDataSource {
+) : RecordDataSource {
 
     private val queries = db.timetrackerQueries
 
@@ -62,7 +62,7 @@ class RecordDataSourceImpl(
             .getSingleRecord(id)
             .asFlow()
             .map {
-                return@map if(it.executeAsList().isEmpty()) {
+                return@map if (it.executeAsList().isEmpty()) {
                     null
                 } else {
                     it.executeAsList().map { recordEntity ->
@@ -89,7 +89,7 @@ class RecordDataSourceImpl(
     }
 
     override suspend fun deleteRecord(item: RecordItem) {
-       queries.deleteRecord(id = item.id ?: -1)
+        queries.deleteRecord(id = item.id ?: -1)
     }
 
     override suspend fun deleteSelectedCategoryRecord(categoryId: Long) {

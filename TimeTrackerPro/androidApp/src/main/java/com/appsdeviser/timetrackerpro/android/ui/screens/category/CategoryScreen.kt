@@ -76,76 +76,79 @@ fun CategoryScreen(
         }
     ) { paddingValues ->
 
-            Column(
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                TitleBar(
-                    modifier = Modifier.fillMaxWidth(),
-                    title = stringResource(id = R.string.category),
-                    onBackClick = onBackClick
-                )
+        Column(
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            TitleBar(
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(id = R.string.category),
+                onBackClick = onBackClick
+            )
 
-                Box {
-                    LazyColumn(
-                        state = lazyState,
-                        modifier = Modifier
-                            .padding(
-                                horizontal = spacing.spaceExtraSmall,
-                                vertical = spacing.spaceExtraSmall
-                            )
-                            .align(Alignment.CenterStart)
-                            .clip(RoundedCornerShape(spacing.spaceSmall))
-                    ) {
-                        items(
-                            items = state.listOfCategoryItem,
-                            key = {
-                                it.id ?: -1
-                            }
-                        ) {currentCategoryItem ->
-                            SwipeableContentView(
-                                height = spacing.categoryItemHeight,
-                                onEdit = {
-                                    onEvent(CategoryEvent.SelectCategory(currentCategoryItem))
-                                    isSheetOpen = true
-                                },
-                                onRemove = {
-                                    onEvent(CategoryEvent.RemoveCategory(currentCategoryItem))
-                                },
-                                onAddNewRecord = {
-                                    onEvent(CategoryEvent.AddRecordToCategory(currentCategoryItem))
-                                },
-                                content = {
-                                    CategoryItemDisplay(
-                                        categoryItem = currentCategoryItem,
-                                        onFavourite = {
-                                            onEvent(CategoryEvent.MarkFavourite(
-                                                isFavourite = it,
-                                                categoryItem = currentCategoryItem)
-                                            )
-                                        }
-                                    )
-                                }
-                            )
-                            VerticalDivider(
-                                modifier = Modifier
-                                    .height(1.dp)
-                                    .background(TextColorBlack)
-                            )
+            Box {
+                LazyColumn(
+                    state = lazyState,
+                    modifier = Modifier
+                        .padding(
+                            horizontal = spacing.spaceExtraSmall,
+                            vertical = spacing.spaceExtraSmall
+                        )
+                        .align(Alignment.CenterStart)
+                        .clip(RoundedCornerShape(spacing.spaceSmall))
+                ) {
+                    items(
+                        items = state.listOfCategoryItem,
+                        key = {
+                            it.id ?: -1
                         }
+                    ) { currentCategoryItem ->
+                        SwipeableContentView(
+                            height = spacing.categoryItemHeight,
+                            onEdit = {
+                                onEvent(CategoryEvent.SelectCategory(currentCategoryItem))
+                                isSheetOpen = true
+                            },
+                            onRemove = {
+                                onEvent(CategoryEvent.RemoveCategory(currentCategoryItem))
+                            },
+                            onAddNewRecord = {
+                                onEvent(CategoryEvent.AddRecordToCategory(currentCategoryItem))
+                            },
+                            content = {
+                                CategoryItemDisplay(
+                                    categoryItem = currentCategoryItem,
+                                    onFavourite = {
+                                        onEvent(
+                                            CategoryEvent.MarkFavourite(
+                                                isFavourite = it,
+                                                categoryItem = currentCategoryItem
+                                            )
+                                        )
+                                    }
+                                )
+                            }
+                        )
+                        VerticalDivider(
+                            modifier = Modifier
+                                .height(1.dp)
+                                .background(TextColorBlack)
+                        )
                     }
-
-                    ScrollToTopButton(state = lazyState,
-                        modifier = Modifier
-                            .padding(paddingValues)
-                            .align(Alignment.TopEnd)
-                            .padding(top = spacing.spaceLarge, end = spacing.spaceSmall)
-                            .size(40.dp)
-                    )
                 }
+
+                ScrollToTopButton(
+                    state = lazyState,
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .align(Alignment.TopEnd)
+                        .padding(top = spacing.spaceLarge, end = spacing.spaceSmall)
+                        .size(40.dp)
+                )
+            }
         }
     }
 
