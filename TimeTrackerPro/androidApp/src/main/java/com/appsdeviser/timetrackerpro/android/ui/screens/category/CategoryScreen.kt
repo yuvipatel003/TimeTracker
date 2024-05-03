@@ -146,7 +146,7 @@ fun CategoryScreen(
                         .padding(paddingValues)
                         .align(Alignment.TopEnd)
                         .padding(top = spacing.spaceLarge, end = spacing.spaceSmall)
-                        .size(40.dp)
+                        .size(spacing.scrollToTopButtonSize)
                 )
             }
         }
