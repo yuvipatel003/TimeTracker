@@ -57,6 +57,7 @@ class CategoryViewModel(
                     )
                 }
             }
+            else -> Unit
         }
     }
 

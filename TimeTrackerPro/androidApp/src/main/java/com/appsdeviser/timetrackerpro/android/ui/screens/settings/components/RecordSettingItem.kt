@@ -24,7 +24,7 @@ fun RecordSettingItem(
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium
 ) {
 
-    var isChecked by remember { mutableStateOf(isEnabled) }
+    var isChecked = mutableStateOf(isEnabled)
 
     Row (
         modifier = modifier,
@@ -38,9 +38,9 @@ fun RecordSettingItem(
         )
 
         Switch(
-            checked = isChecked,
+            checked = isChecked.value,
             onCheckedChange = {
-                isChecked = it
+                isChecked.value = it
                 onChange(it)
             }
         )

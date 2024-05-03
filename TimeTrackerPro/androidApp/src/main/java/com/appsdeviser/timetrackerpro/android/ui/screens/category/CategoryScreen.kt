@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -99,8 +100,12 @@ fun CategoryScreen(
                             .align(Alignment.CenterStart)
                             .clip(RoundedCornerShape(spacing.spaceSmall))
                     ) {
-                        items(state.listOfCategoryItem.size) {
-                            val currentCategoryItem = state.listOfCategoryItem[it]
+                        items(
+                            items = state.listOfCategoryItem,
+                            key = {
+                                it.id ?: -1
+                            }
+                        ) {currentCategoryItem ->
                             SwipeableContentView(
                                 height = spacing.categoryItemHeight,
                                 onEdit = {
@@ -109,6 +114,9 @@ fun CategoryScreen(
                                 },
                                 onRemove = {
                                     onEvent(CategoryEvent.RemoveCategory(currentCategoryItem))
+                                },
+                                onAddNewRecord = {
+                                    onEvent(CategoryEvent.AddRecordToCategory(currentCategoryItem))
                                 },
                                 content = {
                                     CategoryItemDisplay(

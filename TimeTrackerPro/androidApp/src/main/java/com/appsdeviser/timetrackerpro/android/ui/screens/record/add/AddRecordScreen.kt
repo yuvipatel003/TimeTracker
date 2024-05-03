@@ -46,7 +46,8 @@ import java.util.Date
 fun AddRecordScreen(
     state: AddRecordState,
     onEvent: (AddRecordEvent) -> Unit,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    isNewRecord: Boolean,
 ) {
     val spacing = LocalSpacing.current
 
@@ -58,7 +59,7 @@ fun AddRecordScreen(
     ) {
         TitleBar(
             modifier = Modifier.fillMaxWidth(),
-            title = stringResource(id = R.string.add_record),
+            title = stringResource(id = if(isNewRecord) R.string.add_record else R.string.update_record),
             onBackClick = onBackClick
         )
 
@@ -404,8 +405,10 @@ fun AddRecordScreen(
 
                 Spacer(
                     modifier = Modifier
-                        .padding(horizontal = spacing.spaceMediumLarge,
-                            vertical = spacing.spaceSmall)
+                        .padding(
+                            horizontal = spacing.spaceMediumLarge,
+                            vertical = spacing.spaceSmall
+                        )
                         .height(0.2.dp)
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.onBackground)
@@ -422,11 +425,14 @@ fun AddRecordScreen(
                         modifier = Modifier.weight(1f),
                         onClick = {
                             onEvent(AddRecordEvent.Reset)
+                            if(!isNewRecord){
+                                onBackClick()
+                            }
                         }
                     )
                     Spacer(modifier = Modifier.width(spacing.spaceMedium))
                     ActionButton(
-                        text = stringResource(id = R.string.add),
+                        text = if(isNewRecord) stringResource(id = R.string.add) else stringResource(R.string.update),
                         modifier = Modifier.weight(1f),
                         onClick = {
                             onEvent(
@@ -435,6 +441,9 @@ fun AddRecordScreen(
                                     formatDate(Date(), DEFAULT_DB_DATE_FORMAT)
                                 )
                             )
+                            if(!isNewRecord){
+                                onBackClick()
+                            }
                         },
                         isEnabled = state.enableAddButton
                     )

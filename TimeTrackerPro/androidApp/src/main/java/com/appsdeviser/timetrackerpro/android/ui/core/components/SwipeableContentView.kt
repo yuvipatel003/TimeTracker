@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
@@ -47,6 +48,7 @@ fun SwipeableContentView(
     height: Dp,
     onEdit: () -> Unit,
     onRemove: () -> Unit,
+    onAddNewRecord: () -> Unit,
     content: @Composable () -> Unit
 ) {
     var boxSize by remember { mutableFloatStateOf(0F) }
@@ -128,9 +130,14 @@ fun SwipeableContentView(
                 )
             }
             .fillMaxWidth()
-            .clickable {
-                scope.launch { state.animateTo(HorizontalDragValue.Settled) }
-            }
+            .combinedClickable(
+                onClick = {
+                    scope.launch { state.animateTo(HorizontalDragValue.Settled) }
+                },
+                onLongClick = {
+                    onAddNewRecord()
+                }
+            )
             .height(height)
             .anchoredDraggable(state, Orientation.Horizontal)
         ) {
