@@ -7,6 +7,8 @@ sealed class CategoryEvent {
     data class AddCategory(val categoryItem: CategoryItem) : CategoryEvent()
     data class SelectCategory(val categoryItem: CategoryItem?) : CategoryEvent()
     data class RemoveCategory(val categoryItem: CategoryItem) : CategoryEvent()
+    data class RemoveCategoryRequested(val categoryItem: CategoryItem) : CategoryEvent()
+    data object RemoveCategoryCanceled : CategoryEvent()
     data class AddRecordToCategory(val categoryItem: CategoryItem) : CategoryEvent()
     data class MarkFavourite(val categoryItem: CategoryItem, val isFavourite: Boolean) :
         CategoryEvent()

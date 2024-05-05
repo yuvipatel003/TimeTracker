@@ -67,4 +67,7 @@
     <string name="update_record">Update Record</string>
     <string name="organization_activity">Organization/Activity</string>
     <string name="rate_earning">Rate/Earning</string>
+    <string name="add_new_record">Add New Record</string>
+    <string name="category_delete_message">Deleting a category will result in the deletion of all records associated with that category.</string>
+    <string name="are_you_sure">Are you Sure ?</string>
 </resources>
