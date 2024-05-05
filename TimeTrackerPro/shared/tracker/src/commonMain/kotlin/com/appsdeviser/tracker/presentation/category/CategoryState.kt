@@ -5,6 +5,7 @@ import com.appsdeviser.tracker.domain.category.CategoryItem
 
 data class CategoryState(
     val selectedCategory: CategoryItem? = null,
+    val deleteCategory: CategoryItem? = null,
     val listOfCategoryItem: List<CategoryItem> = emptyList(),
     val event: CategoryEvent? = null,
     val error: Error? = null

@@ -32,6 +32,7 @@ fun CategoryItemDisplay(
     onFavourite: (isFavourite: Boolean) -> Unit,
     showFavouriteColumn: Boolean = true,
     showCategoryColumn: Boolean = true,
+    showRateColumn: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     val spacing = LocalSpacing.current
@@ -83,26 +84,28 @@ fun CategoryItemDisplay(
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            Column(
-                modifier = Modifier.weight(1.5f),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = stringResource(R.string.rate_earning),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = TextColorBlack
-                )
-                Spacer(
-                    modifier = Modifier
-                        .height(spacing.spaceSmall)
-                )
-                Text(
-                    text = categoryItem.rate.toString(),
-                    style = MaterialTheme.typography.titleSmall,
-                    color = TextColorBlack,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+            if (showRateColumn) {
+                Column(
+                    modifier = Modifier.weight(1.5f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = stringResource(R.string.rate_earning),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = TextColorBlack
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .height(spacing.spaceSmall)
+                    )
+                    Text(
+                        text = categoryItem.rate.toString(),
+                        style = MaterialTheme.typography.titleSmall,
+                        color = TextColorBlack,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
 
             if (showFavouriteColumn) {

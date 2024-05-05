@@ -4,6 +4,7 @@ import com.appsdeviser.core_common.utils.error.UiError
 import com.appsdeviser.core_db.flows.toCommonStateFlow
 import com.appsdeviser.tracker.domain.category.CategoryDataSource
 import com.appsdeviser.tracker.domain.category.CategoryItem
+import com.appsdeviser.tracker.domain.record.RecordDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 
 class CategoryViewModel(
     private val categoryDataSource: CategoryDataSource,
+    private val recordDataSource: RecordDataSource,
     coroutineScope: CoroutineScope?
 ) {
     private val viewModelScope = coroutineScope ?: CoroutineScope(Dispatchers.Main)
@@ -57,7 +59,20 @@ class CategoryViewModel(
                     )
                 }
             }
-
+            is CategoryEvent.RemoveCategoryRequested -> {
+                _state.update {
+                    it.copy(
+                        deleteCategory = event.categoryItem
+                    )
+                }
+            }
+            is CategoryEvent.RemoveCategoryCanceled -> {
+                _state.update {
+                    it.copy(
+                        deleteCategory = null
+                    )
+                }
+            }
             else -> Unit
         }
     }
@@ -80,6 +95,7 @@ class CategoryViewModel(
     private fun removeCategory(categoryItem: CategoryItem) {
         viewModelScope.launch {
             categoryDataSource.deleteCategory(categoryItem)
+            recordDataSource.deleteSelectedCategoryRecord(categoryItem.id ?: -1)
         }
         _state.update {
             it.copy(

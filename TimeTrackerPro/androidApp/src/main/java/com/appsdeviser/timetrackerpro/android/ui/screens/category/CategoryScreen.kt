@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,8 +18,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -30,8 +33,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.appsdeviser.timetrackerpro.android.R
+import com.appsdeviser.timetrackerpro.android.ui.core.components.CustomContentDialog
 import com.appsdeviser.timetrackerpro.android.ui.core.components.ScrollToTopButton
 import com.appsdeviser.timetrackerpro.android.ui.core.components.SingleFloatingActionButton
 import com.appsdeviser.timetrackerpro.android.ui.core.components.SwipeableContentView
@@ -113,7 +118,7 @@ fun CategoryScreen(
                                 isSheetOpen = true
                             },
                             onRemove = {
-                                onEvent(CategoryEvent.RemoveCategory(currentCategoryItem))
+                                onEvent(CategoryEvent.RemoveCategoryRequested(currentCategoryItem))
                             },
                             onAddNewRecord = {
                                 onEvent(CategoryEvent.AddRecordToCategory(currentCategoryItem))
@@ -150,6 +155,43 @@ fun CategoryScreen(
                 )
             }
         }
+    }
+
+    state.deleteCategory?.let {
+        CustomContentDialog(
+            dialogContent = {
+                            Column(
+                                modifier = Modifier
+                                    .padding(spacing.spaceSmall)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.category_delete_message),
+                                    style = MaterialTheme.typography.titleSmall,
+                                    textAlign = TextAlign.Center,
+                                    color = MaterialTheme.colorScheme.onSurface)
+                                Spacer(modifier = Modifier.height(spacing.spaceSmall))
+                                CategoryItemDisplay(
+                                    categoryItem = it,
+                                    showRateColumn = false,
+                                    showFavouriteColumn = false,
+                                    onFavourite = {},
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(spacing.spaceSmall))
+                                )
+                                Spacer(modifier = Modifier.height(spacing.spaceSmall))
+                            }
+            },
+            onPositiveAction = {
+                onEvent(CategoryEvent.RemoveCategory(it))
+            },
+            onNegativeAction = {
+                onEvent(CategoryEvent.RemoveCategoryCanceled)
+            },
+            showNegativeAction = true,
+            positiveActionTitle = stringResource(id = R.string.delete),
+            negativeActionTitle = stringResource(id = R.string.cancel),
+            dialogTitle = stringResource(R.string.are_you_sure)
+        )
     }
 
     if (isSheetOpen) {
