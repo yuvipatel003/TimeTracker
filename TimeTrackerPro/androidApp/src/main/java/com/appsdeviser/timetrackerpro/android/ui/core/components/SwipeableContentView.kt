@@ -48,7 +48,8 @@ fun SwipeableContentView(
     onEdit: () -> Unit,
     onRemove: () -> Unit,
     onAddNewRecord: () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var boxSize by remember { mutableFloatStateOf(0F) }
     val scope = rememberCoroutineScope()
@@ -75,7 +76,7 @@ fun SwipeableContentView(
         }, label = "change color"
     )
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(height)
     ) {
