@@ -63,29 +63,26 @@ fun RecordsGroupByDate(
                             )
                     )
 
-                    for (recordItem in pair.second) {
-                        Column(
+                    pair.second.forEach { recordItem ->
+                        SwipeableContentView(
                             modifier = Modifier
-                                .clip(RoundedCornerShape(spacing.spaceSmall))
-                        ) {
-                            SwipeableContentView(
-                                height = spacing.recordItemHeight,
-                                onEdit = { onEdit(recordItem) },
-                                onRemove = { onRemove(recordItem) },
-                                onAddNewRecord = { onEdit(recordItem) },
-                                content = {
-                                    SingleRecordView(
-                                        recordItem = recordItem,
-                                        showRecordPageSettingItem = showRecordPageSettingItem
-                                    )
-                                }
-                            )
-                            VerticalDivider(
-                                modifier = Modifier
-                                    .height(1.dp)
-                                    .background(TextColorBlack)
-                            )
-                        }
+                                .clip(RoundedCornerShape(spacing.spaceSmall)),
+                            height = spacing.recordItemHeight,
+                            onEdit = { onEdit(recordItem) },
+                            onRemove = { onRemove(recordItem) },
+                            onAddNewRecord = { onEdit(recordItem) },
+                            content = {
+                                SingleRecordView(
+                                    recordItem = recordItem,
+                                    showRecordPageSettingItem = showRecordPageSettingItem
+                                )
+                            }
+                        )
+                        VerticalDivider(
+                            modifier = Modifier
+                                .height(1.dp)
+                                .background(TextColorBlack)
+                        )
                     }
                 }
             }
