@@ -7,6 +7,7 @@ sealed interface UiError : Error {
         INVALID_USERNAME,
         INVALID_INPUT,
         UPDATED,
-        RECORD_ADDED
+        RECORD_ADDED,
+        FAILED_TO_LOAD_MORE_DATA
     }
 }

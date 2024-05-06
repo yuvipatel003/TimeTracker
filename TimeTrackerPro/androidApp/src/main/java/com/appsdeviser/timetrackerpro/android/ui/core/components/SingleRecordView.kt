@@ -66,7 +66,7 @@ fun SingleRecordView(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = spacing.spaceSmall, end = spacing.spaceMedium),
+                    .padding(end = spacing.spaceMedium),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
