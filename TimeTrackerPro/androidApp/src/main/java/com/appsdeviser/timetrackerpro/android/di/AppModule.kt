@@ -20,6 +20,7 @@ import com.appsdeviser.tracker.data.category.CategoryDataSourceImpl
 import com.appsdeviser.tracker.data.record.RecordDataSourceImpl
 import com.appsdeviser.tracker.domain.category.CategoryDataSource
 import com.appsdeviser.tracker.domain.record.RecordDataSource
+import com.appsdeviser.tracker.presentation.record.view.FilterRecord
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -92,5 +93,11 @@ object AppModule {
     @Singleton
     fun provideAppConfig(): AppConfig {
         return AppConfigImpl()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFilterRecord(): FilterRecord {
+        return FilterRecordImpl()
     }
 }

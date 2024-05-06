@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import com.appsdeviser.core_common.presentation.UiCategory
 import com.appsdeviser.core_common.utils.NONE
 import com.appsdeviser.timetrackerpro.android.R
@@ -31,7 +32,8 @@ fun AddRecordSelectCategory(
     modifier: Modifier = Modifier,
     selectedCategory: CategoryItem? = null,
     listOfCategory: List<CategoryItem> = emptyList(),
-    onSelectCategoryItem: (categoryItem: CategoryItem) -> Unit
+    onSelectCategoryItem: (categoryItem: CategoryItem) -> Unit,
+    verticalPaddingBetweenTitleAndContent: Dp = LocalSpacing.current.spaceSmall
 ) {
 
     var expanded by remember { mutableStateOf(false) }
@@ -46,7 +48,7 @@ fun AddRecordSelectCategory(
         Text(
             text = stringResource(id = R.string.category),
             style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(vertical = spacing.spaceSmall)
+            modifier = Modifier.padding(vertical = verticalPaddingBetweenTitleAndContent)
         )
 
         Row(

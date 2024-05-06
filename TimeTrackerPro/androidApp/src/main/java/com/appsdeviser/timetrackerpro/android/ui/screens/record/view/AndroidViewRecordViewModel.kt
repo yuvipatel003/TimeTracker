@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.appsdeviser.core_db.domain.showrecordpage.ShowRecordPageSettingDataSource
 import com.appsdeviser.tracker.domain.category.CategoryDataSource
 import com.appsdeviser.tracker.domain.record.RecordDataSource
+import com.appsdeviser.tracker.presentation.record.view.FilterRecord
 import com.appsdeviser.tracker.presentation.record.view.ViewRecordEvent
 import com.appsdeviser.tracker.presentation.record.view.ViewRecordViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class AndroidViewRecordViewModel @Inject constructor(
     private val categoryDataSource: CategoryDataSource,
     private val recordDataSource: RecordDataSource,
+    private val filterRecord: FilterRecord,
     private val recordPageSettingDataSource: ShowRecordPageSettingDataSource
 ) : ViewModel() {
 
@@ -22,6 +24,7 @@ class AndroidViewRecordViewModel @Inject constructor(
             categoryDataSource = categoryDataSource,
             recordDataSource = recordDataSource,
             recordPageSettingDataSource = recordPageSettingDataSource,
+            filterRecord = filterRecord,
             coroutineScope = viewModelScope
         )
     }

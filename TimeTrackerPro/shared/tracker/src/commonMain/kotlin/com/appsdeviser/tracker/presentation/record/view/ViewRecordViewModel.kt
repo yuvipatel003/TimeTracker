@@ -1,5 +1,7 @@
 package com.appsdeviser.tracker.presentation.record.view
 
+import com.appsdeviser.core_common.presentation.DefaultPaginator
+import com.appsdeviser.core_common.utils.Result
 import com.appsdeviser.core_common.utils.addAllIfNotExist
 import com.appsdeviser.core_common.utils.replace
 import com.appsdeviser.core_db.domain.showrecordpage.ShowRecordPageSettingDataSource
@@ -15,7 +17,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -24,30 +25,93 @@ class ViewRecordViewModel(
     private val categoryDataSource: CategoryDataSource,
     private val recordDataSource: RecordDataSource,
     private val recordPageSettingDataSource: ShowRecordPageSettingDataSource,
+    private val filterRecord: FilterRecord,
     coroutineScope: CoroutineScope?
 ) {
     private val viewModelScope = coroutineScope ?: CoroutineScope(Dispatchers.Main)
     private val _state = MutableStateFlow(ViewRecordState())
-    private val recordOffSet = MutableStateFlow(0L)
     private val listOfCategory = MutableStateFlow<List<CategoryItem>>(emptyList())
-    private val recordsList = mutableListOf<UIRecordItem>()
+    private var recordsList = mutableListOf<UIRecordItem>()
 
     val state = combine(
         _state,
-        recordPageSettingDataSource.getShowRecordSetting()
-    ) { state, recordPageSetting ->
+        recordPageSettingDataSource.getShowRecordSetting(),
+        recordDataSource.getRecordList(0),
+        categoryDataSource.getCategoryList()
+    ) { state, recordPageSetting, records, categoryList ->
+
+        val existingSingleRecord = recordsList.firstOrNull {
+            it.id == state.refreshElement?.id
+        }
+        val newSingleRecord = records.firstOrNull {
+            it.id == state.refreshElement?.id
+        }
+        if (existingSingleRecord != null && newSingleRecord != null) {
+            val record =
+                newSingleRecord.toUIRecordItem(listOfCategory.value.firstOrNull { it.id == newSingleRecord.categoryId })
+            record?.let {
+                recordsList.replace(existingSingleRecord, record)
+            }
+        }
+        recordsList.addAllIfNotExist(records.mapNotNull { recordItem ->
+            recordItem.toUIRecordItem(listOfCategory.value.firstOrNull { it.id == recordItem.categoryId })
+        })
+        filterRecords()
         _state.update {
             it.copy(
-                showRecordPageSettingItem = recordPageSetting
+                showRecordPageSettingItem = recordPageSetting,
+                listOfCategoryItem = categoryList
             )
         }
         state
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ViewRecordState())
         .toCommonStateFlow()
 
+    private val paginator = DefaultPaginator(
+        initialKey = state.value.page,
+        onLoadUpdated = { isLoading ->
+            _state.update {
+                it.copy(
+                    isLoading = isLoading
+                )
+            }
+        },
+        onRequest = { nextPage ->
+            Result.Success(recordDataSource.getRecordList(nextPage.toLong()).first())
+        },
+        getNextKey = {
+            state.value.page + 1
+        },
+        onError = { error ->
+            _state.update {
+                it.copy(
+                    error = error
+                )
+            }
+        },
+        onSuccess = { items, newKey ->
+            recordsList.addAllIfNotExist(items.mapNotNull { recordItem ->
+                recordItem.toUIRecordItem(listOfCategory.value.firstOrNull { it.id == recordItem.categoryId })
+            })
+            filterRecords()
+            _state.update {
+                it.copy(
+                    page = newKey,
+                    endReached = items.isEmpty()
+                )
+            }
+        }
+    )
+
     init {
         loadCategory()
-        loadRecords(recordOffSet.value)
+        loadNextRecords()
+    }
+
+    private fun loadNextRecords() {
+        viewModelScope.launch {
+            paginator.loadNextItems()
+        }
     }
 
     private fun loadCategory() {
@@ -73,43 +137,12 @@ class ViewRecordViewModel(
                     lastUpdated = uiRecordItem.lastUpdated
                 )
             )
-            recordsList.remove(uiRecordItem)
+            recordsList = recordsList.filter {
+                it != uiRecordItem
+            }.toMutableList()
             _state.update {
                 it.copy(
-                    listOfRecords = recordsList,
                     event = null
-                )
-            }
-        }
-    }
-
-    private fun loadRecords(offSet: Long) {
-        viewModelScope.launch {
-            val listOfRecords =
-                recordDataSource.getRecordList(offSet).first().mapNotNull { recordItem ->
-                    recordItem.toUIRecordItem(listOfCategory.value.firstOrNull { it.id == recordItem.categoryId })
-                }
-            recordsList.addAllIfNotExist(listOfRecords)
-            _state.update {
-                it.copy(
-                    listOfRecords = recordsList
-                )
-            }
-        }
-    }
-
-    private fun refreshSingleElement(uiRecordItem: UIRecordItem) {
-        viewModelScope.launch {
-            val singleRecord =
-                recordDataSource.getRecord(uiRecordItem.id ?: -1).mapNotNull { recordItem ->
-                    recordItem?.toUIRecordItem(listOfCategory.value.firstOrNull { it.id == recordItem.categoryId })
-                }
-            recordsList.replace(uiRecordItem, singleRecord.first())
-            _state.update {
-                it.copy(
-                    listOfRecords = recordsList,
-                    event = null,
-                    refreshElement = null
                 )
             }
         }
@@ -118,8 +151,7 @@ class ViewRecordViewModel(
     fun onEvent(event: ViewRecordEvent) {
         when (event) {
             ViewRecordEvent.LoadNextRecords -> {
-                recordOffSet.value = recordOffSet.value + 1
-                loadRecords(recordOffSet.value)
+                loadNextRecords()
             }
 
             ViewRecordEvent.OnErrorSeen -> {
@@ -128,10 +160,6 @@ class ViewRecordViewModel(
                         error = null
                     )
                 }
-            }
-
-            is ViewRecordEvent.UpdateElement -> {
-                refreshSingleElement(event.uiRecordItem)
             }
 
             is ViewRecordEvent.MarkElementToUpdate -> {
@@ -147,7 +175,53 @@ class ViewRecordViewModel(
                 deleteRecord(event.uiRecordItem)
             }
 
+            is ViewRecordEvent.FilterRecord -> {
+                _state.update {
+                    it.copy(
+                        filterRecordState = event.filterRecordState,
+                        event = null
+                    )
+                }
+                filterRecords()
+            }
+
             else -> Unit
+        }
+    }
+
+    private fun filterRecords() {
+        if (state.value.filterRecordState == null) {
+            _state.update {
+                it.copy(
+                    listOfRecords = recordsList
+                )
+            }
+        } else {
+            var filteredList = recordsList
+            state.value.filterRecordState?.categoryId?.let { categoryId ->
+                filteredList = recordsList.filter {
+                    it.categoryId == categoryId
+                }.toMutableList()
+            }
+
+            state.value.filterRecordState?.isPaid?.let { isPaid ->
+                filteredList = filteredList.filter {
+                    it.isPaid == isPaid
+                }.toMutableList()
+            }
+
+            state.value.filterRecordState?.startDate?.let { startDate ->
+                state.value.filterRecordState?.endDate?.let { endDate ->
+                    filteredList =
+                        filterRecord.getRecordsBetweenDates(filteredList, startDate, endDate)
+                            .toMutableList()
+                }
+            }
+            _state.update {
+                it.copy(
+                    listOfRecords = filteredList
+                )
+            }
         }
     }
 }
