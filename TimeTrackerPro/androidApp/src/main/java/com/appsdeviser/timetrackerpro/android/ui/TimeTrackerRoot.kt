@@ -113,7 +113,6 @@ fun TimeTrackerRoot(
                         HomeEvent.ShowCategory -> navController.navigate(Routes.CATEGORY)
                         HomeEvent.ShowRecords -> navController.navigate(Routes.VIEW_ALL_RECORD)
                         HomeEvent.ShowSetting -> navController.navigate(Routes.SETTINGS)
-                        HomeEvent.StartOrStopRecord -> TODO()
                         else -> viewModel.onEvent(event)
                     }
                 }

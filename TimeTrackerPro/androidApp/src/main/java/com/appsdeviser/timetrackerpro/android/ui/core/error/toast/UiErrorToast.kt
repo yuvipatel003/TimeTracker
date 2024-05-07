@@ -21,6 +21,8 @@ fun UiErrorToast(
         UiError.Notification.INVALID_USERNAME -> stringResource(R.string.invalid_username)
         UiError.Notification.UPDATED -> stringResource(R.string.updated)
         UiError.Notification.RECORD_ADDED -> stringResource(R.string.records_updated_successfully)
+        UiError.Notification.FAILED_TO_LOAD_MORE_DATA -> stringResource(R.string.failed_to_load_more_data)
+        UiError.Notification.FAVOURITE_CATEGORY_DELETE_WARNING -> stringResource(R.string.favourite_category_delete_warning)
         else -> null
     }
 

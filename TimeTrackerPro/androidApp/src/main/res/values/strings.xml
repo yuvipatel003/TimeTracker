@@ -70,4 +70,9 @@
     <string name="add_new_record">Add New Record</string>
     <string name="category_delete_message">Deleting a category will result in the deletion of all records associated with that category.</string>
     <string name="are_you_sure">Are you Sure ?</string>
+    <string name="failed_to_load_more_data">Oops! Something went wrong while loading data. Please try again later.</string>
+    <string name="favourite_category_delete_warning">Category marked as favourite cannot be deleted.</string>
+    <string name="empty_category_home_screen_message">Please add category for efficient record tracking.</string>
+    <string name="clock_out">Clock Out</string>
+    <string name="clock_in">Clock In</string>
 </resources>

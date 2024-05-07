@@ -7,6 +7,7 @@ import com.appsdeviser.core_db.domain.showrecordpage.ShowRecordPageSettingDataSo
 import com.appsdeviser.core_db.featuremanager.FeatureManager
 import com.appsdeviser.tracker.domain.category.CategoryDataSource
 import com.appsdeviser.tracker.domain.record.RecordDataSource
+import com.appsdeviser.tracker.domain.record.active.ActiveRecordDataSource
 import com.appsdeviser.tracker.presentation.home.HomeEvent
 import com.appsdeviser.tracker.presentation.home.HomeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,8 @@ class AndroidHomeViewModel @Inject constructor(
     private val settingsDataSource: SettingsDataSource,
     private val categoryDataSource: CategoryDataSource,
     private val showRecordPageSettingDataSource: ShowRecordPageSettingDataSource,
-    private val recordDataSource: RecordDataSource
+    private val recordDataSource: RecordDataSource,
+    private val activeRecordDataSource: ActiveRecordDataSource
 ) : ViewModel() {
 
     private val viewModel by lazy {
@@ -28,6 +30,7 @@ class AndroidHomeViewModel @Inject constructor(
             categoryDataSource = categoryDataSource,
             showRecordPageSettingDataSource = showRecordPageSettingDataSource,
             recordDataSource = recordDataSource,
+            activeRecordDataSource = activeRecordDataSource,
             coroutineScope = viewModelScope
 
         )
