@@ -18,8 +18,10 @@ import com.appsdeviser.onboarding.domain.features.FeaturesClient
 import com.appsdeviser.timetrackerpro.android.AppConfigImpl
 import com.appsdeviser.tracker.data.category.CategoryDataSourceImpl
 import com.appsdeviser.tracker.data.record.RecordDataSourceImpl
+import com.appsdeviser.tracker.data.record.active.ActiveRecordDataSourceImpl
 import com.appsdeviser.tracker.domain.category.CategoryDataSource
 import com.appsdeviser.tracker.domain.record.RecordDataSource
+import com.appsdeviser.tracker.domain.record.active.ActiveRecordDataSource
 import com.appsdeviser.tracker.presentation.record.view.FilterRecord
 import dagger.Module
 import dagger.Provides
@@ -78,6 +80,12 @@ object AppModule {
     @Singleton
     fun provideRecordDataSource(sqlDriver: SqlDriver): RecordDataSource {
         return RecordDataSourceImpl(TimeTrackerDatabase.invoke(sqlDriver))
+    }
+
+    @Provides
+    @Singleton
+    fun provideActiveRecordDataSource(sqlDriver: SqlDriver): ActiveRecordDataSource {
+        return ActiveRecordDataSourceImpl(TimeTrackerDatabase.invoke(sqlDriver))
     }
 
     @Provides

@@ -6,7 +6,12 @@ import com.appsdeviser.core_db.domain.showrecordpage.ShowRecordPageSettingDataSo
 import com.appsdeviser.core_db.featuremanager.FeatureManager
 import com.appsdeviser.core_db.flows.toCommonStateFlow
 import com.appsdeviser.tracker.domain.category.CategoryDataSource
+import com.appsdeviser.tracker.domain.category.CategoryItem
 import com.appsdeviser.tracker.domain.record.RecordDataSource
+import com.appsdeviser.tracker.domain.record.RecordItem
+import com.appsdeviser.tracker.domain.record.active.ActiveRecordDataSource
+import com.appsdeviser.tracker.domain.record.active.ActiveRecordItem
+import com.appsdeviser.tracker.presentation.home.components.ActiveRecordState
 import com.appsdeviser.tracker.presentation.home.components.CategoryState
 import com.appsdeviser.tracker.presentation.home.components.HomeFeatureState
 import com.appsdeviser.tracker.presentation.home.components.NotificationState
@@ -18,6 +23,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val featureManager: FeatureManager,
@@ -25,6 +31,7 @@ class HomeViewModel(
     private val categoryDataSource: CategoryDataSource,
     private val showRecordPageSettingDataSource: ShowRecordPageSettingDataSource,
     private val recordDataSource: RecordDataSource,
+    private val activeRecordDataSource: ActiveRecordDataSource,
     coroutineScope: CoroutineScope?
 ) {
     private val viewModelScope = coroutineScope ?: CoroutineScope(Dispatchers.Main)
@@ -33,6 +40,7 @@ class HomeViewModel(
     private val _recentRecordState = MutableStateFlow(RecentRecordState())
     private val _categoryState = MutableStateFlow(CategoryState())
     private val _notificationState = MutableStateFlow(NotificationState())
+    private val _activeRecordState = MutableStateFlow(ActiveRecordState())
 
     /**
      * HomeFeatureState
@@ -70,6 +78,13 @@ class HomeViewModel(
             )
         }
         _state.update {
+            if(it.selectedCategory == null ) {
+                it.copy(
+                    selectedCategory = categoryList.firstOrNull { item -> item.favourite }
+                )
+            } else it
+        }
+        _state.update {
             it.copy(
                 notificationState = notificationState
             )
@@ -77,14 +92,41 @@ class HomeViewModel(
         categoryState
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), CategoryState())
 
+    private val activeRecordState = combine(
+        _activeRecordState,
+        activeRecordDataSource.getActiveRecord(),
+        categoryDataSource.getCategoryList()
+    ) { activeRecordState, currentActiveRecord, categoryList ->
+        currentActiveRecord?.let { activeRecord ->
+            _activeRecordState.update {
+                it.copy(
+                    isTrackerInProgress = true,
+                    startDate = activeRecord.startDate,
+                    startTime = activeRecord.startTime,
+                    categoryItem = categoryList.firstOrNull { categoryItem ->
+                        categoryItem.id == activeRecord.categoryId
+                    }
+                )
+            }
+            _state.update {
+                it.copy(
+                    activeRecordState = activeRecordState
+                )
+            }
+        }
+        activeRecordState
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ActiveRecordState())
+
+
     /**
      * RecentRecordState
      */
     private val recentRecordState = combine(
         _recentRecordState,
         showRecordPageSettingDataSource.getShowRecordSetting(),
-        recordDataSource.getRecordList()
-    ) { recentRecordState, showRecordSetting, recentRecords ->
+        recordDataSource.getRecordList(),
+        activeRecordState
+    ) { recentRecordState, showRecordSetting, recentRecords, activeRecordSet ->
         _recentRecordState.update {
             it.copy(
                 loadShowRecordSetting = showRecordSetting,
@@ -102,7 +144,7 @@ class HomeViewModel(
         settingsDataSource.getSettings(),
         categoryState,
         homeFeatureState,
-        recentRecordState
+        recentRecordState,
     ) { state, settings, categoryState, homeFeatureState, recentRecordState ->
         _state.update {
             it.copy(
@@ -154,11 +196,54 @@ class HomeViewModel(
                 }
             }
 
-            HomeEvent.StartOrStopRecord -> {
-
+            is HomeEvent.StartRecord -> {
+                startActiveRecord(event.categoryItem, event.startDate, event.startTime)
             }
 
+            is HomeEvent.SelectCategory -> {
+               _state.update {
+                   it.copy(
+                       selectedCategory = event.categoryItem,
+                       event = null
+                   )
+               }
+            }
+
+            is HomeEvent.EndRecord -> {
+                stopActiveRecord(event.recordItem)
+            }
             else -> Unit
+        }
+    }
+
+    private fun startActiveRecord(categoryItem: CategoryItem, startDate: String, startTime: String) {
+        viewModelScope.launch {
+            activeRecordDataSource.insertActiveRecord(
+                item = ActiveRecordItem(
+                    id = null,
+                    startDate = startDate,
+                    startTime = startTime,
+                    categoryId = categoryItem.id ?: -1
+                )
+            )
+            _state.update {
+                it.copy(
+                    event = null
+                )
+            }
+        }
+    }
+
+    private fun stopActiveRecord(recordItem: RecordItem) {
+        viewModelScope.launch {
+            activeRecordDataSource.clearActiveRecord()
+            recordDataSource.insertRecord(recordItem)
+            _state.update {
+                it.copy(
+                    event = null,
+                    activeRecordState = ActiveRecordState()
+                )
+            }
         }
     }
 }

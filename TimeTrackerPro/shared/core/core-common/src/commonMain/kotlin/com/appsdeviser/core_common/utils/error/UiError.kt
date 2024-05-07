@@ -8,6 +8,7 @@ sealed interface UiError : Error {
         INVALID_INPUT,
         UPDATED,
         RECORD_ADDED,
-        FAILED_TO_LOAD_MORE_DATA
+        FAILED_TO_LOAD_MORE_DATA,
+        FAVOURITE_CATEGORY_DELETE_WARNING
     }
 }

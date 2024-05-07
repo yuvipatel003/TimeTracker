@@ -69,7 +69,8 @@ class CategoryViewModel(
             is CategoryEvent.RemoveCategoryCanceled -> {
                 _state.update {
                     it.copy(
-                        deleteCategory = null
+                        deleteCategory = null,
+                        error = if(event.isFavouriteCategory) UiError.Notification.FAVOURITE_CATEGORY_DELETE_WARNING else null
                     )
                 }
             }

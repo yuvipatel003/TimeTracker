@@ -39,7 +39,8 @@ import com.appsdeviser.tracker.domain.category.CategoryItem
 fun ColumnScope.AddCategoryContent(
     selectedItem: CategoryItem?,
     onCancelClick: () -> Unit,
-    onAddClick: (categoryItem: CategoryItem) -> Unit
+    onAddClick: (categoryItem: CategoryItem) -> Unit,
+    listOfExistingCategory: List<CategoryItem>
 ) {
     val spacing = LocalSpacing.current
     var selectedUiCategory by remember {
@@ -213,7 +214,7 @@ fun ColumnScope.AddCategoryContent(
                         type = selectedUiCategory.categoryType,
                         name = name,
                         rate = rate.toDouble(),
-                        favourite = selectedItem?.favourite ?: false,
+                        favourite = selectedItem?.favourite ?: listOfExistingCategory.isEmpty(),
                         color = CategoryColorCommon.listOfCategoryColors[selectedColorIndex]
                     )
                 )

@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Brightness1
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Dashboard
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,17 +37,27 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.appsdeviser.timetrackerpro.android.R
+import com.appsdeviser.timetrackerpro.android.ui.core.DEFAULT_DB_DATE_FORMAT
+import com.appsdeviser.timetrackerpro.android.ui.core.DEFAULT_DB_TIME_FORMAT
+import com.appsdeviser.timetrackerpro.android.ui.core.calculateHours
+import com.appsdeviser.timetrackerpro.android.ui.core.components.EmptyListView
+import com.appsdeviser.timetrackerpro.android.ui.core.displayAsDate
+import com.appsdeviser.timetrackerpro.android.ui.core.displayAsTime
+import com.appsdeviser.timetrackerpro.android.ui.core.roundToTwoDecimal
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.PrimaryColor
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.onPrimaryColor
+import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.ClockInView
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.FloatingActionButtonItem
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.HomeTitleBar
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.NotificationView
 import com.appsdeviser.timetrackerpro.android.ui.screens.home.components.RecentActivity
-import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.ActionButton
-import com.appsdeviser.timetrackerpro.android.ui.screens.onboarding.components.OutlinedActionButton
+import com.appsdeviser.tracker.domain.record.RecordItem
 import com.appsdeviser.tracker.presentation.home.HomeEvent
 import com.appsdeviser.tracker.presentation.home.HomeState
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun HomeScreen(
@@ -55,6 +66,11 @@ fun HomeScreen(
 ) {
     val spacing = LocalSpacing.current
     var expanded by remember { mutableStateOf(false) }
+    val floatingActionButtonPaddingFromBottom = when {
+        state.categoryState.listOfCategory.isEmpty() -> spacing.notificationImageSize
+        state.selectedCategory == null -> spacing.spaceExtraLarge
+        else -> spacing.settingsDateWidth
+    }
 
     // Floating Button
     Scaffold(
@@ -62,7 +78,9 @@ fun HomeScreen(
             Column(
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.End,
-                modifier = Modifier.padding(top = 0.dp, bottom = 112.dp, start = 0.dp, end = 0.dp)
+                modifier = Modifier.padding(
+                    bottom = floatingActionButtonPaddingFromBottom
+                )
             ) {
                 if (expanded) {
                     FloatingActionButtonItem(
@@ -117,7 +135,6 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .align(Alignment.TopCenter)
-                    .padding(0.dp, 0.dp, 0.dp, spacing.spaceExtraLarge + spacing.spaceExtraLarge)
                     .scrollable(
                         state = ScrollableState {
                             0.1f
@@ -217,28 +234,89 @@ fun HomeScreen(
                 )
             }
 
-            // Category Button and Start/Stop Button for Shortcut
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-                    .padding(spacing.spaceMedium),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                OutlinedActionButton(
-                    text = "Change Current Category",
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = { },
+            if (state.categoryState.listOfCategory.isNotEmpty()) {
+                val trackerSelectedCategory =
+                    if (state.activeRecordState.isTrackerInProgress) {
+                        state.activeRecordState.categoryItem
+                    } else {
+                        state.selectedCategory
+                    }
+                val dateFormat = SimpleDateFormat(DEFAULT_DB_DATE_FORMAT, Locale.getDefault())
+                val timeFormat = SimpleDateFormat(DEFAULT_DB_TIME_FORMAT, Locale.getDefault())
+                val currentTime = Date()
+                ClockInView(
+                    selectedCategory = trackerSelectedCategory,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter),
+                    onSelectCategoryItem = {
+                        onEvent(HomeEvent.SelectCategory(it))
+                    },
+                    listOfCategory = state.categoryState.listOfCategory,
+                    activeRecordState = state.activeRecordState,
+                    showRecordPageSettingItem = state.recentRecordState.loadShowRecordSetting,
+                    totalHours = calculateHours(
+                        state.activeRecordState.startDate ?: dateFormat.format(currentTime),
+                        state.activeRecordState.startTime ?: timeFormat.format(currentTime),
+                        dateFormat.format(currentTime),
+                        timeFormat.format(currentTime)
+                    ).toString(),
+                    onClockIn = {
+                        trackerSelectedCategory?.let {
+                            onEvent(
+                                HomeEvent.StartRecord(
+                                    it,
+                                    timeFormat.format(currentTime),
+                                    dateFormat.format(currentTime)
+                                )
+                            )
+                        }
+                    },
+                    onClockOut = {
+                        val startDate = state.activeRecordState.startDate?.displayAsDate(
+                            DEFAULT_DB_DATE_FORMAT
+                        ) ?: ""
+                        val endDate = dateFormat.format(currentTime)
+                        val startTime =
+                            state.activeRecordState.startTime?.displayAsTime(false) ?: ""
+                        val endTime = timeFormat.format(currentTime)
 
-                    )
-                Spacer(modifier = Modifier.height(spacing.spaceSmall))
-                ActionButton(
-                    text = stringResource(id = R.string.home_clock_in),
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = { },
-
-                    )
+                        val recordItem = RecordItem(
+                            id = null,
+                            startDate = startDate,
+                            startTime = startTime,
+                            endDate = endDate,
+                            endTime = endTime,
+                            totalTime = calculateHours(
+                                startDate,
+                                startTime,
+                                endDate,
+                                endTime
+                            ).toString(),
+                            totalAmount = calculateHours(
+                                startDate,
+                                startTime,
+                                endDate,
+                                endTime
+                            ).times(state.selectedCategory?.rate ?: 0.0)
+                                .roundToTwoDecimal().toString(),
+                            categoryId = trackerSelectedCategory?.id ?: -1,
+                            isPaid = false,
+                            note = "",
+                            lastUpdated = endDate
+                        )
+                        onEvent(HomeEvent.EndRecord(recordItem = recordItem))
+                    }
+                )
+            } else {
+                EmptyListView(
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                    imageVector = Icons.Default.Warning,
+                    imageSize = spacing.titleBarIconSize,
+                    title = stringResource(R.string.empty_category_home_screen_message),
+                    titleStyle = MaterialTheme.typography.bodyMedium,
+                    showContainerBorder = true
+                )
             }
         }
     }

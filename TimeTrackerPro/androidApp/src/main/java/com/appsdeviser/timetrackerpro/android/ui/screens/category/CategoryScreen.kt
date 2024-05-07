@@ -158,40 +158,46 @@ fun CategoryScreen(
     }
 
     state.deleteCategory?.let {
-        CustomContentDialog(
-            dialogContent = {
-                            Column(
-                                modifier = Modifier
-                                    .padding(spacing.spaceSmall)
-                            ) {
-                                Text(
-                                    text = stringResource(R.string.category_delete_message),
-                                    style = MaterialTheme.typography.titleSmall,
-                                    textAlign = TextAlign.Center,
-                                    color = MaterialTheme.colorScheme.onSurface)
-                                Spacer(modifier = Modifier.height(spacing.spaceSmall))
-                                CategoryItemDisplay(
-                                    categoryItem = it,
-                                    showRateColumn = false,
-                                    showFavouriteColumn = false,
-                                    onFavourite = {},
-                                    modifier = Modifier
-                                        .clip(RoundedCornerShape(spacing.spaceSmall))
-                                )
-                                Spacer(modifier = Modifier.height(spacing.spaceSmall))
-                            }
-            },
-            onPositiveAction = {
-                onEvent(CategoryEvent.RemoveCategory(it))
-            },
-            onNegativeAction = {
-                onEvent(CategoryEvent.RemoveCategoryCanceled)
-            },
-            showNegativeAction = true,
-            positiveActionTitle = stringResource(id = R.string.delete),
-            negativeActionTitle = stringResource(id = R.string.cancel),
-            dialogTitle = stringResource(R.string.are_you_sure)
-        )
+
+        if(it.favourite) {
+            onEvent(CategoryEvent.RemoveCategoryCanceled(true))
+        } else {
+            CustomContentDialog(
+                dialogContent = {
+                    Column(
+                        modifier = Modifier
+                            .padding(spacing.spaceSmall)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.category_delete_message),
+                            style = MaterialTheme.typography.titleSmall,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Spacer(modifier = Modifier.height(spacing.spaceSmall))
+                        CategoryItemDisplay(
+                            categoryItem = it,
+                            showRateColumn = false,
+                            showFavouriteColumn = false,
+                            onFavourite = {},
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(spacing.spaceSmall))
+                        )
+                        Spacer(modifier = Modifier.height(spacing.spaceSmall))
+                    }
+                },
+                onPositiveAction = {
+                    onEvent(CategoryEvent.RemoveCategory(it))
+                },
+                onNegativeAction = {
+                    onEvent(CategoryEvent.RemoveCategoryCanceled(false))
+                },
+                showNegativeAction = true,
+                positiveActionTitle = stringResource(id = R.string.delete),
+                negativeActionTitle = stringResource(id = R.string.cancel),
+                dialogTitle = stringResource(R.string.are_you_sure)
+            )
+        }
     }
 
     if (isSheetOpen) {
@@ -210,7 +216,8 @@ fun CategoryScreen(
                 }, onAddClick = {
                     isSheetOpen = false
                     onEvent(CategoryEvent.AddCategory(it))
-                }
+                },
+                listOfExistingCategory = state.listOfCategoryItem
             )
         }
     }
