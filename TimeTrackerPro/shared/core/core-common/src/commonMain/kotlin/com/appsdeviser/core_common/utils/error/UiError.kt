@@ -9,6 +9,7 @@ sealed interface UiError : Error {
         UPDATED,
         RECORD_ADDED,
         FAILED_TO_LOAD_MORE_DATA,
-        FAVOURITE_CATEGORY_DELETE_WARNING
+        FAVOURITE_CATEGORY_DELETE_WARNING,
+        ADD_CATEGORY_WARNING
     }
 }

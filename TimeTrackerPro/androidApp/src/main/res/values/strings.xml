@@ -75,4 +75,11 @@
     <string name="empty_category_home_screen_message">Please add category for efficient record tracking.</string>
     <string name="clock_out">Clock Out</string>
     <string name="clock_in">Clock In</string>
+    <string name="empty_category_title">Oops...There are no category</string>
+    <string name="empty_category_message">Tap on Add Category to add one</string>
+    <string name="empty_record_title">Oops...There are no records</string>
+    <string name="empty_record_message">Tap on Add New Record to add one</string>
+    <string name="tap">Tap</string>
+    <string name="to_add_one">to add one</string>
+    <string name="view_all_records">View All Records</string>
 </resources>

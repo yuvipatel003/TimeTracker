@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.appsdeviser.timetrackerpro.android.R
 import com.appsdeviser.timetrackerpro.android.ui.core.components.CustomContentDialog
+import com.appsdeviser.timetrackerpro.android.ui.core.components.EmptyRecordView
 import com.appsdeviser.timetrackerpro.android.ui.core.components.ScrollToTopButton
 import com.appsdeviser.timetrackerpro.android.ui.core.components.SingleFloatingActionButton
 import com.appsdeviser.timetrackerpro.android.ui.core.components.SwipeableContentView
@@ -94,6 +95,13 @@ fun CategoryScreen(
                 onBackClick = onBackClick
             )
 
+            if(state.listOfCategoryItem.isEmpty()) {
+                EmptyRecordView(
+                    modifier = Modifier.fillMaxSize(),
+                    title = stringResource(R.string.empty_category_title),
+                    message = stringResource(R.string.empty_category_message)
+                )
+            }
             Box {
                 LazyColumn(
                     state = lazyState,

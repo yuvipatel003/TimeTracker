@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.appsdeviser.timetrackerpro.android.R
+import com.appsdeviser.timetrackerpro.android.ui.core.components.EmptyRecordView
 import com.appsdeviser.timetrackerpro.android.ui.core.components.RecordsGroupByDate
 import com.appsdeviser.timetrackerpro.android.ui.core.components.SingleFloatingActionButton
 import com.appsdeviser.timetrackerpro.android.ui.core.components.TitleBar
@@ -99,21 +100,29 @@ fun ViewRecordScreen(
                     it.startDate
                 }.toList()
 
-                RecordsGroupByDate(
-                    modifier = Modifier,
-                    onEdit = {
-                        onEvent(ViewRecordEvent.SelectRecord(it.id ?: -1))
-                        onEvent(ViewRecordEvent.MarkElementToUpdate(it))
-                    },
-                    onRemove = {
-                        onEvent(ViewRecordEvent.DeleteRecord(it))
-                    },
-                    state = state,
-                    listOfGroupByRecords = groupRecordByDate,
-                    onLoadNextRecords = {
-                        onEvent(ViewRecordEvent.LoadNextRecords)
-                    }
-                )
+                if(groupRecordByDate.isEmpty()) {
+                    EmptyRecordView(
+                        modifier = Modifier.fillMaxSize(),
+                        title = stringResource(R.string.empty_record_title),
+                        message = stringResource(R.string.empty_record_message)
+                    )
+                } else {
+                    RecordsGroupByDate(
+                        modifier = Modifier,
+                        onEdit = {
+                            onEvent(ViewRecordEvent.SelectRecord(it.id ?: -1))
+                            onEvent(ViewRecordEvent.MarkElementToUpdate(it))
+                        },
+                        onRemove = {
+                            onEvent(ViewRecordEvent.DeleteRecord(it))
+                        },
+                        state = state,
+                        listOfGroupByRecords = groupRecordByDate,
+                        onLoadNextRecords = {
+                            onEvent(ViewRecordEvent.LoadNextRecords)
+                        }
+                    )
+                }
             }
 
             if (!isSheetOpen) {
