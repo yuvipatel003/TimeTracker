@@ -1,6 +1,8 @@
 package com.appsdeviser.tracker.presentation.home
 
 import com.appsdeviser.core_common.constants.FeatureKey
+import com.appsdeviser.core_common.utils.addAllIfNotExist
+import com.appsdeviser.core_common.utils.error.UiError
 import com.appsdeviser.core_db.domain.settings.SettingsDataSource
 import com.appsdeviser.core_db.domain.showrecordpage.ShowRecordPageSettingDataSource
 import com.appsdeviser.core_db.featuremanager.FeatureManager
@@ -16,6 +18,8 @@ import com.appsdeviser.tracker.presentation.home.components.CategoryState
 import com.appsdeviser.tracker.presentation.home.components.HomeFeatureState
 import com.appsdeviser.tracker.presentation.home.components.NotificationState
 import com.appsdeviser.tracker.presentation.home.components.RecentRecordState
+import com.appsdeviser.tracker.presentation.record.view.UIRecordItem
+import com.appsdeviser.tracker.presentation.record.view.mapper.toUIRecordItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,6 +45,7 @@ class HomeViewModel(
     private val _categoryState = MutableStateFlow(CategoryState())
     private val _notificationState = MutableStateFlow(NotificationState())
     private val _activeRecordState = MutableStateFlow(ActiveRecordState())
+    private var recordsList = mutableListOf<UIRecordItem>()
 
     /**
      * HomeFeatureState
@@ -71,16 +76,17 @@ class HomeViewModel(
         categoryDataSource.getCategoryList(),
         _notificationState
     ) { categoryState, categoryList, notificationState ->
+        val favouriteCategory = categoryList.firstOrNull { item -> item.favourite }
         _categoryState.update {
             it.copy(
-                favouriteCategory = categoryList.firstOrNull { item -> item.favourite },
+                favouriteCategory = favouriteCategory,
                 listOfCategory = categoryList
             )
         }
         _state.update {
             if(it.selectedCategory == null ) {
                 it.copy(
-                    selectedCategory = categoryList.firstOrNull { item -> item.favourite }
+                    selectedCategory = favouriteCategory
                 )
             } else it
         }
@@ -125,12 +131,29 @@ class HomeViewModel(
         _recentRecordState,
         showRecordPageSettingDataSource.getShowRecordSetting(),
         recordDataSource.getRecordList(),
+        recordDataSource.getRecordList(1),
         activeRecordState
-    ) { recentRecordState, showRecordSetting, recentRecords, activeRecordSet ->
+    ) { recentRecordState, showRecordSetting, recentRecords, anotherRecentRecord, activeRecordState ->
         _recentRecordState.update {
+            recordsList.clear()
+            val allRecords = mutableListOf<UIRecordItem>()
+            allRecords.addAllIfNotExist(recentRecords.mapNotNull { recordItem ->
+                    recordItem.toUIRecordItem(_state.value.categoryState.listOfCategory.firstOrNull { it.id == recordItem.categoryId })
+                })
+            allRecords.addAllIfNotExist(anotherRecentRecord.mapNotNull { recordItem ->
+                recordItem.toUIRecordItem(_state.value.categoryState.listOfCategory.firstOrNull { it.id == recordItem.categoryId })
+            })
+
+            if(showRecordSetting.showOnlyFavouriteOnHome && categoryState.value.favouriteCategory?.id != null) {
+                recordsList.addAllIfNotExist(allRecords.filter {
+                    it.categoryId == categoryState.value.favouriteCategory?.id
+                })
+            } else {
+                recordsList.addAllIfNotExist(allRecords)
+            }
             it.copy(
                 loadShowRecordSetting = showRecordSetting,
-                listOfRecentRecords = recentRecords
+                listOfRecentRecords = recordsList
             )
         }
         recentRecordState
@@ -211,6 +234,14 @@ class HomeViewModel(
 
             is HomeEvent.EndRecord -> {
                 stopActiveRecord(event.recordItem)
+            }
+
+            is HomeEvent.ShowAddCategoryWarning -> {
+                _state.update {
+                    it.copy(
+                        error = UiError.Notification.ADD_CATEGORY_WARNING
+                    )
+                }
             }
             else -> Unit
         }

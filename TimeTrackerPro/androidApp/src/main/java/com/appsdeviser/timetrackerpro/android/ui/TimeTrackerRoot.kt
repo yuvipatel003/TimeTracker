@@ -49,7 +49,7 @@ fun TimeTrackerRoot(
 
     NavHost(
         navController = navController,
-        startDestination = Routes.HOME
+        startDestination = Routes.SPLASH
     ) {
         /**
          * SplashScreen
@@ -99,17 +99,20 @@ fun TimeTrackerRoot(
         ) {
             val viewModel = hiltViewModel<AndroidHomeViewModel>()
             val state by viewModel.state.collectAsState()
+            ErrorUI(
+                onPositiveAction = {},
+                onNegativeAction = { viewModel.onEvent(HomeEvent.OnErrorSeen) },
+                error = state.error
+            )
             HomeScreen(
                 state = state,
                 onEvent = { event ->
                     when (event) {
-                        HomeEvent.OnErrorSeen -> TODO()
-                        HomeEvent.ShowAddNewRecord -> navController.navigate(
+                        is HomeEvent.ShowAddNewRecord -> navController.navigate(
                             Routes.ADD_RECORD
-                                    + "/${RoutesArguments.DEFAULT_RECORD_ID_VALUE}"
+                                    + "/${event.recordItem?.id ?: RoutesArguments.DEFAULT_RECORD_ID_VALUE}"
                                     + "/${RoutesArguments.DEFAULT_CATEGORY_ID_VALUE}"
                         )
-
                         HomeEvent.ShowCategory -> navController.navigate(Routes.CATEGORY)
                         HomeEvent.ShowRecords -> navController.navigate(Routes.VIEW_ALL_RECORD)
                         HomeEvent.ShowSetting -> navController.navigate(Routes.SETTINGS)

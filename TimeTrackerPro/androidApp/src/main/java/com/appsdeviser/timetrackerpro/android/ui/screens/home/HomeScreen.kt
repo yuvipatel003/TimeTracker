@@ -20,7 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Brightness1
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Dashboard
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +41,7 @@ import com.appsdeviser.timetrackerpro.android.ui.core.DEFAULT_DB_DATE_FORMAT
 import com.appsdeviser.timetrackerpro.android.ui.core.DEFAULT_DB_TIME_FORMAT
 import com.appsdeviser.timetrackerpro.android.ui.core.calculateHours
 import com.appsdeviser.timetrackerpro.android.ui.core.components.EmptyListView
+import com.appsdeviser.timetrackerpro.android.ui.core.components.EmptyRecordView
 import com.appsdeviser.timetrackerpro.android.ui.core.displayAsDate
 import com.appsdeviser.timetrackerpro.android.ui.core.displayAsTime
 import com.appsdeviser.timetrackerpro.android.ui.core.roundToTwoDecimal
@@ -92,14 +93,22 @@ fun HomeScreen(
                     )
                     FloatingActionButtonItem(
                         onClick = {
-                            onEvent(HomeEvent.ShowRecords)
+                            if (state.categoryState.listOfCategory.isEmpty()) {
+                                onEvent(HomeEvent.ShowAddCategoryWarning)
+                            } else {
+                                onEvent(HomeEvent.ShowRecords)
+                            }
                         },
                         imageRes = R.drawable.record_list,
                         title = stringResource(id = R.string.view_records)
                     )
                     FloatingActionButtonItem(
                         onClick = {
-                            onEvent(HomeEvent.ShowAddNewRecord)
+                            if (state.categoryState.listOfCategory.isEmpty()) {
+                                onEvent(HomeEvent.ShowAddCategoryWarning)
+                            } else {
+                                onEvent(HomeEvent.ShowAddNewRecord(null))
+                            }
                         },
                         imageRes = R.drawable.record,
                         title = stringResource(id = R.string.add_record)
@@ -229,9 +238,30 @@ fun HomeScreen(
                     )
                 }
                 Spacer(modifier = Modifier.height(spacing.spaceExtraSmall))
-                RecentActivity(
-                    modifier = Modifier.weight(1f)
-                )
+                val groupRecordByDate =
+                    state.recentRecordState.listOfRecentRecords.sortedByDescending {
+                        it.startDate
+                    }.groupBy {
+                        it.startDate
+                    }.toList()
+                if (groupRecordByDate.isNotEmpty()) {
+                    RecentActivity(
+                        modifier = Modifier.weight(1f),
+                        onEdit = {
+                            onEvent(HomeEvent.ShowAddNewRecord(it))
+                        },
+                        listOfGroupByRecords = groupRecordByDate,
+                        showRecordPageSettingItem = state.recentRecordState.loadShowRecordSetting,
+                        onViewAllRecord = {
+                            onEvent(HomeEvent.ShowRecords)
+                        }
+                    )
+                } else {
+                    EmptyRecordView(
+                        modifier = Modifier.fillMaxSize(),
+                        title = stringResource(R.string.empty_record_title)
+                    )
+                }
             }
 
             if (state.categoryState.listOfCategory.isNotEmpty()) {
@@ -311,7 +341,7 @@ fun HomeScreen(
             } else {
                 EmptyListView(
                     modifier = Modifier.align(Alignment.BottomCenter),
-                    imageVector = Icons.Default.Warning,
+                    imageVector = Icons.Default.Info,
                     imageSize = spacing.titleBarIconSize,
                     title = stringResource(R.string.empty_category_home_screen_message),
                     titleStyle = MaterialTheme.typography.bodyMedium,

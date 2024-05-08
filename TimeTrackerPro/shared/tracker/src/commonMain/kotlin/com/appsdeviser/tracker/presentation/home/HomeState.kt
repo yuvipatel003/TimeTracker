@@ -1,5 +1,6 @@
 package com.appsdeviser.tracker.presentation.home
 
+import com.appsdeviser.core_common.utils.error.Error
 import com.appsdeviser.tracker.domain.category.CategoryItem
 import com.appsdeviser.tracker.presentation.home.components.CategoryState
 import com.appsdeviser.tracker.presentation.home.components.GoalState

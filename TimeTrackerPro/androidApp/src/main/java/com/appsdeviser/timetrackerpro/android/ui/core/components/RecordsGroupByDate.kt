@@ -1,7 +1,6 @@
 package com.appsdeviser.timetrackerpro.android.ui.core.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,15 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FilterAlt
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
@@ -29,14 +22,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.appsdeviser.core_db.domain.showrecordpage.ShowRecordPageSettingItem
 import com.appsdeviser.timetrackerpro.android.ui.core.displayAsDate
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LocalSpacing
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.TextColorBlack
 import com.appsdeviser.tracker.presentation.record.view.UIRecordItem
 import com.appsdeviser.tracker.presentation.record.view.ViewRecordState
-import kotlinx.coroutines.launch
 
 @Composable
 fun RecordsGroupByDate(
@@ -98,12 +88,12 @@ fun RecordsGroupByDate(
                         )
                     }
 
-                    if(index >= listOfGroupByRecords.size -1 && !state.endReached && !state.isLoading) {
+                    if (index >= listOfGroupByRecords.size - 1 && !state.endReached && !state.isLoading) {
                         onLoadNextRecords()
                     }
                 }
 
-                if(state.isLoading) {
+                if (state.isLoading) {
                     item {
                         Row(
                             modifier = Modifier
