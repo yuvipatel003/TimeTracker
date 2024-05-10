@@ -1,5 +1,6 @@
 package com.appsdeviser.timetrackerpro.android.ui.screens.onboarding
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Email
@@ -22,7 +25,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import com.appsdeviser.onboarding.presentation.onboarding.OnboardingEvent
 import com.appsdeviser.onboarding.presentation.onboarding.OnboardingState
@@ -38,6 +43,7 @@ fun OnboardingScreen(
     onEvent: (OnboardingEvent) -> Unit
 ) {
     val spacing = LocalSpacing.current
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(key1 = state.event) {
         state.event?.let(onEvent)
@@ -45,6 +51,9 @@ fun OnboardingScreen(
 
     Box(
         modifier = Modifier
+            .clickable {
+                keyboardController?.hide()
+            }
             .fillMaxSize()
             .padding(spacing.spaceMedium, spacing.spaceLarge)
     ) {
@@ -88,7 +97,8 @@ fun OnboardingScreen(
                 },
                 textStyle = MaterialTheme.typography.bodyMedium.copy(
                     color = TextColorBlack
-                )
+                ),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
             )
             Spacer(modifier = Modifier.height(spacing.spaceMedium))
             TextField(
@@ -113,7 +123,8 @@ fun OnboardingScreen(
                 },
                 textStyle = MaterialTheme.typography.bodyMedium.copy(
                     color = TextColorBlack
-                )
+                ),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
             )
             Spacer(modifier = Modifier.height(spacing.spaceLarge))
         }

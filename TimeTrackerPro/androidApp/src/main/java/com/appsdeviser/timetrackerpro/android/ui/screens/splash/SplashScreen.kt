@@ -51,6 +51,7 @@ fun SplashScreen(
     }
 
     LaunchedEffect(key1 = true) {
+        onEvent(SplashEvent.OnStartUp)
         scale.animateTo(
             targetValue = 1.5f,
             animationSpec = tween(

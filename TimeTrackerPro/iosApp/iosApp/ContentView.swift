@@ -2,7 +2,6 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-    let greet = Greeting().greet()
     @State private var activeScreen: Screens = .SPLASH
     
     var appModule: AppModule = AppModule()
