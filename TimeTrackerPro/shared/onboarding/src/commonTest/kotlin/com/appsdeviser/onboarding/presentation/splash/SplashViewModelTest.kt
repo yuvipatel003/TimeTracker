@@ -69,6 +69,25 @@ class SplashViewModelTest {
 
             assertThat(state.email).isEqualTo(expected.email)
             assertThat(state.username).isEqualTo(expected.userName)
+            assertThat(state.event).isEqualTo(null)
+            assertThat(state.listOfFeatures).isEqualTo(emptyList())
+        }
+    }
+
+    @Test
+    fun `StartUp gets feature list and updates successfully` () = runBlocking {
+
+        viewModel.state.test {
+            val initialState = awaitItem()
+            val item = SettingsItem(
+                id = 0,
+                userName = "",
+                email = "",
+                currentAppVersion = "1.1.0"
+            )
+            settingsDataSource.setSettings(item)
+            viewModel.onEvent(SplashEvent.OnStartUp)
+            val state = awaitItem()
             assertThat(state.event).isEqualTo(SplashEvent.GoToHomePage)
             assertThat(state.listOfFeatures).isEqualTo(FakeFeaturesClient.featureList.list)
         }

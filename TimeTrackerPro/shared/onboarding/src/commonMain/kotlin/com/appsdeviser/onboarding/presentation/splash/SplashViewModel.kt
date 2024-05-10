@@ -39,6 +39,24 @@ class SplashViewModel(
         settingsDataSource.getSettings()
     ) { state, settings ->
         if (settings.userName.isEmpty()) nextAction = SplashEvent.GoToOnboarding
+
+        if (appConfig.applicationVersion.isNewVersionInstalled(
+                settings.currentAppVersion.getAppVersionToInt()
+            )
+        ) {
+            if (nextAction != SplashEvent.GoToOnboarding) {
+                nextAction = SplashEvent.GoToWhatsNew
+            }
+            settingsDataSource.setSettings(
+                SettingsItem(
+                    id = null,
+                    userName = settings.userName,
+                    email = settings.email,
+                    currentAppVersion = appConfig.applicationVersion
+                )
+            )
+        }
+
         when {
             state.username != settings.userName ||
                     state.email != settings.email -> {
@@ -46,23 +64,6 @@ class SplashViewModel(
                     username = settings.userName,
                     email = settings.email
                 )
-            }
-
-            appConfig.applicationVersion.isNewVersionInstalled(
-                settings.currentAppVersion.getAppVersionToInt()
-            ) -> {
-                settingsDataSource.setSettings(
-                    SettingsItem(
-                        id = null,
-                        userName = settings.userName,
-                        email = settings.email,
-                        currentAppVersion = appConfig.applicationVersion
-                    )
-                )
-                if (nextAction != SplashEvent.GoToOnboarding) {
-                    nextAction = SplashEvent.GoToWhatsNew
-                }
-                state
             }
 
             else -> state
@@ -78,12 +79,12 @@ class SplashViewModel(
                 }
             }
 
+            is SplashEvent.OnStartUp -> {
+                loadFeatures()
+            }
+
             else -> Unit
         }
-    }
-
-    init {
-        loadFeatures()
     }
 
     private fun startAppCompleted() {
@@ -115,6 +116,7 @@ class SplashViewModel(
                 is Result.Success -> {
                     featureDataSource.insertFeatures(result.data.list)
                     featureManager.initialize()
+                    delay(1000)
                     _state.update {
                         it.copy(
                             isLoading = false,

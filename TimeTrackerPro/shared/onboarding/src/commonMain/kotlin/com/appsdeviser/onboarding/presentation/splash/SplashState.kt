@@ -8,6 +8,7 @@ data class SplashState(
     val email: String = "",
     val listOfFeatures: List<FeatureItem> = emptyList(),
     val isLoading: Boolean = true,
+    val currentAppVersion: String = "",
     val error: Error? = null,
     val event: SplashEvent? = null
 )

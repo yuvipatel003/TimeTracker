@@ -88,6 +88,7 @@ struct SplashScreen: View {
         .edgesIgnoringSafeArea(.all)
         .onAppear {
             viewModel.startObserving()
+            viewModel.onEvent(event: SplashEvent.OnStartUp())
         }
         .onDisappear {
             viewModel.dispose()

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LightGreen
 import com.appsdeviser.timetrackerpro.android.ui.core.theme.LightPrimaryColor
@@ -81,7 +83,8 @@ fun SettingsText(
                 },
                 textStyle = MaterialTheme.typography.bodyMedium.copy(
                     color = TextColorBlack
-                )
+                ),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
             )
             Spacer(modifier = Modifier.height(spacing.spaceExtraSmall))
             Row(

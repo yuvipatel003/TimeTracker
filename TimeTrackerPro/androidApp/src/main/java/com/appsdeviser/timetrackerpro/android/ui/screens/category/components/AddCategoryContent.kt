@@ -118,7 +118,7 @@ fun ColumnScope.AddCategoryContent(
             color = TextColorBlack
         ),
         keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Done
+            imeAction = ImeAction.Next
         )
     )
 

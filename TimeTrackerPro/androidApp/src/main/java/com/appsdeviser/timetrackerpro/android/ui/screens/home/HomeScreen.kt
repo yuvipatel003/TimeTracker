@@ -157,12 +157,12 @@ fun HomeScreen(
                 HomeTitleBar(
                     modifier = Modifier.fillMaxWidth(),
                     title = stringResource(id = R.string.home_welcome) + state.userName,
-                    isNotificationFeatureEnabled = !state.homeFeatureState.isNotificationFeatureEnabled,
+                    isNotificationFeatureEnabled = state.homeFeatureState.isNotificationFeatureEnabled,
                     isNotificationSelected = state.notificationState.isNotificationOpen,
                     onNotificationClick = {
                         onEvent(HomeEvent.OnNotificationClick)
                     },
-                    isSettingsFeatureEnabled = !state.homeFeatureState.isSettingFeatureEnabled,
+                    isSettingsFeatureEnabled = state.homeFeatureState.isSettingFeatureEnabled,
                     onSettingsClick = {
                         onEvent(HomeEvent.ShowSetting)
                     }

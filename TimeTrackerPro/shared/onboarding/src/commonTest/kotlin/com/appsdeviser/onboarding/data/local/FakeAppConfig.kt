@@ -4,7 +4,7 @@ import com.appsdeviser.AppConfig
 
 class FakeAppConfig : AppConfig {
     override val applicationVersion: String
-        get() = "2"
+        get() = "1.2.0"
     override val appVersionCode: Int?
         get() = 4
     override val isAndroidPlatform: Boolean

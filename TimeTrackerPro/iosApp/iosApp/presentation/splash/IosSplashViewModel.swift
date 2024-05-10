@@ -27,6 +27,7 @@ extension SplashScreen {
             email: "",
             listOfFeatures:[FeatureItem](),
             isLoading: false,
+            currentAppVersion: "",
             error: nil,
             event: nil
         )
