@@ -30,14 +30,11 @@ class AddRecordViewModel(
         categoryDataSource.getCategoryList(),
         recordPageSettingDataSource.getShowRecordSetting()
     ) { state, categoryList, recordPageSettings ->
-        _state.update {
-            it.copy(
-                listOfCategoryItem = categoryList,
-                enableAddButton = validateRecordDataInput(it.selectedRecord),
-                recordPageSettingItem = recordPageSettings
-            )
-        }
-        state
+        state.copy(
+            listOfCategoryItem = categoryList,
+            enableAddButton = validateRecordDataInput(state.selectedRecord),
+            recordPageSettingItem = recordPageSettings
+        )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), AddRecordState())
         .toCommonStateFlow()
 

@@ -134,7 +134,6 @@ class HomeViewModel(
         recordDataSource.getRecordList(1),
         activeRecordState
     ) { recentRecordState, showRecordSetting, recentRecords, anotherRecentRecord, activeRecordState ->
-        _recentRecordState.update {
             recordsList.clear()
             val allRecords = mutableListOf<UIRecordItem>()
             allRecords.addAllIfNotExist(recentRecords.mapNotNull { recordItem ->
@@ -151,12 +150,10 @@ class HomeViewModel(
             } else {
                 recordsList.addAllIfNotExist(allRecords)
             }
-            it.copy(
+            recentRecordState.copy(
                 loadShowRecordSetting = showRecordSetting,
                 listOfRecentRecords = recordsList
             )
-        }
-        recentRecordState
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), RecentRecordState())
 
     /**
@@ -169,15 +166,12 @@ class HomeViewModel(
         homeFeatureState,
         recentRecordState,
     ) { state, settings, categoryState, homeFeatureState, recentRecordState ->
-        _state.update {
-            it.copy(
+        state.copy(
                 userName = settings.userName,
                 recentRecordState = recentRecordState,
                 categoryState = categoryState,
                 homeFeatureState = homeFeatureState
             )
-        }
-        state
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HomeState())
         .toCommonStateFlow()
 

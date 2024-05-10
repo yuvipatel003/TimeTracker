@@ -25,12 +25,9 @@ class OnboardingViewModel(
         _state,
         settingsDataSource.getSettings()
     ) { state, settingsItem ->
-        _state.update {
-            it.copy(
-                settingsItem = settingsItem
-            )
-        }
-        state
+        state.copy(
+            settingsItem = settingsItem
+        )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), OnboardingState())
         .toCommonStateFlow()
 

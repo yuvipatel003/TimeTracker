@@ -113,7 +113,6 @@ class SplashViewModel(
                 }
 
                 is Result.Success -> {
-                    delay(5000)
                     featureDataSource.insertFeatures(result.data.list)
                     featureManager.initialize()
                     _state.update {
