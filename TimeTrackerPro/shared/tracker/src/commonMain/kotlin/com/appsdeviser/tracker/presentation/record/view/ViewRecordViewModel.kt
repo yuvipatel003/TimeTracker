@@ -57,13 +57,10 @@ class ViewRecordViewModel(
             recordItem.toUIRecordItem(listOfCategory.value.firstOrNull { it.id == recordItem.categoryId })
         })
         filterRecords()
-        _state.update {
-            it.copy(
-                showRecordPageSettingItem = recordPageSetting,
-                listOfCategoryItem = categoryList
-            )
-        }
-        state
+        state.copy(
+            showRecordPageSettingItem = recordPageSetting,
+            listOfCategoryItem = categoryList
+        )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ViewRecordState())
         .toCommonStateFlow()
 

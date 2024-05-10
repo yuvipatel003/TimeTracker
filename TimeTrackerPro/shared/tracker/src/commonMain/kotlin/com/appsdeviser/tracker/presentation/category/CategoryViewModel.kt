@@ -26,12 +26,9 @@ class CategoryViewModel(
         _state,
         categoryDataSource.getCategoryList()
     ) { state, categoryList ->
-        _state.update {
-            it.copy(
-                listOfCategoryItem = categoryList
-            )
-        }
-        state
+        state.copy(
+            listOfCategoryItem = categoryList
+        )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), CategoryState())
         .toCommonStateFlow()
 

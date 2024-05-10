@@ -31,13 +31,10 @@ class SettingsViewModel(
         showRecordPageSettingDataSource.getShowRecordSetting()
 
     ) { state, settingsItem, recordPageSettingItem ->
-        _state.update {
-            it.copy(
-                settingsItem = settingsItem,
-                showRecordPageSettingItem = recordPageSettingItem
-            )
-        }
-        state
+        state.copy(
+            settingsItem = settingsItem,
+            showRecordPageSettingItem = recordPageSettingItem
+        )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SettingsState())
         .toCommonStateFlow()
 
