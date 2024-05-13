@@ -131,6 +131,8 @@ fun AddRecordScreen(
                             )
                             Spacer(modifier = Modifier.width(spacing.spaceSmall))
                             CustomDatePicker(
+                                selectedDate = state.selectedRecord.endDate,
+                                isStartDate = true,
                                 onSelect = {
                                     onEvent(AddRecordEvent.UpdateDate(it, true))
                                     onEvent(
@@ -244,6 +246,8 @@ fun AddRecordScreen(
                             )
                             Spacer(modifier = Modifier.width(spacing.spaceSmall))
                             CustomDatePicker(
+                                selectedDate = state.selectedRecord.startDate,
+                                isStartDate = false,
                                 onSelect = {
                                     onEvent(AddRecordEvent.UpdateDate(it, false))
                                     onEvent(

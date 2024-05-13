@@ -20,7 +20,9 @@ import java.time.ZoneId
 
 @Composable
 fun CustomDatePicker(
-    onSelect: (date: String) -> Unit
+    onSelect: (date: String) -> Unit,
+    isStartDate: Boolean,
+    selectedDate: String
 ) {
     val date = remember { mutableStateOf(LocalDate.now()) }
     val isOpen = remember { mutableStateOf(false) }
@@ -53,7 +55,9 @@ fun CustomDatePicker(
             },
             onCancel = {
                 isOpen.value = false //close dialog
-            }
+            },
+            selectedDate = selectedDate,
+            isStartDate = isStartDate
         )
     }
 }
