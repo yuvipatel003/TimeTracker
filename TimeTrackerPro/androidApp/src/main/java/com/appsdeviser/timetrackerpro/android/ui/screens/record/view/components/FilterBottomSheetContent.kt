@@ -93,7 +93,9 @@ fun FilterBottomSheetContent(
             CustomDatePicker(
                 onSelect = {
                     startDate = it
-                }
+                },
+                isStartDate = true,
+                selectedDate = endDate ?: ""
             )
         }
     }
@@ -126,7 +128,9 @@ fun FilterBottomSheetContent(
             CustomDatePicker(
                 onSelect = {
                     endDate = it
-                }
+                },
+                isStartDate = false,
+                selectedDate = startDate ?: ""
             )
         }
     }

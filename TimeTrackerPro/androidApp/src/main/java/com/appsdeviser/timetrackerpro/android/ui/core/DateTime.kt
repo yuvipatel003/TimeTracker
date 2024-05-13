@@ -75,5 +75,7 @@ const val DEFAULT_DB_TIME_FORMAT = "HH:mm:ss"
 const val HOUR_FORMAT_12: String = "hh:mm a"
 const val HOUR_FORMAT_24: String = "HH:mm:ss"
 
+const val ONE_DAY_MILLIS = 86400000
+
 //"2024-02-25".displayAsDate("EEE, MMM dd, yyyy") + ", " +"16:45:25".displayAsTime(true),
 
