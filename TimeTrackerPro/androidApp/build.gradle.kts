@@ -78,4 +78,5 @@ dependencies {
     debugImplementation(libs.compose.test.manifest)
     kaptAndroidTest(libs.hilt.android.compiler)
     androidTestImplementation(libs.hilt.testing)
+    implementation(libs.kotlinx.serialization.json)
 }

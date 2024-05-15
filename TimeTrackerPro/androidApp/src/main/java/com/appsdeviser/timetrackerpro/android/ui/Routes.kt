@@ -1,12 +1,33 @@
 package com.appsdeviser.timetrackerpro.android.ui
 
+import kotlinx.serialization.Serializable
+
 object Routes {
-    const val SPLASH = "splash"
-    const val HOME = "home"
-    const val ONBOARDING = "onboarding"
-    const val WHATS_NEW = "whats_new"
-    const val CATEGORY = "category"
-    const val ADD_RECORD = "add_record"
-    const val VIEW_ALL_RECORD = "view_all_record"
-    const val SETTINGS = "settings"
+
+    @Serializable
+    object Splash
+
+    @Serializable
+    object Home
+
+    @Serializable
+    object Onboarding
+
+    @Serializable
+    object WhatsNew
+
+    @Serializable
+    object Category
+
+    @Serializable
+    data class AddRecord(
+        val recordId: Long = -1L,
+        val categoryId: Long = -1L
+    )
+
+    @Serializable
+    object ViewAllRecord
+
+    @Serializable
+    object Settings
 }

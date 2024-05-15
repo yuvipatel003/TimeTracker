@@ -8,11 +8,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.appsdeviser.core_common.utils.error.ApiError
 import com.appsdeviser.onboarding.presentation.onboarding.OnboardingEvent
 import com.appsdeviser.onboarding.presentation.splash.SplashEvent
@@ -49,14 +48,13 @@ fun TimeTrackerRoot(
 
     NavHost(
         navController = navController,
-        startDestination = Routes.SPLASH
+        startDestination = Routes.Splash
     ) {
         /**
          * SplashScreen
          */
-        composable(
-            route = Routes.SPLASH
-        ) {
+        composable<Routes.Splash>
+        {
             val viewModel = hiltViewModel<AndroidSplashViewModel>()
             val state by viewModel.state.collectAsState()
             ErrorUI(
@@ -83,9 +81,9 @@ fun TimeTrackerRoot(
                 state = state,
                 onEvent = { event ->
                     when (event) {
-                        SplashEvent.GoToHomePage -> navController.navigate(Routes.HOME)
-                        SplashEvent.GoToOnboarding -> navController.navigate(Routes.ONBOARDING)
-                        SplashEvent.GoToWhatsNew -> navController.navigate(Routes.WHATS_NEW)
+                        SplashEvent.GoToHomePage -> navController.navigate(Routes.Home)
+                        SplashEvent.GoToOnboarding -> navController.navigate(Routes.Onboarding)
+                        SplashEvent.GoToWhatsNew -> navController.navigate(Routes.WhatsNew)
                         else -> viewModel.onEvent(event)
                     }
                 }
@@ -94,9 +92,8 @@ fun TimeTrackerRoot(
         /**
          * HomeScreen
          */
-        composable(
-            route = Routes.HOME
-        ) {
+        composable<Routes.Home>
+        {
             val viewModel = hiltViewModel<AndroidHomeViewModel>()
             val state by viewModel.state.collectAsState()
             ErrorUI(
@@ -109,13 +106,13 @@ fun TimeTrackerRoot(
                 onEvent = { event ->
                     when (event) {
                         is HomeEvent.ShowAddNewRecord -> navController.navigate(
-                            Routes.ADD_RECORD
-                                    + "/${event.recordItem?.id ?: RoutesArguments.DEFAULT_RECORD_ID_VALUE}"
-                                    + "/${RoutesArguments.DEFAULT_CATEGORY_ID_VALUE}"
+                            Routes.AddRecord(
+                                recordId = event.recordItem?.id ?: -1L
+                            )
                         )
-                        HomeEvent.ShowCategory -> navController.navigate(Routes.CATEGORY)
-                        HomeEvent.ShowRecords -> navController.navigate(Routes.VIEW_ALL_RECORD)
-                        HomeEvent.ShowSetting -> navController.navigate(Routes.SETTINGS)
+                        HomeEvent.ShowCategory -> navController.navigate(Routes.Category)
+                        HomeEvent.ShowRecords -> navController.navigate(Routes.ViewAllRecord)
+                        HomeEvent.ShowSetting -> navController.navigate(Routes.Settings)
                         else -> viewModel.onEvent(event)
                     }
                 }
@@ -124,9 +121,8 @@ fun TimeTrackerRoot(
         /**
          * Onboarding Screen
          */
-        composable(
-            route = Routes.ONBOARDING
-        ) {
+        composable<Routes.Onboarding>
+        {
             val viewModel = hiltViewModel<AndroidOnboardingViewModel>()
             val state by viewModel.state.collectAsState()
             ErrorUI(
@@ -139,7 +135,7 @@ fun TimeTrackerRoot(
                 onEvent = {
                     when (it) {
                         OnboardingEvent.OnFinish -> {
-                            navController.navigate(Routes.WHATS_NEW)
+                            navController.navigate(Routes.WhatsNew)
                         }
 
                         else -> viewModel.onEvent(it)
@@ -149,9 +145,8 @@ fun TimeTrackerRoot(
         /**
          * Whats New Screen
          */
-        composable(
-            route = Routes.WHATS_NEW
-        ) {
+        composable<Routes.WhatsNew>
+        {
             val viewModel = hiltViewModel<AndroidWhatsNewViewModel>()
             val state by viewModel.state.collectAsState()
             WhatsNewScreen(
@@ -159,7 +154,7 @@ fun TimeTrackerRoot(
                 onEvent = {
                     when (it) {
                         is WhatsNewEvent.OnFinish -> {
-                            navController.navigate(Routes.HOME)
+                            navController.navigate(Routes.Home)
                         }
 
                         else -> viewModel.onEvent(it)
@@ -170,9 +165,7 @@ fun TimeTrackerRoot(
         /**
          * View Category
          */
-        composable(
-            route = Routes.CATEGORY
-        ) {
+        composable<Routes.Category>{
             val viewModel = hiltViewModel<AndroidCategoryViewModel>()
             val state by viewModel.state.collectAsState()
             ErrorUI(
@@ -185,7 +178,11 @@ fun TimeTrackerRoot(
                 onEvent = { event ->
                     when (event) {
                         is CategoryEvent.AddRecordToCategory -> {
-                            navController.navigate(Routes.ADD_RECORD + "/${RoutesArguments.DEFAULT_RECORD_ID_VALUE}" + "/${event.categoryItem.id}")
+                            navController.navigate(
+                                Routes.AddRecord(
+                                    categoryId = event.categoryItem.id ?: -1L
+                                )
+                            )
                         }
 
                         else -> viewModel.onEvent(event)
@@ -199,34 +196,22 @@ fun TimeTrackerRoot(
         /**
          * Add Record
          */
-        composable(
-            route = Routes.ADD_RECORD + "/{${RoutesArguments.RECORD_ID}}" + "/{${RoutesArguments.CATEGORY_ID}}",
-            arguments = listOf(
-                navArgument(RoutesArguments.RECORD_ID) {
-                    type = NavType.LongType
-                },
-                navArgument(RoutesArguments.CATEGORY_ID) {
-                    type = NavType.LongType
-                }
-            )
-        ) {
+        composable<Routes.AddRecord> {
             val viewModel = hiltViewModel<AndroidAddRecordViewModel>()
             val state by viewModel.state.collectAsState()
-            val selectedRecordId: Long = it.arguments?.getLong(RoutesArguments.RECORD_ID) ?: -1L
-            val selectedCategoryId: Long = it.arguments?.getLong(RoutesArguments.CATEGORY_ID) ?: -1L
+            val routeArguments = it.toRoute<Routes.AddRecord>()
             var isNewRecord: Boolean by remember {
                 mutableStateOf(false)
             }
 
             LaunchedEffect(Unit) {
                 isNewRecord = true
-                if (selectedRecordId != -1L) {
-                    viewModel.onEvent(AddRecordEvent.OnSelectRecord(selectedRecordId))
+                if(routeArguments.recordId != -1L) {
+                    viewModel.onEvent(AddRecordEvent.OnSelectRecord(routeArguments.recordId ))
                     isNewRecord = false
                 }
-                // Optionally, load data for selected category
-                if (selectedCategoryId != -1L) {
-                    viewModel.onEvent(AddRecordEvent.OnSelectCategory(selectedCategoryId))
+                if(routeArguments.categoryId != -1L) {
+                    viewModel.onEvent(AddRecordEvent.OnSelectCategory(routeArguments.categoryId))
                 }
             }
 
@@ -249,9 +234,7 @@ fun TimeTrackerRoot(
         /**
          * View All Records
          */
-        composable(
-            route = Routes.VIEW_ALL_RECORD
-        ) {
+        composable<Routes.ViewAllRecord> {
             val viewModel = hiltViewModel<AndroidViewRecordViewModel>()
             val state by viewModel.state.collectAsState()
 
@@ -260,10 +243,16 @@ fun TimeTrackerRoot(
                 onEvent = { event ->
                     when (event) {
                         is ViewRecordEvent.SelectRecord -> {
-                            navController.navigate(Routes.ADD_RECORD + "/${event.recordId}" + "/${RoutesArguments.DEFAULT_CATEGORY_ID_VALUE}")
+                            navController.navigate(
+                                Routes.AddRecord(
+                                    recordId = event.recordId
+                                )
+                            )
                         }
                         is ViewRecordEvent.AddRecord -> {
-                            navController.navigate(Routes.ADD_RECORD + "/${RoutesArguments.DEFAULT_RECORD_ID_VALUE}" + "/${RoutesArguments.DEFAULT_CATEGORY_ID_VALUE}")
+                            navController.navigate(
+                                Routes.AddRecord()
+                            )
                         }
                         else -> viewModel.onEvent(event)
                     }
@@ -277,9 +266,7 @@ fun TimeTrackerRoot(
         /**
          * Settings
          */
-        composable(
-            route = Routes.SETTINGS
-        ) {
+        composable<Routes.Settings> {
             val viewModel = hiltViewModel<AndroidSettingsViewModel>()
             val state by viewModel.state.collectAsState()
 

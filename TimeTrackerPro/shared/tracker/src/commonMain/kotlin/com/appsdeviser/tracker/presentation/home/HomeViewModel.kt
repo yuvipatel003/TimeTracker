@@ -137,10 +137,10 @@ class HomeViewModel(
             recordsList.clear()
             val allRecords = mutableListOf<UIRecordItem>()
             allRecords.addAllIfNotExist(recentRecords.mapNotNull { recordItem ->
-                    recordItem.toUIRecordItem(_state.value.categoryState.listOfCategory.firstOrNull { it.id == recordItem.categoryId })
+                    recordItem.toUIRecordItem(_categoryState.value.listOfCategory.firstOrNull { it.id == recordItem.categoryId })
                 })
             allRecords.addAllIfNotExist(anotherRecentRecord.mapNotNull { recordItem ->
-                recordItem.toUIRecordItem(_state.value.categoryState.listOfCategory.firstOrNull { it.id == recordItem.categoryId })
+                recordItem.toUIRecordItem(_categoryState.value.listOfCategory.firstOrNull { it.id == recordItem.categoryId })
             })
 
             if(showRecordSetting.showOnlyFavouriteOnHome && categoryState.value.favouriteCategory?.id != null) {

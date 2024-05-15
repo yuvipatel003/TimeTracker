@@ -85,6 +85,8 @@ fun RecentActivity(
                         .background(TextColorBlack)
                 )
             }
+        }
+        item {
             Spacer(modifier = Modifier.height(spacing.spaceSmallMedium))
             ActionButton(
                 modifier = Modifier
