@@ -2,6 +2,7 @@ package com.appsdeviser.timetrackerpro.android.ui.core.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -58,12 +59,15 @@ fun SwipeableContentView(
         HorizontalDragValue.StartToEnd at boxSize / 5
         HorizontalDragValue.EndToStart at -boxSize / 5
     }
+    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val state = remember {
         AnchoredDraggableState(
             initialValue = HorizontalDragValue.Settled,
             positionalThreshold = { distance -> distance * 0.2f },
             velocityThreshold = { 0.2f },
-            animationSpec = tween(),
+            snapAnimationSpec = tween(),
+            decayAnimationSpec = decayAnimationSpec,
+            confirmValueChange = { true }
         )
     }
     SideEffect { state.updateAnchors(anchors) }
