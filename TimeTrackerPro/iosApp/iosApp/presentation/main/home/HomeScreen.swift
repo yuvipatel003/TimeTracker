@@ -10,7 +10,19 @@ import SwiftUI
 
 struct HomeScreen: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+//            HomeTitleBar(
+//                title: "Title",
+//                onSettingsClick: { print("Settings clicked") },
+//                onNotificationClick: { print("Notification clicked") }
+//            )
+//            
+            TitleBar(
+            title: "Title is to big yess",
+            onBackClick: { print("Back clicked") }
+            )
+            Spacer()
+        }
     }
 }
 
