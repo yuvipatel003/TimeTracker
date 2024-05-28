@@ -28,6 +28,8 @@
 		6D4BC8A12BC1CA9C006CF04A /* IosOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BC8A02BC1CA9C006CF04A /* IosOnboardingViewModel.swift */; };
 		6D4BC8A42BC2434B006CF04A /* TimeTrackerTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BC8A32BC2434B006CF04A /* TimeTrackerTheme.swift */; };
 		6D6062602BD8A10400BE58DA /* CategoryWithColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D60625F2BD8A10400BE58DA /* CategoryWithColor.swift */; };
+		6D67E2B02C00FA620027AFC7 /* HomeTitleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D67E2AF2C00FA620027AFC7 /* HomeTitleBar.swift */; };
+		6D67E2B22C00FA820027AFC7 /* TitleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D67E2B12C00FA820027AFC7 /* TitleBar.swift */; };
 		6DDEB0352BCF0D6E00EE5574 /* IosWhatsNewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEB0342BCF0D6E00EE5574 /* IosWhatsNewViewModel.swift */; };
 		6DDEB0382BCF0EFA00EE5574 /* WhatsNewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEB0372BCF0EFA00EE5574 /* WhatsNewContent.swift */; };
 		6DDEB03D2BD0831F00EE5574 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEB03C2BD0831F00EE5574 /* HomeScreen.swift */; };
@@ -57,6 +59,8 @@
 		6D4BC8A02BC1CA9C006CF04A /* IosOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosOnboardingViewModel.swift; sourceTree = "<group>"; };
 		6D4BC8A32BC2434B006CF04A /* TimeTrackerTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTrackerTheme.swift; sourceTree = "<group>"; };
 		6D60625F2BD8A10400BE58DA /* CategoryWithColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryWithColor.swift; sourceTree = "<group>"; };
+		6D67E2AF2C00FA620027AFC7 /* HomeTitleBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTitleBar.swift; sourceTree = "<group>"; };
+		6D67E2B12C00FA820027AFC7 /* TitleBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleBar.swift; sourceTree = "<group>"; };
 		6DDEB0342BCF0D6E00EE5574 /* IosWhatsNewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosWhatsNewViewModel.swift; sourceTree = "<group>"; };
 		6DDEB0372BCF0EFA00EE5574 /* WhatsNewContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewContent.swift; sourceTree = "<group>"; };
 		6DDEB03C2BD0831F00EE5574 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
@@ -120,6 +124,7 @@
 		6D4BC87E2BBF4FE6006CF04A /* presentation */ = {
 			isa = PBXGroup;
 			children = (
+				6D67E2A72C00F1000027AFC7 /* core */,
 				6DDEB03A2BD0830600EE5574 /* main */,
 				6D4BC8982BC0A3E6006CF04A /* whatsnew */,
 				6D4BC8972BC0A3DB006CF04A /* onboarding */,
@@ -187,6 +192,22 @@
 			path = error;
 			sourceTree = "<group>";
 		};
+		6D67E2A72C00F1000027AFC7 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				6D67E2B12C00FA820027AFC7 /* TitleBar.swift */,
+			);
+			path = core;
+			sourceTree = "<group>";
+		};
+		6D67E2AE2C00FA4D0027AFC7 /* components */ = {
+			isa = PBXGroup;
+			children = (
+				6D67E2AF2C00FA620027AFC7 /* HomeTitleBar.swift */,
+			);
+			path = components;
+			sourceTree = "<group>";
+		};
 		6DDEB0362BCF0EE500EE5574 /* components */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +228,7 @@
 		6DDEB03B2BD0830C00EE5574 /* home */ = {
 			isa = PBXGroup;
 			children = (
+				6D67E2AE2C00FA4D0027AFC7 /* components */,
 				6DDEB03C2BD0831F00EE5574 /* HomeScreen.swift */,
 			);
 			path = home;
@@ -354,6 +376,7 @@
 				6DDEB03F2BD0862500EE5574 /* WhatsNewNavigationButton.swift in Sources */,
 				6D4BC8832BBF5651006CF04A /* IosSplashViewModel.swift in Sources */,
 				6D4BC8A42BC2434B006CF04A /* TimeTrackerTheme.swift in Sources */,
+				6D67E2B02C00FA620027AFC7 /* HomeTitleBar.swift in Sources */,
 				6D4BC8872BBF69AD006CF04A /* LocalSpacing.swift in Sources */,
 				6D4BC8802BBF5007006CF04A /* Colors.swift in Sources */,
 				6D4BC88C2BC058B9006CF04A /* DialogState.swift in Sources */,
@@ -361,6 +384,7 @@
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				6DDEB0382BCF0EFA00EE5574 /* WhatsNewContent.swift in Sources */,
 				6D4BC8902BC05EEE006CF04A /* UIErrorToast.swift in Sources */,
+				6D67E2B22C00FA820027AFC7 /* TitleBar.swift in Sources */,
 				6D4BC8892BBF6A75006CF04A /* AnalogClock.swift in Sources */,
 				6D4BC89C2BC1C9D8006CF04A /* ActionButton.swift in Sources */,
 			);
