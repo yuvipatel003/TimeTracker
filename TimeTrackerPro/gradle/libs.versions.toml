@@ -4,10 +4,9 @@ versionName = "1.2.0"
 minSdk = "26"
 compileSdk = "34"
 targetSdk = "34"
-agp = "8.1.4"
+agp = "8.3.0"
 kotlin = "2.0.0"
 compose = "1.6.7"
-compose-compiler = "1.5.10"
 compose-material3 = "1.2.1"
 compose-navigation = "2.8.0-alpha08"
 androidx-activityCompose = "1.9.0"
@@ -79,4 +78,6 @@ kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", 
 androidBuildTools = { id = "com.android.tools.build:gradle", version.ref = "gradle" }
 daggerHiltAndroidPlugin = { id = "dagger.hilt.android.plugin", version.ref = "hilt" }
 sqlDelight = { id = "app.cash.sqldelight", version.ref = "sql-delight" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinPluginSerialization)
+    alias(libs.plugins.compose.compiler)
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
 }
@@ -19,9 +20,6 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
     packaging {
         resources {

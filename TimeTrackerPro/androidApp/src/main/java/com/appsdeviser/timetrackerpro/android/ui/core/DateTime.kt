@@ -19,7 +19,7 @@ fun String.displayAsDate(format: String): String {
     val date = formatter.parse(this)
     val outputFormat =
         SimpleDateFormat(format.ifEmpty { DEFAULT_DB_DATE_FORMAT }, Locale.getDefault())
-    return outputFormat.format(date)
+    return date?.let { outputFormat.format(it) } ?: this
 }
 
 fun String.displayAsTime(is12HourFormat: Boolean): String {
